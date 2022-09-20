@@ -1,0 +1,45 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+    background: #0F0F0F;
+    color: #FFFFFF;
+}
+
+nav {
+    background: #050505;
+    padding: 1% 2%;
+}
+
+nav div h3 {
+    display: inline;
+    margin: 0 2%;
+    cursor: pointer;
+}
+
+a {
+    color: #FFFFFF;
+    text-decoration: dashed;
+    text-decoration-line: underline;
+    text-decoration-color: #54f93e;
+}
+
+hr {
+    color: #54f93e;
+}
+
+#content {
+    margin: 1%;
+    padding: 0 2%;
+    border-radius: 30px;
+}
+
+section {
+    margin: 20% 2%;
+}
+
+footer {
+    background: #050505;
+    padding: 1% 2%;
+    text-align: center;
+}
