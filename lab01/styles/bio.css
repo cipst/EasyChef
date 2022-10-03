@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    color: #404040;
+    font-size: 11pt;
+    font-family: Georgia, Garamond, serif;
+    background: url("../images/background.jpg") repeat fixed;
+}
+
+h1,
+h2,
+h3 {
+    color: #A4A400;
+    background-color: #F0F0F0;
+    font-family: "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
+    text-decoration: underline;
+    letter-spacing: .25em;
+    display: inline-block;
+}
+
+h1 {
+    font-size: 22pt;
+}
+
+h2,
+h3 {
+    font-size: 18pt;
+}
+
+a:link {
+    color: #A4A400;
+}
+
+a:visited {
+    color: #0EA400;
+}
+
+a:hover {
+    color: #A45D00;
+}
+
+a:active {
+    color: #A40000;
+}
+
+ul li {
+    list-style-image: url(../images/right-arrow.png);
+}
+
+abbr:hover {
+    cursor: help;
+}
+
+/* INTESTAZIONE */
+header {
+    text-align: center;
+}
+
+/* SEZIONE DATI PERSONALI */
+#datiPersonali img {
+    width: 240px;
+    height: 240px;
+    margin-left: auto;
+    border-radius: 15px;
+}
+
+#datiPersonali #info {
+    display: flex;
+    padding: 1em;
+}
+
+#datiPersonali td:last-child span {
+    font-weight: bold;
+}
+
+/* COMPETENZE INFORMATICHE */
+#competenzeInformatiche ul ul {
+    margin-bottom: 1em;
+}
+
+/* SEZIONE LINK */
+section#links a {
+    padding: 1em;
+}
+
+/* FOOTER */
+footer {
+    margin: 1em;
+}
+
+footer span {
+    margin-inline: 2em;
+}
