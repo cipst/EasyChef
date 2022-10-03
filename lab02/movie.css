@@ -1,0 +1,145 @@
+body {
+    background-image: url(http://courses.cs.washington.edu/courses/cse190m/11sp/homework/2/background.png);
+    font-size: 8pt;
+    font-family: verdana, tahoma, sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 24pt;
+    text-shadow: 3px 3px 4px #999999;
+    text-align: center;
+    font-family: "Tahoma", "Verdana", sans-serif;
+}
+
+#banner {
+    text-align: center;
+    background-image: url(http://courses.cs.washington.edu/courses/cse190m/11sp/homework/2/bannerbg.png);
+}
+
+/*corpo contenente commenti, immagine bacheca, info film, rating, numero pag. commenti*/
+#globale {
+    width: 800px;
+    border-radius: 20px;
+    border: 4px solid grey;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+/* valutazione = valutazione film (33%) */
+#valutazione {
+    color: red;
+    font-size: 48pt;
+    font-weight: bold;
+    vertical-align: text-bottom;
+}
+
+#classificazione {
+    background-image: url(http://courses.cs.washington.edu/courses/cse190m/11sp/homework/2/rbg.png);
+    background-repeat: repeat-x;
+    height: 83px;
+}
+
+#immagine-bacheca-overview {
+    background-color: #A2B964;
+    width: 250px;
+    font-family: Arial, sans-serif;
+    float: right;
+
+
+}
+
+/*lista del general-overview*/
+#lista li {
+    list-style-type: none;
+}
+
+#lista {
+    margin-left: 0px
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 10pt;
+}
+
+dd {
+    margin-bottom: 10pt;
+}
+
+dl {
+    margin-left: 10pt;
+}
+
+/*parte sinistra del globale*/
+#classificazione-commenti {
+    width: 550px;
+}
+
+/*colonna sinistra dei cimmenti*/
+#commenti-col1 {
+    width: 47%;
+    margin-left: 2%;
+    float: left;
+}
+
+/*colonna destra dei cimmenti*/
+#commenti-col2 {
+    width: 47%;
+    margin-right: 2%;
+    float: right;
+}
+
+#footer {
+    position: fixed;
+    opacity: 0.5;
+    bottom: 0px;
+    right: 0px;
+
+}
+
+/*testo dei commenti*/
+.commento {
+    background-color: #E8DC9B;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid grey;
+    padding: 8px 8px 8px 8px;
+    overflow: hidden;
+
+}
+
+/*immagine del pomodoro dei commenti(fresco o marcio)*/
+.fresh-rotten {
+    padding-right: 5px;
+}
+
+/*testo e immagine del commento*/
+#commenti-col1 p img,
+#commenti-col2 p img {
+    float: left;
+    margin-right: 5px;
+
+}
+
+/*numero pag. correnete e totali*/
+#page {
+    clear: both;
+    text-align: center;
+    background-color: #A2B964;
+    padding-bottom: 5px;
+    overflow-y: inherit;
+}
+
+/*autore critica*/
+.critico {
+    font-style: italic;
+}
+
+/*immagine profilo del recensore*/
+.recensore {
+    margin-bottom: 20pt;
+}
