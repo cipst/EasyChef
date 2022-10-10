@@ -53,21 +53,17 @@ h1 {
 }
 
 /*lista del general-overview*/
-#lista li {
+dd.lista li {
     list-style-type: none;
 }
 
-#lista {
+dd.lista {
     margin-left: 0px
 }
 
 dt {
     font-weight: bold;
     margin-top: 10pt;
-}
-
-dd {
-    margin-bottom: 10pt;
 }
 
 dl {
