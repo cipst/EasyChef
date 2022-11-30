@@ -1,7 +1,14 @@
 <?php
 
 require_once("alert_type.php");
+require_once("error.php");
 
+/**
+ * Class that create a `custom alert` to display at the user
+ * a `successful` or `failed` operation, or for any other purpose
+ * 
+ * @author Stefano Cipolletta
+ */
 class Alert
 {
     private string $t;
@@ -21,13 +28,7 @@ class Alert
             $this->description = $description;
             $this->icon = AlertType::get_icon($t);
         } else {
-            print "
-            <div class='d-flex justify-content-center m-5'>
-                <span class='text-danger text-center fw-bold border border-danger p-2 rounded-3'>
-                    An error occurred while trying to create an Alert!
-                </span>
-            </div>
-            ";
+            display_error("An error occurred while trying to create an Alert!");
         }
     }
 
