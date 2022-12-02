@@ -13,11 +13,11 @@ class Alert
 {
     private string $t;
     private string $title;
-    private string $message;
-    private string $description;
+    private ?string $message;
+    private ?string $description;
     private string $icon;
 
-    public function __construct(string $t,  string $title,  string $message,  string $description)
+    public function __construct(string $t,  string $title,  ?string $message = null,  ?string $description = null)
     {
         // making sure the type given is an actual alert type
         // and not a random string

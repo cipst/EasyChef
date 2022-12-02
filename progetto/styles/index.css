@@ -1,12 +1,7 @@
 .overlay {
     z-index: 1;
 }
-
-.alert {
-    margin-left: 50%;
-    transform: translateX(-50%);
-}
-
+/* 
 form * {
     border-radius: 10em !important;
-}
+} */

@@ -1,11 +1,5 @@
-<?php include_once("utils/top.php"); ?>
-<?php include_once("utils/nav_bar.html"); ?>
 <?php
-$_SESSION["alert"] = new Alert(AlertType::SUCCESS, "REFERENCE SITE", "https://www.facebook.com/", "");
-for ($i = 0; $i < 100; $i++) {
-?>
-    <br>
-<?php
-}
-?>
-<?php include_once("utils/bottom.html"); ?>
+if (isset($_SESSION["logged"]) && $_SESSION["logged"] == true)
+    header("Location: pages/home.php");
+else
+    header("Location: pages/login.php");
