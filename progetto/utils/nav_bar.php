@@ -1,17 +1,17 @@
 <?php
-require_once("error.php");
+// require_once("error.php");
 
 function nav_bar(string $activeTab = "home")
 {
-    if ($activeTab != "home" && $activeTab != "friends" && $activeTab != "profile") {
-        display_error("An error occurred while creating the navigation bar");
-        return;
-    }
+    // if ($activeTab != "home" && $activeTab != "friends" && $activeTab != "profile") {
+    //     // display_error("An error occurred while creating the navigation bar");
+    //     return;
+    // }
 ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 px-3">
         <a class="navbar-brand" href="index.php">
-            <img src="../images/smile.ico" alt="Icon" width="30">
+            <img src="images/smile.ico" alt="Icon" width="30">
         </a>
         <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

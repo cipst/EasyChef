@@ -1,0 +1,78 @@
+<!-- <div class="form-floating text-dark">
+    <input type="email" class="form-control is-valid is-invalid" id="floatingInputInvalid" placeholder="name@example.com" value="test@example.com">
+    <label for="floatingInputInvalid">Invalid input</label>
+</div> -->
+
+<div id="signUp" class="flex-column pt-5">
+    <h1 class="mx-auto mt-4 mb-1">SIGN UP</h1>
+    <form id="signUpForm" class="text-dark w-50 d-flex flex-column mx-auto py-3 mt-2" action="./auth/login.php"
+        method="post">
+
+        <!-- USERNAME INPUT -->
+        <div class="input-group my-3 d-flex justify-content-center">
+            <span class="input-group-text px-4" id="label-username" style="border-radius: 20em 0 0 20em">
+                <i class="bi bi-person-fill" style="font-size:1.5em;"></i>
+            </span>
+            <div class="form-floating w-50">
+                <input type="text" class="form-control" id="signUpUsername" name="username" placeholder=""
+                    style="border-radius: 0 20em 20em 0">
+                <label class="text-secondary" for="username">
+                    Username
+                </label>
+            </div>
+        </div>
+
+        <!-- EMAIL INPUT -->
+        <div class="input-group my-3 d-flex justify-content-center">
+            <span class="input-group-text px-4" id="label-email" style="border-radius: 20em 0 0 20em">
+                <i class="bi bi-envelope-fill" style="font-size:1.5em;"></i>
+            </span>
+            <div class="form-floating w-50">
+                <input type="email" class="form-control" id="signUpEmail" name="email" placeholder=""
+                    style="border-radius: 0 20em 20em 0">
+                <label class="text-secondary" for="email">
+                    Email
+                </label>
+            </div>
+        </div>
+
+        <!-- PASSWORD INPUT -->
+        <div class="input-group my-3 d-flex justify-content-center">
+            <span class="input-group-text px-4" id="label-password" style="border-radius: 20em 0 0 20em">
+                <i class="bi bi-key-fill" style="font-size:1.5em;"></i>
+            </span>
+            <div class="form-floating w-50">
+                <input type="password" class="form-control" id="signUpPassword" name="password" placeholder=""
+                    style="border-radius: 0 20em 20em 0">
+                <label class="text-secondary" for="password">
+                    Password
+                </label>
+            </div>
+        </div>
+
+        <!-- CONFIRM PASSWORD INPUT -->
+        <div class="input-group my-3 d-flex justify-content-center">
+            <span class="input-group-text px-4" id="label-confirmPassword" style="border-radius: 20em 0 0 20em">
+                <i class="bi bi-key-fill" style="font-size:1.5em;"></i>
+            </span>
+            <div class="form-floating w-50">
+                <input type="password" class="form-control" id="signUpConfirmPassword" name="confirmPassword" placeholder=""
+                    style="border-radius: 0 20em 20em 0">
+                <label class="text-secondary" for="confirmPassword">
+                    Confirm Password
+                </label>
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <input class="btn btn-light mx-auto mt-4 px-5 py-2 rounded-pill" type="button" value="Sign Up"
+            id="signUpSubmit" />
+        <p class="text-light mx-auto mt-3">You already have an account? <u class="link-light"
+                id="changeToLogin">Login</u>
+        </p>
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>

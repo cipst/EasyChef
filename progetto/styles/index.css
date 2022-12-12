@@ -1,7 +1,25 @@
+html,
+body,
+.content {
+    height: 100%;
+}
+
 .overlay {
     z-index: 1;
+    padding: 1em 2em;
+    border-radius: 1em;
+    display: none;
 }
-/* 
-form * {
-    border-radius: 10em !important;
-} */
+
+#login {
+    display: flex;
+}
+
+#signUp {
+    display: none;
+}
+
+#changeToSignUp,
+#changeToLogin {
+    cursor: pointer;
+}
