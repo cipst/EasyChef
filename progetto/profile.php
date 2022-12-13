@@ -11,4 +11,4 @@ $_SESSION["logged"] = false;
 header("Location: index.php");
 // $_SESSION["alert"] = new Alert(AlertType::SUCCESS, "REFERENCE SITE", "https://www.facebook.com/", "");
 ?>
-<?php include_once("utils/bottom.html"); ?>
+<?php include_once("utils/html/bottom.html"); ?>

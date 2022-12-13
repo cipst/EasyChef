@@ -1,24 +1,10 @@
-const AlertType = Object.freeze({
-    "SUCCESS": "success",
-    "DANGER": "danger",
-    "WARNING": "warning",
-    "INFO": "info"
-});
-
-const AlertIcon = Object.freeze({
-    "SUCCESS": "bi-check-lg",
-    "DANGER": "bi-exclamation-circle",
-    "WARNING": "bi-exclamation-triangle",
-    "INFO": "bi-question-lg"
-});
-
 /**
  * Class that create a `custom alert` to display at the user
  * a `successful` or `failed` operation, or for any other purpose
  * 
  * @author Stefano Cipolletta
  */
-class Alert {
+export class Alert {
 
     #t;
     #title;
@@ -63,3 +49,17 @@ class Alert {
         return `${this.#icon}`;
     }
 }
+
+export const AlertType = Object.freeze({
+    "SUCCESS": "success",
+    "DANGER": "danger",
+    "WARNING": "warning",
+    "INFO": "info"
+});
+
+const AlertIcon = Object.freeze({
+    "SUCCESS": "bi-check-lg",
+    "DANGER": "bi-exclamation-circle",
+    "WARNING": "bi-exclamation-triangle",
+    "INFO": "bi-question-lg"
+});

@@ -12,11 +12,13 @@ body,
 }
 
 #login {
-    display: flex;
+    display: none;
+    /* display: flex; */
 }
 
 #signUp {
-    display: none;
+    display: flex;
+    /* display: none; */
 }
 
 #changeToSignUp,
