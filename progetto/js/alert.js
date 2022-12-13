@@ -1,3 +1,5 @@
+import { ALERT_TYPE } from "./constants.js";
+
 /**
  * Class that create a `custom alert` to display at the user
  * a `successful` or `failed` operation, or for any other purpose
@@ -12,13 +14,13 @@ export class Alert {
     #icon;
 
     /**
-     * @param {AlertType} t 
+     * @param {ALERT_TYPE} t 
      * @param {String} title 
      * @param {String|null} message 
      * @returns 
      */
     constructor(t, title, message = null) {
-        if (!Object.values(AlertType).includes(t))
+        if (!Object.values(ALERT_TYPE).includes(t))
             return;
 
         this.#t = t;
@@ -35,7 +37,6 @@ export class Alert {
         $("#alert .alert-heading").text(this.#title);
         $("#alert .alert-message").append(this.#message);
         $("#alert .alert-icon").addClass(this.#icon);
-        $("#alert .alert-icon").addClass(`text-${this.#t}`);
         $("#alert").slideDown(500);
     }
 
@@ -49,13 +50,6 @@ export class Alert {
         return `${this.#icon}`;
     }
 }
-
-export const AlertType = Object.freeze({
-    "SUCCESS": "success",
-    "DANGER": "danger",
-    "WARNING": "warning",
-    "INFO": "info"
-});
 
 const AlertIcon = Object.freeze({
     "SUCCESS": "bi-check-lg",

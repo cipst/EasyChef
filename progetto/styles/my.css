@@ -1,0 +1,121 @@
+* {
+    --bg-color: #EEEDF2;
+    --text-color: #3b3b3b;
+    --primary-color: #F37B67;
+    --secondary-color: #526799;
+    --success-color: #00D23C;
+    --error-color: #EE296B;
+    --warning-color: #fcff65;
+    --grey-color: #818181;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-secondary {
+    color: var(--secondary-color) !important;
+}
+
+.text-danger {
+    color: var(--error-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-warning {
+    color: var(--warning-color) !important;
+}
+
+.is-invalid {
+    border-color: var(--error-color) !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(238, 41, 107, 0.25);
+}
+
+.is-valid {
+    border-color: var(--success-color) !important;
+}
+
+.is-valid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 210, 60, 0.25);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(243, 123, 103, 0.25);
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+
+/* BUTTONS */
+/* PRIMARY */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.15rem rgba(243, 123, 103, 0.25);
+}
+
+.btn-primary:active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(243, 123, 103, 0.25);
+}
+
+/* SECONDARY */
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.15rem rgba(243, 123, 103, rgba(82, 103, 153, 0.25));
+}
+
+.btn-secondary:active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(82, 103, 153, 0.25);
+}
+
+/* SUCCESS */
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.15rem rgba(0, 210, 60, 0.25);
+}
+
+.btn-success:active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 210, 60, 0.25);
+}
+
+/* BORDERS */
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.border-secondary {
+    border-color: var(--secondary-color) !important;
+}

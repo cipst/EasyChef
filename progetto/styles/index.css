@@ -4,24 +4,70 @@ body,
     height: 100%;
 }
 
-.overlay {
-    z-index: 1;
-    padding: 1em 2em;
-    border-radius: 1em;
-    display: none;
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.navbar .nav-item .nav-link i {
+    font-size: 2rem;
+}
+
+.navbar .nav-item .nav-link.active i {
+    color: var(--primary-color);
 }
 
 #login {
-    display: none;
-    /* display: flex; */
+    display: flex;
 }
 
 #signUp {
-    display: flex;
-    /* display: none; */
+    display: none;
 }
 
 #changeToSignUp,
 #changeToLogin {
     cursor: pointer;
 }
+
+#loginForm .form-floating,
+#signUpForm .form-floating {
+    min-width: 20em;
+    width: calc((60em - 100%) * 1000);
+    max-width: 50%;
+}
+
+.input-group {
+    min-width: 400px;
+}
+
+.input-group-text {
+    border-radius: 20em 0 0 20em;
+    background: var(--primary-color);
+    color: white;
+}
+
+/* HOME */
+
+.vr {
+    width: 1px;
+    height: 2em;
+    background-color: var(--secondary-color);
+}
+
+#home-search {
+    width: min-content;
+    background-color: white;
+}
+
+#home-search button:not(:last-child) {
+    all: unset;
+    padding: 1em .9em;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* #home-search button:last-child {
+    width: 5%;
+    height: 5%;
+} */
