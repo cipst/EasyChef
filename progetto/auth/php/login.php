@@ -1,6 +1,6 @@
 <?php
 
-require_once("../utils/common.php");
+require_once("../../utils/common.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
     return response(300, "error", ["errors" => ["Invalid request method!"]]);
@@ -8,16 +8,16 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 if (isset($_SESSION["logged"]) && $_SESSION["logged"] == true)
     return response(200, "redirect", ["url" => "./home.php"]);
 
-$msgs = isValid(["username", "email", "password", "confirmPassword"]);
+$msgs = isValid(["email", "password"]);
 if (count($msgs))
     return response(300, "error", ["errors" => $msgs]);
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// if ($email == "admin@a.a" && $password == "admin") {
-$_SESSION["logged"] = true;
-return response(200, "redirect", ["url" => "./home.php"]);
-// }
+if ($email == "admin@a.a" && $password == "Qwerty123_") {
+    $_SESSION["logged"] = true;
+    return response(200, "redirect", ["url" => "./home.php"]);
+}
 
-// return response(300, "error", ["errors" => ["Invalid email or password!"]]);
+return response(300, "error", ["errors" => ["Invalid email or password!"]]);

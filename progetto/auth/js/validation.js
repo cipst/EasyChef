@@ -1,43 +1,4 @@
-import { regex } from "./constants.js";
-import { Alert, AlertType } from "./alert.js";
-
-export const makeRequest = ({ type = "POST" || "GET", url, data }) => {
-    $.ajax({
-        type: type,
-        url: url,
-        dataType: "json",
-        data: data,
-        success: handleSuccessResponse,
-        error: handleErrorResponse
-    });
-}
-
-const handleSuccessResponse = (response) => {
-    switch (response.status) {
-        case "redirect":
-            window.location.href = response.url;
-            break;
-
-        case "success":
-            break;
-    }
-}
-
-const handleErrorResponse = (response) => {
-    console.log(response);
-    const { errors } = $.parseJSON(response.responseText);
-    let message = "";
-
-    if (errors.length > 1) {
-        errors.forEach(error => {
-            message += `<li>${error}</li>`;
-        });
-        message = `<ul>${message}</ul>`;
-    } else
-        message = errors[0];
-
-    new Alert(AlertType.DANGER, "Error", `${message}`);
-}
+import { REGEX } from "../../js/constants.js";
 
 export function validateUsername(username) {
     if (username === null || username === undefined)
@@ -54,7 +15,7 @@ export function validateUsername(username) {
     if (username.length > 20)
         return "Username cannot be longer than 20 characters.";
 
-    if (!(regex.username.test(username)))
+    if (!(REGEX.username.test(username)))
         return "Username can only contain letters.";
 
     return "";
@@ -75,7 +36,7 @@ export function validateEmail(email) {
     if (email.length > 50)
         return "Email cannot be longer than 50 characters.";
 
-    if (!(regex.email.test(email)))
+    if (!(REGEX.email.test(email)))
         return "Email is not valid.";
 
     return "";
@@ -96,8 +57,45 @@ export function validatePassword(password) {
     if (password.length > 50)
         return "Password cannot be longer than 50 characters.";
 
-    if (!(regex.password.test(password)))
+    if (!(REGEX.password.test(password)))
         return "Password must contains at least one lowercase letter, one uppercase letter, one digit and one special character.";
 
     return "";
+}
+
+export function checkInput(inputId, validateFunction) {
+    const input = $(inputId).val();
+    const error = validateFunction(input);
+    let check = true;
+
+    if (error.length != 0) {
+        $(inputId).removeClass("is-valid").addClass("is-invalid");
+        check = false;
+    }
+    else
+        $(inputId).removeClass("is-invalid").addClass("is-valid");
+
+    $(`${inputId}Error`).text(error);
+
+    return check;
+}
+
+export function checkConfirmPassword() {
+    const password = $("#signUpPassword").val();
+    const confirmPassword = $("#signUpConfirmPassword").val();
+    let errorConfirmPassword = "";
+    let check = true;
+
+    if (confirmPassword != password)
+        errorConfirmPassword = "Passwords do not match.";
+
+    if (errorConfirmPassword.length != 0) {
+        $("#signUpConfirmPassword").removeClass("is-valid").addClass("is-invalid");
+        check = false;
+    }
+    else
+        $("#signUpConfirmPassword").removeClass("is-invalid").addClass("is-valid");
+    $("#signUpConfirmPasswordError").text(errorConfirmPassword);
+
+    return check;
 }
