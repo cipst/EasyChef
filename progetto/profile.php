@@ -7,8 +7,8 @@ nav_bar("profile"); //printing the navigation bar for the profile
 
 
 <?php
-$_SESSION["logged"] = false;
-header("Location: index.php");
+// $_SESSION["logged"] = false;
+// header("Location: index.php");
 // $_SESSION["alert"] = new Alert(AlertType::SUCCESS, "REFERENCE SITE", "https://www.facebook.com/", "");
 ?>
 <?php include_once("utils/html/bottom.html"); ?>

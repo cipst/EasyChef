@@ -7,6 +7,7 @@ body,
 body {
     background: var(--bg-color);
     color: var(--text-color);
+    margin-top: 5em;
 }
 
 .navbar .nav-item .nav-link i {
@@ -47,7 +48,7 @@ body {
     color: white;
 }
 
-/* HOME */
+/* NAV BAR */
 
 .vr {
     width: 1px;
@@ -55,9 +56,16 @@ body {
     background-color: var(--secondary-color);
 }
 
+#home-search-expanded,
 #home-search {
     width: min-content;
     background-color: white;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+#home-search:hover,
+nav .dropdown button:hover {
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
 }
 
 #home-search button:not(:last-child) {
@@ -67,7 +75,45 @@ body {
     cursor: pointer;
 }
 
-/* #home-search button:last-child {
-    width: 5%;
-    height: 5%;
-} */
+#home-search-expanded button:not(:last-child),
+#home-search-expanded div:not(:last-child) {
+    all: unset;
+    padding: 1em 3em;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#home-search button:last-child {
+    width: 3em;
+    height: 3em;
+}
+
+#home-search-expanded button:last-child,
+#home-search-expanded div:last-child {
+    width: 7em;
+    height: 3em;
+}
+
+#home-search-expanded button:not(:last-child, .active):hover,
+#home-search-expanded div:not(:last-child, .active):hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+#home-search-expanded div.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+#home-search-expanded input {
+    all: unset;
+    cursor: text;
+}
+
+.dropdown .bi {
+    font-size: 1.5em;
+    color: var(--grey-color);
+}
+
+.dropdown .img-thumbnail {
+    width: 2.5em;
+}

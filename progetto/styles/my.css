@@ -119,3 +119,13 @@
 .border-secondary {
     border-color: var(--secondary-color) !important;
 }
+
+/* DROP DOWN*/
+.dropdown-menu {
+    border-radius: 1em !important;
+}
+
+.dropdown-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+}
