@@ -6,7 +6,14 @@ export const REGEX = Object.freeze({
 
 export const ALERT_TYPE = Object.freeze({
     "SUCCESS": "success",
-    "DANGER": "danger",
+    "ERROR": "error",
     "WARNING": "warning",
     "INFO": "info"
+});
+
+export const ALERT_ICON = Object.freeze({
+    "SUCCESS": "checkmark-circle",
+    "ERROR": "alert-circle",
+    "WARNING": "warning",
+    "INFO": "help-circle"
 });

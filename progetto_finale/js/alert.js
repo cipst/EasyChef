@@ -1,4 +1,4 @@
-import { ALERT_TYPE } from "./constants.js";
+import { ALERT_TYPE, ALERT_ICON } from "./constants.js";
 
 /**
  * Class that create a `custom alert` to display at the user
@@ -26,18 +26,22 @@ export class Alert {
         this.#type = type;
         this.#title = title;
         this.#message = message;
-        this.#icon = AlertIcon[type.toUpperCase()];
+        this.#icon = ALERT_ICON[type.toUpperCase()];
 
         this.showAlert();
     }
 
     showAlert() {
-        $("#alert .alert-message *").remove();
-        $("#alert").addClass(`alert-${this.#type}`);
-        $("#alert .alert-heading").text(this.#title);
-        $("#alert .alert-message").append(this.#message);
-        $("#alert .alert-icon").addClass(this.#icon);
-        $("#alert").slideDown(500);
+        $("#alert").css("border-color", `var(--${this.#type.toLowerCase()}-color)`); //changing border color
+        $("#alert .alert-heading").css("color", `var(--${this.#type.toLowerCase()}-color)`); //changing heading color
+
+        $("#alert .alert-message *").remove(); //removing all previuos messages
+
+        $("#alert .alert-icon").attr("name", this.#icon); //adding icon
+        $("#alert .alert-title").text(this.#title); //adding title
+        $("#alert .alert-message").append(this.#message); //adding message
+
+        $("#alert").fadeIn(500);
     }
 
     get title() {
@@ -50,10 +54,3 @@ export class Alert {
         return `${this.#icon}`;
     }
 }
-
-const AlertIcon = Object.freeze({
-    "SUCCESS": "bi-check-lg",
-    "DANGER": "bi-exclamation-circle",
-    "WARNING": "bi-exclamation-triangle",
-    "INFO": "bi-question-lg"
-});

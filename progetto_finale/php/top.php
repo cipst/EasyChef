@@ -24,20 +24,19 @@ session_start();
 
     <!-- My Styles -->
     <link href="style/index.css" rel="stylesheet">
-    <link href="style/alert.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div id="alert" style="display: none;">
-        <div>
-            <i class="alert-icon"></i>
-            <h4 class="alert-heading">
+    <div id="alert">
+        <div class="alert-heading">
+            <ion-icon class="alert-icon" name="alert-circle" size="large"></ion-icon>
+            <h4 class="alert-title">
             </h4>
         </div>
         <p class="alert-message">
         </p>
-        <ion-icon name="close" size="large"></ion-icon>
+        <ion-icon class="close" name="close" size="large"></ion-icon>
     </div>
 
     <nav>
@@ -59,10 +58,10 @@ session_start();
             <li id="cart"><a href="cart.php">Cart</a></li>
         </ul>
         <ul id="collapsed">
+            <ion-icon class="open" name="menu" size="large"></ion-icon>
             <li id="logo"><a href="index.php">
                     <img src="images/logo.png" alt="TheGiftShop">
                 </a></li>
-            <ion-icon class="open" name="menu" size="large"></ion-icon>
         </ul>
     </nav>
 

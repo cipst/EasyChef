@@ -1,5 +1,8 @@
+import { Alert } from "./alert.js";
+import { ALERT_TYPE } from "./constants.js";
+
 $(() => {
-    $("#alert ion-icon").on("click", (e) => {
+    $("#alert ion-icon.close").on("click", (e) => {
         $("#alert").fadeOut(500);
         e.preventDefault();
     });
@@ -17,4 +20,6 @@ $(() => {
         $("nav #expanded").slideDown(500).css({ "display": "grid" });
         $("nav #collapsed").slideUp(500);
     });
+
+    // new Alert(ALERT_TYPE.WARNING, "Error", "This is an error message");
 });

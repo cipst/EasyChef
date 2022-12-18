@@ -1,3 +1,54 @@
-#alert ion-icon:hover {
+#alert {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 1em 2em;
+    border-radius: 1em;
+    background: white;
+    box-shadow: 5px 7px 10px 0 rgba(0, 0, 0, 0.2);
+    border-width: 2px;
+    border-style: solid;
+}
+
+#alert ion-icon.close:hover {
     cursor: pointer;
+}
+
+#alert .alert-heading {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 1em;
+    border: 1px solid white;
+    color: var(--error-color);
+}
+
+#alert h4.alert-title {
+    margin: 0;
+    font-weight: bold;
+}
+
+#alert .alert-message {
+    margin-left: .5em;
+}
+
+#alert .close{
+    position: absolute;
+    top: .4em;
+    right: .4em;
+}
+
+/* MEDIA QUERIES*/
+
+/* mobile screen */
+@media screen and (max-width: 576px) {
+    #alert {
+        transform: translateY(-50%);
+        top: 50%;
+        left: 1em;
+        right: 1em;
+    }
 }
