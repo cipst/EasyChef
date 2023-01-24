@@ -50,7 +50,8 @@ session_start();
                     <img src="images/final_logo.png" alt="EasyChef">
                 </a>
             </li>
-            <li id="recipe"><a href="recipes.php">Recipes</a></li>
+            <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
+            <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
             <li id="search">
                 <form id="nav-search">
                     <input type="text" placeholder="Search">
@@ -59,7 +60,6 @@ session_start();
                     </button>
                 </form>
             </li>
-            <li id="chefs"><a href="chefs.php">Chefs</a></li>
             <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
             <!-- <li id="profile"><a href="profile.php">Profile</a></li> -->
             <li id="login"><a href="login.php">login</a></li>
