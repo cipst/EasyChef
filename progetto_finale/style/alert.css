@@ -13,7 +13,7 @@
     border-style: solid;
 }
 
-#alert ion-icon.close:hover {
+#alert i.close:hover {
     cursor: pointer;
 }
 
@@ -28,6 +28,7 @@
 
 #alert h4.alert-title {
     margin: 0;
+    padding-left: .5em;
     font-weight: bold;
 }
 
@@ -37,8 +38,8 @@
 
 #alert .close{
     position: absolute;
-    top: .4em;
-    right: .4em;
+    top: 1em;
+    right: 1em;
 }
 
 /* MEDIA QUERIES*/
