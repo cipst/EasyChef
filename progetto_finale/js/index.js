@@ -2,24 +2,38 @@ import { Alert } from "./alert.js";
 import { ALERT_TYPE } from "./constants.js";
 
 $(() => {
-    $("#alert ion-icon.close").on("click", (e) => {
-        $("#alert").fadeOut(500);
+    $("footer #year").text(new Date().getFullYear());
+
+    $("#alert i.close").on("click", (e) => {
+        $("#alert").fadeOut(500, () => {
+            $("#alert .alert-icon").removeClass(alert.icon);
+        });
         e.preventDefault();
     });
 
-    $("nav ion-icon.close").on("click", () => {
-        $("nav ion-icon.close").fadeOut(100);
-        $("nav ion-icon.open").fadeIn(200);
+    $("nav i.close").on("click", () => {
+        $("nav i.close").fadeOut(100);
+        $("nav i.open").fadeIn(200);
         $("nav #expanded").slideUp(500);
         $("nav #collapsed").slideDown(500).css({ "display": "grid" });
     });
 
-    $("nav ion-icon.open").on("click", () => {
-        $("nav ion-icon.open").fadeOut(100);
-        $("nav ion-icon.close").fadeIn(200);
+    $("nav i.open").on("click", () => {
+        $("nav i.open").fadeOut(100);
+        $("nav i.close").fadeIn(200);
         $("nav #expanded").slideDown(500).css({ "display": "grid" });
         $("nav #collapsed").slideUp(500);
     });
 
-    // new Alert(ALERT_TYPE.WARNING, "Error", "This is an error message");
+    // let alert = new Alert(ALERT_TYPE.ERROR, "Error", "This is an error message");
+    console.log("AIUTO!");
+
+    // if the page is at the top remove the box-shadow from the nav otherwise add it
+    $(".content").on("scroll", () => {
+        if ($(".content").scrollTop() > 0) {
+            $("nav").css({ "box-shadow": "0px 2px 10px rgba(0, 0, 0, 0.3)" });
+        } else {
+            $("nav").css({ "box-shadow": "none" });
+        }
+    });
 });
