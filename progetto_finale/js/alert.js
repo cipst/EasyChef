@@ -37,7 +37,7 @@ export class Alert {
 
         $("#alert .alert-message *").remove(); //removing all previuos messages
 
-        $("#alert .alert-icon").attr("name", this.#icon); //adding icon
+        $("#alert .alert-icon").addClass(this.#icon); //adding icon
         $("#alert .alert-title").text(this.#title); //adding title
         $("#alert .alert-message").append(this.#message); //adding message
 

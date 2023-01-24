@@ -12,8 +12,8 @@ export const ALERT_TYPE = Object.freeze({
 });
 
 export const ALERT_ICON = Object.freeze({
-    "SUCCESS": "checkmark-circle",
-    "ERROR": "alert-circle",
-    "WARNING": "warning",
-    "INFO": "help-circle"
+    "SUCCESS": "fa-circle-check",
+    "ERROR": "fa-triangle-exclamation",
+    "WARNING": "fa-triangle-exclamation",
+    "INFO": "fa-circle-info"
 });
