@@ -71,6 +71,12 @@ Recipes
 
 .recipe {
     display: block;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.recipe:hover {
+    transform: scale(1.2);
 }
 
 .recipe-img {

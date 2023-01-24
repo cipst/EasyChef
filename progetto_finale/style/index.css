@@ -2,6 +2,8 @@
 @import "alert.css";
 @import "navbar.css";
 @import "recipes.css";
+@import "form.css";
+@import "button.css";
 
 :root {
 
@@ -202,3 +204,24 @@ HERO
     color: var(--white);
     text-align: center;
 }
+
+/*
+=============== 
+Contact Page
+===============
+*/
+.contact-form {
+    width: 100%;
+    margin: 0;
+  }
+  .contact-container {
+    display: grid;
+    gap: 2rem 3rem;
+    padding-bottom: 3rem;
+  }
+  @media screen and (min-width: 992px) {
+    .contact-container {
+      grid-template-columns: 1fr 650px;
+      align-items: center;
+    }
+  }

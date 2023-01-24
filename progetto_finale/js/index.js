@@ -1,5 +1,6 @@
 import { Alert } from "./alert.js";
 import { ALERT_TYPE } from "./constants.js";
+import { makeRequest } from "./common.js";
 
 $(() => {
     $("footer #year").text(new Date().getFullYear());
@@ -26,9 +27,7 @@ $(() => {
     });
 
     // let alert = new Alert(ALERT_TYPE.ERROR, "Error", "This is an error message");
-    console.log("AIUTO!");
 
-    // if the page is at the top remove the box-shadow from the nav otherwise add it
     $(".content").on("scroll", () => {
         if ($(".content").scrollTop() > 0) {
             $("nav").css({ "box-shadow": "0px 2px 10px rgba(0, 0, 0, 0.3)" });

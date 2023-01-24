@@ -15,19 +15,7 @@ include_once("php/top.php");
     <div class="tags-container">
         <h4>Search recipe by ingredients</h4>
         <div class="ingredients-list">
-            <a href="recipes-by-ingredient.html">Carote</a>
-            <a href="recipes-by-ingredient.html">Uova</a>
-            <a href="recipes-by-ingredient.html">Farina</a>
-            <a href="recipes-by-ingredient.html">Cioccolato</a>
-            <a href="recipes-by-ingredient.html">Zucchero</a>
-            <a href="recipes-by-ingredient.html">Sale</a>
-            <a href="recipes-by-ingredient.html">Mele</a>
-            <a href="recipes-by-ingredient.html">Arance</a>
-            <a href="recipes-by-ingredient.html">Manzo</a>
-            <a href="recipes-by-ingredient.html">Pollo</a>
-            <a href="recipes-by-ingredient.html">Maiale</a>
-            <a href="recipes-by-ingredient.html">Ceci</a>
-            <a href="recipes-by-ingredient.html">Zucca</a>
+            <!-- <a href="recipes-by-ingredient.html">Carote</a> -->
         </div>
     </div>
 </section>
@@ -36,11 +24,11 @@ include_once("php/top.php");
     <div class="tags-container">
         <h4>Search recipe by cooking method</h4>
         <div class="tags-list">
-            <a href="recipes-by-cooking-method.html">Oven</a>
+            <!-- <a href="recipes-by-cooking-method.html">Oven</a>
             <a href="recipes-by-cooking-method.html">Cooker</a>
             <a href="recipes-by-cooking-method.html">Fryer</a>
             <a href="recipes-by-cooking-method.html">Grill</a>
-            <a href="recipes-by-cooking-method.html">No-cooking</a>
+            <a href="recipes-by-cooking-method.html">No-cooking</a> -->
         </div>
     </div>
     
@@ -116,7 +104,7 @@ include_once("php/top.php");
         </a>
     </div>
 </section>
-<?php
 
+<?php
 include_once("html/bottom.html");
 ?>
