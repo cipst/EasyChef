@@ -183,7 +183,7 @@ HERO
     height: 50vh;
     position: relative;
     margin-bottom: 2rem;
-    background: url('../images/main.jpeg') center/cover no-repeat;
+    background: url('../assets/images/main.jpeg') center/cover no-repeat;
     border-radius: var(--borderRadius);
 }
 

@@ -17,6 +17,7 @@ BUTTON
     display: inline-block;
   }
   .btn:hover {
+    color: var(--white);
     background: var(--primary-700);
     box-shadow: var(--shadow-3);
   }
