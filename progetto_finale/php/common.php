@@ -25,7 +25,11 @@ function response(int $code, string $status, $data = null)
 
 function DBconnection()
 {
-    $db = new PDO('easychef.db');
+    $dbconnstring = 'mysql:dbname=easychef;host=localhost:3306';
+    $dbuser = 'root';
+    $dbpasswd = '';
+    
+    $db = new PDO($dbconnstring, $dbuser, $dbpasswd);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $db;
 }
