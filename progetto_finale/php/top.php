@@ -16,7 +16,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
-    <link rel="icon" href="images/icon.ico" type="image/icon">
+    <link rel="icon" href="assets/images/icon.ico" type="image/icon">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -27,53 +27,6 @@ session_start();
 
     <!-- My Styles -->
     <link href="style/index.css" rel="stylesheet">
-</head>
 
-<body>
-
-    <div id="alert">
-        <div class="alert-heading">
-            <i class="alert-icon fa-solid fa-xl"></i>
-            <h4 class="alert-title">
-            </h4>
-        </div>
-        <p class="alert-message">
-        </p>
-        <i class="close fa-solid fa-xmark fa-xl"></i>
-    </div>
-
-    <nav>
-        <ul id="expanded">
-            <i class="close fa-solid fa-xmark fa-2xl"></i>
-            <li id="logo">
-                <a href="index.php">
-                    <img src="images/final_logo.png" alt="EasyChef">
-                </a>
-            </li>
-            <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
-            <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
-            <li id="search">
-                <form id="nav-search">
-                    <input type="text" placeholder="Search">
-                    <button class="btn" type="button" id="button-search">
-                        <i class="fa-solid fa-search fa-lg"></i>
-                    </button>
-                </form>
-            </li>
-            <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
-            <!-- <li id="profile"><a href="profile.php">Profile</a></li> -->
-            <li id="login"><a href="login.php">login</a></li>
-
-        </ul>
-        <ul id="collapsed">
-            <i class="open fa-solid fa-bars fa-2xl"></i>
-            <li id="logo">
-                <a href="index.php">
-                    <img src="images/final_logo.png" alt="EasyChef">
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-    <div class="content">
-        <!-- HERE START THE CONTENT OF THE PAGE -->
+    <!-- Eventual script go here -->
+    
