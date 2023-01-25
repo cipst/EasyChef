@@ -1,9 +1,9 @@
+<?php include_once("php/top.php"); ?>
+<script type="module" src="js/recipes.js"></script>
+<script type="module" src="js/cooking_methods.js"></script>
 <?php
-include_once("php/top.php");
+include_once("php/navbar.php");
 include_once("php/common.php");
-
-
-
 ?>
 
 <section class="contact-container">
@@ -12,7 +12,7 @@ include_once("php/common.php");
         <p>
             Insert here your newest recipe and share it with EasyChef community!
         </p>
-        <img src="./images/main.jpeg" alt="RecipeImage" class="img about-img" />
+        <img src="./assets/images/main.jpeg" alt="RecipeImage" class="img about-img" />
     </article>
     <article>
         <form class="form contact-form">
@@ -22,48 +22,51 @@ include_once("php/common.php");
             </div>
             <div>
                 <h5>Chef Name:</h5>
-                <label html="chefName" id="chefName" class="form-label text">Mario
-                    Rossi</label><!-- TODO: prendere il nome dell'utente-->
+                <h5 html="chefName" id="chefName" class="text"><b>Mario Rossi</b></h5>
+                <!-- TODO: prendere il nome dell'utente-->
             </div>
             <div class="form-row">
                 <h5>Portions:</h5>
-                <input type="number" value="1" min="1" name="portions" id="portions" class="form-input" />
+                <input type="number" min="1" name="portions" id="portions" class="form-input" placeholder="1" />
             </div>
             <div class="form-row">
                 <h5>Cooking Time (in minutes):</h5>
-                <input type="number" value="0" min="0" name="portions" id="cookingTime" class="form-input" />
+                <input type="number" min="0" name="portions" id="cookingTime" class="form-input" placeholder="0" />
             </div>
             <div>
                 <h5>Cooking Method</h5>
-                <input type="radio" id="cookingMethod1" name="cookingMethod" value="cookingMethod"><label> Oven</label>
-                <input type="radio" id="cookingMethod2" name="cookingMethod" value="cookingMethod"><label>
-                    Cooker</label>
-                <input type="radio" id="cookingMethod3" name="cookingMethod" value="cookingMethod"><label> Fryer</label>
-                <input type="radio" id="cookingMethod4" name="cookingMethod" value="cookingMethod"><label> Grill</label>
-                <input type="radio" id="cookingMethod5" name="cookingMethod" value="cookingMethod"
-                    checked="checked"><label> No-cooking</label>
+                <select class="form-input" name="cookingMethod">
+                </select>
             </div>
             </br>
             <div>
                 <h5>Recipe Category</h5>
-                <input type="radio" id="category1" name="category" value="category"> Pasta
-                <input type="radio" id="category2" name="category" value="category"> Soup
-                <input type="radio" id="category3" name="category" value="category"> Fish & Seafood
-                <input type="radio" id="category4" name="category" value="category"> Meat
-                <input type="radio" id="category5" name="category" value="category"> Vegan
-                <input type="radio" id="category6" name="category" value="category"> Ethnic
-                <input type="radio" id="category7" name="category" value="category"> Sandwich
-                <input type="radio" id="category8" name="category" value="category"> Dessert
-                <input type="radio" id="category9" name="category" value="category" checked="checked"> Other
+                <div class="form-choice">
+                    <div><input type="radio" id="pasta" name="category" value="pasta" /> <label for="pasta"> Pasta
+                        </label></div>
+                    <div><input type="radio" id="soup" name="category" value="soup" /> <label for="soup"> Soup
+                        </label></div>
+                    <div><input type="radio" id="fish" name="category" value="fish" /> <label for="fish"> Fish &
+                            Seafood </label></div>
+                    <div><input type="radio" id="meat" name="category" value="meat" /> <label for="meat"> Meat
+                        </label></div>
+                    <div><input type="radio" id="vegan" name="category" value="vegan" /> <label for="vegan"> Vegan
+                        </label></div>
+                    <div><input type="radio" id="ethnic" name="category" value="ethnic" /> <label for="ethnic">
+                            Ethnic </label></div>
+                    <div><input type="radio" id="sandwich" name="category" value="sandwich" /> <label
+                            for="sandwich"> Sandwich </label></div>
+                    <div><input type="radio" id="dessert" name="category" value="dessert" /> <label for="dessert">
+                            Dessert </label></div>
+                    <div><input type="radio" id="other" name="category" value="other" /> <label for="other"> Other
+                        </label></div>
+                </div>
             </div>
             </br>
             <div>
                 <h5>Select Ingredients</h5> <!-- TODO: creare la lista facendo una get all degli ingredienti -->
-                <input type="checkbox" id="ingredient1" name="ingredient" value="ingredient"> Zucchero
-                <input type="checkbox" id="ingredient2" name="ingredient" value="ingredient"> Farina
-                <input type="checkbox" id="ingredient3" name="ingredient" value="ingredient"> Sale
-                <input type="checkbox" id="ingredient4" name="ingredient" value="ingredient"> Zucca
-                <input type="checkbox" id="ingredient5" name="ingredient" value="ingredient"> Formaggio
+                <div class="ingredients form-choice">
+                </div>
                 </br>
                 <a href="add-ingredient.html"> If not present add new ingredient </a>
             </div>
