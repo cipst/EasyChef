@@ -12,6 +12,10 @@ export const makeRequest = ({ type = "POST" || "GET", url, data, onSuccess = han
     });
 }
 
+export const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const handleSuccessResponse = (response) => {
     switch (response.status) {
         case "redirect":
@@ -26,6 +30,10 @@ const handleSuccessResponse = (response) => {
 
 const handleErrorResponse = (response) => {
     console.log(response);
+
+    if (response.status === 200)
+        return new Alert(ALERT_TYPE.DANGER, "Error", `${response.responseText}`);
+
     const { errors } = $.parseJSON(response.responseText);
     let message = "";
 

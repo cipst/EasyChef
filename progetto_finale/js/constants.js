@@ -17,3 +17,5 @@ export const ALERT_ICON = Object.freeze({
     "WARNING": "fa-triangle-exclamation",
     "INFO": "fa-circle-info"
 });
+
+export const CHEF_ID = 4;
