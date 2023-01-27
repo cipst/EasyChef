@@ -1,4 +1,4 @@
-import { makeRequest } from "./common.js";
+import { makeRequest } from "../common.js";
 
 $(() => {
     makeRequest({
