@@ -4,6 +4,7 @@
  * Top part in commons between all pages
  */
 
+require_once("common.php");
 session_start();
 ?>
 

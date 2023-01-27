@@ -33,3 +33,12 @@ function DBconnection()
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $db;
 }
+
+function createArray($array, $key)
+{
+    $newArray = array();
+    foreach ($array as $index => $item) {
+        $newArray[$index] = $item[$key];
+    }
+    return $newArray;
+}
