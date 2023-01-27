@@ -213,15 +213,38 @@ Contact Page
 .contact-form {
     width: 100%;
     margin: 0;
-  }
-  .contact-container {
+}
+
+.contact-container {
     display: grid;
     gap: 2rem 3rem;
     padding-bottom: 3rem;
-  }
-  @media screen and (min-width: 992px) {
+}
+
+@media screen and (min-width: 992px) {
     .contact-container {
-      grid-template-columns: 1fr 650px;
-      align-items: center;
+        grid-template-columns: 1fr 650px;
+        align-items: center;
     }
-  }
+}
+
+/*
+===============
+ERROR PAGE
+===============
+*/
+.error-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-page h1 {
+    font-size: 10rem;
+}
+
+.error-page h2 {
+    font-size: 4rem;
+}
