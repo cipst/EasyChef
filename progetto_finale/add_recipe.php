@@ -1,10 +1,7 @@
 <?php include_once("php/top.php"); ?>
-<script type="module" src="js/recipes.js"></script>
-<script type="module" src="js/cooking_methods.js"></script>
-<?php
-include_once("php/navbar.php");
-include_once("php/common.php");
-?>
+<script type="module" src="js/controller/recipes.js"></script>
+<script type="module" src="js/controller/cooking_methods.js"></script>
+<?php include_once("php/navbar.php"); ?>
 
 <section class="contact-container">
     <article class="contact-info">
