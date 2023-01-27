@@ -1,14 +1,14 @@
 <?php
 require_once("../../php/common.php");
-require_once("../../php/functions.php");
+require_once("../../php/dao/cooking_methods.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
     return response(300, "error", ["errors" => ["Invalid request method!"]]);
 
-$response = getAllCookingMethods();
+$recipe = getAllCookingMethods();
 
 $methods = array();
-foreach ($response as $method) {
+foreach ($recipe as $method) {
     $methods[] = $method["name"];
 }
 return response(200, "success", ["methods" => json_encode($methods)]);
