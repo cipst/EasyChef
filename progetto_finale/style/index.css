@@ -155,6 +155,7 @@ CONTENT
     flex: 1 1 auto;
     overflow: auto;
     padding: 2em 10em 0 10em;
+    transition: all .2s ease-in-out;
 }
 
 @media screen and (max-width: 768px) {
