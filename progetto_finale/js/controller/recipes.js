@@ -13,16 +13,182 @@ $(() => {
     // then pass the chef id to getAllRecipes() and getRecipeById()
     // and removit from the constants.js file
 
-    getAllRecipes();
-    getChefById(CHEF_ID);
-
     // if the current recipe is the one shown in the single recipe page, show the title and the description
     let searchParams = new URLSearchParams(window.location.search)
     if (searchParams.has("id"))
         getRecipeById(searchParams.get("id"));
+    else
+        getAllRecipes();
+
+    getChefById(CHEF_ID); // get the name and email by the chef id
+
+    // add recipe
+    $("#submit-add-recipe").on("click", (event) => {
+        event.preventDefault();
+        const title = $("#title").val().trim();
+        const procedure = $("#procedure").val().trim();
+        const portions = $("#portions").val().trim();
+        const cookingTime = $("#cookingTime").val().trim();
+        const cookingMethod = $("#cookingMethod option:selected").val();
+        const category = $("input[name='category']:checked").val();
+        const ingredients = $("input[name='ingredient']:checked").val();
+
+        const areValid = areDataValid(title, procedure, portions, cookingTime, cookingMethod, category, ingredients);
+
+        if (!areValid) return;
+
+        clearStatus();
+
+        if (parseInt(portions) < 1 || parseInt(cookingTime) < 1) {
+            new Alert(ALERT_TYPE.ERROR, "Error", "Portions and cooking time must be greater than 0");
+            return;
+        }
+
+        console.log($("#title").val().trim());
+        console.log(CHEF_ID);
+        console.log($("#procedure").val().trim());
+        console.log($("#portions").val().trim());
+        console.log($("#cookingTime").val().trim());
+        console.log($("#cookingMethod option:selected").val());
+        console.log($("input[name='category']:checked").val());
+        $("input[name='ingredient']:checked").each(function () {
+            console.log(this.value);
+        });
+    });
+
+    $("#title").on("input", (event) => {
+        const title = $("#title").val().trim();
+        isValid(title, "#title", "Title is required!");
+    });
+
+    $("#procedure").on("input", (event) => {
+        const procedure = $("#procedure").val().trim();
+        isValid(procedure, "#procedure", "Procedure is required!");
+    });
+
+    $("#portions").on("input", (event) => {
+        const portions = $("#portions").val().trim();
+        isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
+    });
+
+    $("#cookingTime").on("input", (event) => {
+        const cookingTime = $("#cookingTime").val().trim();
+        isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
+    });
+
+    $("#cookingMethod").on("input", (event) => {
+        const cookingMethod = $("#cookingMethod option:selected").val();
+        isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
+    });
+
+    $("input[name='category']").on("change", (event) => {
+        const category = $("input[name='category']").val();
+        isValid(category, ".categories", "Category is required!");
+    });
+
+    $("input[name='ingredient']:checked").on("change", (event) => {
+        const ingredients = $("input[name='ingredient']").val();
+        isValid(ingredients, ".ingredients", "Ingredients is required!");
+    });
+
 
 
 });
+
+const isValid = (target, id, text, text2 = "") => {
+    if (target === undefined || target.length === 0) {
+        $(`${id}`).css({ "border": "1px solid var(--error-color)" });
+        $(`${id} + .label-error`).text(text);
+        $(`${id} + .label-error`).css({ "display": "block" });
+        return false;
+    }
+
+    if ((id.includes("portions") || id.includes("cookingTime")) && parseInt(target) < 1) {
+        $(`${id}`).css({ "border": "1px solid var(--error-color)" });
+        $(`${id} + .label-error`).text(text2);
+        $(`${id} + .label-error`).css({ "display": "block" });
+        return false;
+    }
+
+    $(`${id}`).css({ "border": "3px solid var(--success-color)" });
+    $(`${id} + .label-error`).css({ "display": "none" });
+    return true;
+};
+
+const areDataValid = (title, procedure, portions, cookingTime, cookingMethod, category, ingredients) => {
+    let areValid = true;
+
+    areValid &= isValid(title, "#title", "Title is required!");
+    areValid &= isValid(procedure, "#procedure", "Procedure is required!");
+    areValid &= isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
+    areValid &= isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
+    areValid &= isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
+    areValid &= isValid(category, ".categories", "Category is required!");
+    areValid &= isValid(ingredients, ".ingredients", "Ingredients is required!");
+
+    return areValid;
+};
+
+const clearStatus = () => {
+    $("#title").css({ "border-color": "var(--grey-500)" });
+    $("#title + .label-error").text("");
+    $("#title + .label-error").css({ "display": "none" });
+    $("#procedure").css({ "border-color": "var(--grey-500)" });
+    $("#procedure + .label-error").text("");
+    $("#procedure + .label-error").css({ "display": "none" });
+    $("#portions").css({ "border-color": "var(--grey-500)" });
+    $("#portions + .label-error").text("");
+    $("#portions + .label-error").css({ "display": "none" });
+    $("#cookingTime").css({ "border-color": "var(--grey-500)" });
+    $("#cookingTime + .label-error").text("");
+    $("#cookingTime + .label-error").css({ "display": "none" });
+    $("#cookingMethod option").css({ "border-color": "var(--grey-500)" });
+    $("#cookingMethod + .label-error").text("");
+    $("#cookingMethod + .label-error").css({ "display": "none" });
+    $(".categories").css({"border": "1px solid var(--grey-500)"});
+    $(".categories + .label-error").text("");
+    $(".categories + .label-error").css({ "display": "none" });
+    $(".ingredients").css({"border": "1px solid var(--grey-500)"});
+    $(".ingredients + .label-error").text("");
+    $(".ingredients + .label-error").css({ "display": "none" });
+}
+
+/**
+ * Handle the submit event of the form to add a new ingredient
+ * 
+ * @param {String} ingredientName 
+ */
+const handleSubmit = (recipe) => {
+    makeRequest({
+        type: "POST",
+        url: "./api/recipes/create.php",
+        data: {
+            title: $("#title").val(),
+            chef: CHEF_ID,
+            procedure: $("#procedure").val(),
+            portions: $("#portions").val(),
+            cooking_time: $("#cooking_time").val(),
+            cooking_method: $("#cooking_method").val(),
+            category: $("#category").val(),
+            ingredients: $("#ingredients").val()
+        },
+        onSuccess: (response) => {
+            alert(response.ok);
+            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+        },
+        onError: (response) => {
+            console.log(response);
+            let error;
+            if (response.responseJSON.error.toLowerCase().includes("duplicate entry")) {
+                error = "Ingredient already in the list";
+            } else {
+                error = "Error adding the ingredient";
+            }
+
+            new Alert(ALERT_TYPE.ERROR, "Error", error);
+        }
+    });
+}
 
 /**
  * Get the name and email by the chef id
