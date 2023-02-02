@@ -1,4 +1,5 @@
 <?php include_once("php/top.php"); ?>
+<title>404</title>
 <script type="module" src="js/controller/recipes.js"></script>
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>

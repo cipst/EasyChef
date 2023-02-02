@@ -1,5 +1,7 @@
 <?php include_once("php/top.php"); ?>
+<title>EasyChef</title>
 <script type="module" src="js/controller/recipes.js"></script>
+<script type="module" src="js/controller/ingredients.js"></script>
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <!-- <script type="module" src="js/chefs.js"></script> -->
 <?php include_once("php/navbar.php"); ?>
