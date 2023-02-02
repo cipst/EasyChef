@@ -42,6 +42,8 @@ export class Alert {
         $("#alert .alert-message").append(this.#message); //adding message
 
         $("#alert").fadeIn(500);
+        $("#alert").show();
+        $("#mask").show();
     }
 
     get title() {

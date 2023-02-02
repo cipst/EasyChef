@@ -6,9 +6,20 @@ $(() => {
     $("footer #year").text(new Date().getFullYear());
 
     $("#alert i.close").on("click", (e) => {
-        $("#alert").fadeOut(500, () => {
+        $("#alert").fadeOut(200, () => {
             $("#alert .alert-icon").removeClass(alert.icon);
+            $("#alert .alert-message").text("");
         });
+        $("#mask").fadeOut(200);
+        e.preventDefault();
+    });
+
+    $("#mask").on("click", (e) => {
+        $("#alert").fadeOut(200, () => {
+            $("#alert .alert-icon").removeClass(alert.icon);
+            $("#alert .alert-message").text("");
+        });
+        $("#mask").fadeOut(200);
         e.preventDefault();
     });
 
