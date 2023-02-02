@@ -1,6 +1,7 @@
 <?php include_once("php/top.php"); ?>
 <title>Add Recipe</title>
 <script type="module" src="js/controller/recipes.js"></script>
+<script type="module" src="js/controller/ingredients.js"></script>
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
@@ -17,6 +18,7 @@
             <div class="form-row">
                 <h5>Recipe Title</h5>
                 <input type="text" name="name" id="title" class="form-input" />
+                <label id="title-error" class="label-error" for="title">Title is required</label>
             </div>
             <div>
                 <h5>Chef Name:</h5>
@@ -25,20 +27,23 @@
             <div class="form-row">
                 <h5>Portions:</h5>
                 <input type="number" min="1" name="portions" id="portions" class="form-input" placeholder="1" />
+                <label id="portions-error" class="label-error" for="portions">Portions is required</label>
             </div>
             <div class="form-row">
                 <h5>Cooking Time (in minutes):</h5>
-                <input type="number" min="0" name="portions" id="cookingTime" class="form-input" placeholder="0" />
+                <input type="number" min="0" name="cookingTime" id="cookingTime" class="form-input" placeholder="0" />
+                <label id="cookingTime-error" class="label-error" for="cookingTime">Cooking time is required</label>
             </div>
             <div>
                 <h5>Cooking Method</h5>
-                <select class="form-input" name="cookingMethod">
+                <select class="form-input" name="cookingMethod" id="cookingMethod">
                 </select>
+                <label id="cookingMethod-error" class="label-error" for="cookingMethod">Cooking method is required</label>
             </div>
             </br>
             <div>
                 <h5>Recipe Category</h5>
-                <div class="form-choice">
+                <div class="categories form-choice">
                     <div><input type="radio" id="pasta" name="category" value="pasta" /> <label for="pasta"> Pasta
                         </label></div>
                     <div><input type="radio" id="soup" name="category" value="soup" /> <label for="soup"> Soup
@@ -58,21 +63,24 @@
                     <div><input type="radio" id="other" name="category" value="other" /> <label for="other"> Other
                         </label></div>
                 </div>
+                <label id="categories-error" class="label-error" for="categories">Category is required</label>
             </div>
             </br>
             <div>
                 <h5>Select Ingredients</h5>
                 <div class="ingredients form-choice">
                 </div>
+                <label id="ingredients-error" class="label-error" for="ingredients">Ingredients are required</label>
                 </br>
-                <a href="add_ingredient.html"> If not present add new ingredient </a>
+                <!-- <a href="add_ingredient.html"> If not present add new ingredient </a> -->
             </div>
             </br>
             <div class="form-row">
                 <h5>Insert Preparation Procedure</h5>
                 <textarea name="procedure" id="procedure" class="form-textarea"></textarea>
+                <label id="procedure-error" class="label-error" for="procedure">Procedure is required</label>
             </div>
-            <button type="submit" class="btn btn-block">
+            <button type="click" id="submit-add-recipe" class="btn btn-block">
                 submit
             </button>
         </form>
