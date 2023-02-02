@@ -57,3 +57,20 @@ FORM
   letter-spacing: var(--letterSpacing);
   text-transform: capitalize;
 }
+
+.categories, 
+.ingredients {
+  padding: .1em 0 .1em .5em;
+}
+
+/*
+=============== 
+LABEL ERROR 
+===============
+*/
+
+.label-error {
+  display: none;
+  color: var(--red-dark);
+  letter-spacing: var(--letterSpacing);
+}
