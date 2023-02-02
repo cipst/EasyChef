@@ -1,21 +1,23 @@
 <?php
 require_once("../../php/common.php");
-require_once("../../php/dao/cooking_methods.php");
+require_once("../../php/dao/chefs.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
     return response(300, "error", ["error" => "Invalid request method!"]);
 
 try {
-    $recipe = getAllCookingMethods();
+    checkData($_GET);
 
-    if (!$recipe)
-        return response(300, "error", ["error" => "No cooking methods found!"]);
+    $response = getChefById($_GET["id"]);
 
-    $methods = array();
-    foreach ($recipe as $method) {
-        $methods[] = $method["name"];
-    }
-    return response(200, "success", ["methods" => json_encode($methods)]);
+    if (!$response)
+        return response(300, "error", ["error" => "No chef found!"]);
+
+    $recipe = array();
+    $recipe["name"] = $response["name"];
+    $recipe["email"] = $response["email"];
+
+    return response(200, "success", ["chef" => json_encode($recipe)]);
 } catch (Exception $e) {
     return response(300, "error", ["error" => $e->getMessage()]);
 } catch (Error $e) {

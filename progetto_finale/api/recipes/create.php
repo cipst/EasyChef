@@ -3,9 +3,11 @@ require_once("../../php/common.php");
 require_once("../../php/dao/recipes.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
-    return response(300, "error", ["errors" => ["Invalid request method!"]]);
+    return response(300, "error", ["error" => "Invalid request method!"]);
 
 try {
+    checkData($_POST);
+
     createRecipe(
         $_POST["chef_id"],
         $_POST["title"],
@@ -19,7 +21,7 @@ try {
 
     return response(200, "success", ["ok" => "Recipe created!"]);
 } catch (Exception $e) {
-    return response(300, "error", ["errors" => [$e->getMessage()]]);
-} catch(Error $e){
-    return response(500, "error", ["errors" => [$e->getMessage()]]);
+    return response(300, "error", ["error" => $e->getMessage()]);
+} catch (Error $e) {
+    return response(500, "error", ["error" => $e->getMessage()]);
 }

@@ -4,27 +4,35 @@ require_once("../../php/dao/recipes.php");
 require_once("../../php/dao/chefs.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
-    return response(300, "error", ["errors" => ["Invalid request method!"]]);
+    return response(300, "error", ["error" => "Invalid request method!"]);
 
-$id = $_GET["id"];
-$response = getRecipeById($id);
+try {
+    checkData($_GET);
 
-if(!$response)
-    return response(300, "error", ["errors" => ["Recipe not found!"]]);
+    $id = $_GET["id"];
+    $response = getRecipeById($id);
 
-$likes = createArray(getChefsLikeByRecipe($id), "chef");
-$ingredients = createArray(getIngredientsByRecipe($id), "ingredient");
-$chef = getChefById($response["chef_id"]);
+    if (!$response)
+        return response(300, "error", ["error" => "No recipe found!"]);
 
-$recipe["id"] = $id;
-$recipe["chef"] = $chef["name"];
-$recipe["title"] = $response["title"];
-$recipe["procedure"] = $response["procedure"];
-$recipe["category"] = $response["category"];
-$recipe["cooking_method"] = $response["cooking_method"];
-$recipe["portions"] = $response["portions"];
-$recipe["cooking_time"] = $response["cooking_time"];
-$recipe["ingredients"] = $ingredients;
-$recipe["likes"] = $likes;
+    $likes = createArray(getChefsLikeByRecipe($id), "chef");
+    $ingredients = createArray(getIngredientsByRecipe($id), "ingredient");
+    $chef = getChefById($response["chef_id"]);
 
-return response(200, "success", ["recipe" => json_encode($recipe)]);
+    $recipe["id"] = $id;
+    $recipe["chef"] = $chef["name"];
+    $recipe["title"] = $response["title"];
+    $recipe["procedure"] = $response["procedure"];
+    $recipe["category"] = $response["category"];
+    $recipe["cooking_method"] = $response["cooking_method"];
+    $recipe["portions"] = $response["portions"];
+    $recipe["cooking_time"] = $response["cooking_time"];
+    $recipe["ingredients"] = $ingredients;
+    $recipe["likes"] = $likes;
+
+    return response(200, "success", ["recipe" => json_encode($recipe)]);
+} catch (Exception $e) {
+    return response(300, "error", ["error" => $e->getMessage()]);
+} catch (Error $e) {
+    return response(500, "error", ["error" => $e->getMessage()]);
+}

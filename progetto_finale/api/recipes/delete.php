@@ -8,14 +8,11 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 try {
     checkData($_POST);
 
-    $recipe_response = setLike(
-        $_POST["recipe_id"],
-        $_POST["chef_id"],
-    );
+    deleteRecipe($_POST["id"]);
 
-    return response(200, "success", ["ok" => "Like $recipe_response"]);
+    return response(200, "success", ["ok" => "Recipe deleted!"]);
 } catch (Exception $e) {
     return response(300, "error", ["error" => $e->getMessage()]);
-} catch (Error $e) {
+} catch(Error $e){
     return response(500, "error", ["error" => $e->getMessage()]);
 }
