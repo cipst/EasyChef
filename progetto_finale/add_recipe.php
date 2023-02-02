@@ -1,4 +1,5 @@
 <?php include_once("php/top.php"); ?>
+<title>Add Recipe</title>
 <script type="module" src="js/controller/recipes.js"></script>
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>
@@ -19,8 +20,7 @@
             </div>
             <div>
                 <h5>Chef Name:</h5>
-                <h5 html="chefName" id="chefName" class="text"><b>Mario Rossi</b></h5>
-                <!-- TODO: prendere il nome dell'utente-->
+                <h4 html="chefName" id="chefName" class="text"></h4>
             </div>
             <div class="form-row">
                 <h5>Portions:</h5>
@@ -61,11 +61,11 @@
             </div>
             </br>
             <div>
-                <h5>Select Ingredients</h5> <!-- TODO: creare la lista facendo una get all degli ingredienti -->
+                <h5>Select Ingredients</h5>
                 <div class="ingredients form-choice">
                 </div>
                 </br>
-                <a href="add-ingredient.html"> If not present add new ingredient </a>
+                <a href="add_ingredient.html"> If not present add new ingredient </a>
             </div>
             </br>
             <div class="form-row">

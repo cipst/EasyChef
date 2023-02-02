@@ -13,6 +13,9 @@
         <i class="close fa-solid fa-xmark fa-xl"></i>
     </div>
 
+    <div id="mask">
+    </div>
+
     <nav>
         <ul id="expanded">
             <i class="close fa-solid fa-xmark fa-2xl"></i>

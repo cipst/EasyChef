@@ -12,8 +12,6 @@ session_start();
 <html lang="en">
 
 <head>
-    <title>EasyChef</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
@@ -29,5 +27,5 @@ session_start();
     <!-- My Styles -->
     <link href="style/index.css" rel="stylesheet">
 
-    <!-- Eventual script go here -->
+    <!-- Title and Eventual script go here -->
     
