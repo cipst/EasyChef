@@ -1,16 +1,14 @@
 <?php
-function isPOSTValid(array $params)
-{
-    $msgs = [];
-    foreach ($params as $param) {
-        if (!isset($_POST[$param])) {
-            array_push($msgs, "$param is missing!");
-        } else if (empty($_POST[$param])) {
-            array_push($msgs, "$param must not be empty!");
-        }
-    }
 
-    return $msgs;
+function checkData($post)
+{
+    foreach ($post as $key => $value) {
+        if (!isset($value))
+            throw new Exception("Missing $key!");
+
+        if (empty($value))
+            throw new Exception("Invalid $key!");
+    }
 }
 
 function response(int $code, string $status, $data = null)
