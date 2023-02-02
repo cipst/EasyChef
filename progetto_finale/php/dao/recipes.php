@@ -59,3 +59,10 @@ function getRecipeById($id)
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
+
+function deleteRecipe($id)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('DELETE FROM recipe WHERE id = ?');
+    $stmt->execute([$id]);
+}

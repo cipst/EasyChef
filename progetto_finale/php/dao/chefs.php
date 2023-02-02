@@ -9,7 +9,7 @@
 function getAllChefs()
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT * FROM chef');
+    $stmt = $db->prepare('SELECT id, name FROM chef');
     $stmt->execute();
     return $stmt->fetchAll();
 }
@@ -17,7 +17,7 @@ function getAllChefs()
 function getChefById($id)
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT `name` FROM chef WHERE id = ?');
+    $stmt = $db->prepare('SELECT `name`, `email` FROM chef WHERE id = ?');
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
