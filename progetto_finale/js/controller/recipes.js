@@ -1,5 +1,6 @@
+import { Alert } from "../alert.js";
 import { makeRequest, capitalize } from "../common.js";
-import { CHEF_ID } from "../constants.js";
+import { ALERT_TYPE, CHEF_ID } from "../constants.js";
 
 $(() => {
 
@@ -12,16 +13,42 @@ $(() => {
     // then pass the chef id to getAllRecipes() and getRecipeById()
     // and removit from the constants.js file
 
-    getAllIngredients();
     getAllRecipes();
+    getChefById(CHEF_ID);
 
     // if the current recipe is the one shown in the single recipe page, show the title and the description
-    if (undefined !== $(".recipe-page").data("recipe-id")) {
-        getRecipeById($(".recipe-page").data("recipe-id"));
-    }
+    let searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.has("id"))
+        getRecipeById(searchParams.get("id"));
+
 
 });
 
+/**
+ * Get the name and email by the chef id
+ * 
+ * @param {int} id 
+ */
+const getChefById = (id) => {
+    makeRequest({
+        type: "GET",
+        url: `./api/chefs/getById.php?id=${id}`,
+        onSuccess: (response) => {
+            const { name } = JSON.parse(response.chef);
+            $("#chefName").append(`<b>${name}</b>`);
+        },
+        onError: (response) => {
+            console.log(response);
+            window.location.href = "./not_found.php";
+        }
+    });
+};
+
+/**
+ * Get the recipe info by id
+ * 
+ * @param {int} id 
+ */
 const getRecipeById = (id) => {
     makeRequest({
         type: "GET",
@@ -55,28 +82,6 @@ const getRecipeById = (id) => {
 };
 
 /**
- * Get all ingredients and append them to the ingredients list
- */
-const getAllIngredients = () => {
-    makeRequest({
-        type: "GET",
-        url: "./api/ingredients/getAll.php",
-        onSuccess: (response) => {
-            console.log(JSON.parse(response.ingredients));
-            for (const [index, ingredient] of JSON.parse(response.ingredients).entries()) {
-                $(".ingredients-list").append(`<a href="recipes_by_ingredient.php?ingredient=${ingredient.toLowerCase()}">${ingredient}</a>`);
-                $(".ingredients.form-choice").append(`
-                    <div key=${index}>
-                        <input style="margin-right: .3em;" type="checkbox" id="${ingredient}" name="ingredient" value="${ingredient}" />
-                        <label for="${ingredient}">${ingredient}</label>
-                    </div>
-                `);
-            }
-        }
-    });
-}
-
-/**
  * Get all recipes and append them to the recipes list
  */
 const getAllRecipes = () => {
@@ -100,6 +105,10 @@ const getAllRecipes = () => {
 
                 $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe));
             }
+        },
+        onError: (response) => {
+            console.log(response.responseJSON);
+            new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
         }
     });
 }
@@ -108,6 +117,8 @@ const getAllRecipes = () => {
  * Check if the recipe is liked by the current chef
  * If the recipe is liked, the star will be filled
  * If the recipe is not liked, the star will be empty
+ * 
+ * @param {Object} recipe
  */
 const checkLiked = (recipe) => {
     recipe.likes.includes(`${CHEF_ID}`)
@@ -126,6 +137,15 @@ const checkLiked = (recipe) => {
  * @param {Object} recipe
  */
 const handleLike = (recipe) => {
+    if (true) {
+        new Alert(ALERT_TYPE.INFO,
+            "Registration required",
+            `You must be logged in to like a recipe<br>
+            <a href='./login.php'>Login</a> or <a href='./register.php'>Register</a>`
+        );
+        return;
+    }
+
     makeRequest({
         type: "POST",
         url: "./api/recipes/like.php",
