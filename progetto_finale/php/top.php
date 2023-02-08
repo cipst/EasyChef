@@ -6,6 +6,7 @@
 
 require_once("common.php");
 session_start();
+$_SESSION["id"] = 4;
 ?>
 
 <!DOCTYPE html>
@@ -28,4 +29,3 @@ session_start();
     <link href="style/index.css" rel="stylesheet">
 
     <!-- Title and Eventual script go here -->
-    

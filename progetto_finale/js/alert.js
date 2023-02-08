@@ -35,11 +35,11 @@ export class Alert {
         $("#alert").css("border-color", `var(--${this.#type.toLowerCase()}-color)`); //changing border color
         $("#alert .alert-heading").css("color", `var(--${this.#type.toLowerCase()}-color)`); //changing heading color
 
-        $("#alert .alert-message *").remove(); //removing all previuos messages
+        // $("#alert .alert-message *").remove(); //removing all previuos messages
 
         $("#alert .alert-icon").addClass(this.#icon); //adding icon
         $("#alert .alert-title").text(this.#title); //adding title
-        $("#alert .alert-message").append(this.#message); //adding message
+        $("#alert .alert-message").html(this.#message); //adding message
 
         $("#alert").fadeIn(500);
         $("#alert").show();
