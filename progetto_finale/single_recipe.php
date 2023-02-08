@@ -7,7 +7,7 @@ include_once("php/top.php");
 <script type="module" src="js/controller/recipes.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
-<div class="recipe-page" data-recipe-id="<?= $_GET["id"] ?>">
+<div class="recipe-page">
     <section class="recipe-hero">
         <img src='' class="img recipe-hero-img" alt="" title="" id="recipe-img"/>
         <article class="recipe-info">

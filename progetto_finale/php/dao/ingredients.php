@@ -34,5 +34,5 @@ function getIngredientsByRecipe($recipe)
 function createIngredient($ingredient){
     $db = DBconnection();
     $stmt = $db->prepare('INSERT INTO ingredient (name) VALUES (?)');
-    $stmt->execute([$ingredient]);
+    return $stmt->execute([$ingredient]);
 }

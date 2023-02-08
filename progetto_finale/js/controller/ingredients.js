@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { makeRequest } from "../common.js";
+import { makeRequest, capitalize, isValid } from "../common.js";
 import { ALERT_TYPE } from "../constants.js";
 
 $(() => {
@@ -12,10 +12,16 @@ $(() => {
         }
     });
 
+    $("#ingredientName").on("input", (event) => {
+        const ingredientName = $("#ingredientName").val().trim();
+        isValid(ingredientName, "#ingredientName", "Please enter an ingredient name!");
+    });
+
     $("#addIngredient").on("click", (event) => {
         event.preventDefault();
         const ingredientName = $("#ingredientName").val().trim();
-        handleSubmit(ingredientName);
+        if (isValid(ingredientName, "#ingredientName", "Please enter an ingredient name!"))
+            handleSubmit(ingredientName);
     });
 
 });
@@ -66,6 +72,7 @@ const getAllIngredients = () => {
                         <label for="ingredient-${ingredient}">${ingredient}</label>
                     </div>
                 `);
+                $("#add-ingredients-list").append(`<p>${capitalize(ingredient)}</p><hr>`);
             }
         }
     });

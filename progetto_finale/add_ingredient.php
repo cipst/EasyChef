@@ -6,15 +6,16 @@
 <section class="contact-container">
     <article class="contact-info">
         <h3>Insert new ingredient</h3>
-        <p>
-            If not in the list please add
-        </p>
+        <h5>Current ingredients: </h5>
+        <div id="add-ingredients-list">
+        </div>
     </article>
     <article>
         <form class="form contact-form">
             <div class="form-row">
                 <h5>Ingredient name</h5>
                 <input type="text" name="ingredientname" id="ingredientName" class="form-input" />
+                <label id="add-ingredient-error" class="label-error" for="ingredientName"></label>
             </div>
 
             </br>

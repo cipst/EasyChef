@@ -45,6 +45,18 @@ Recipes
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+#add-ingredients-list hr,
+#add-ingredients-list p {
+    margin: 0;
+    padding: 0 2em;
+}
+
+#add-ingredients-list {
+    width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .ingredients-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

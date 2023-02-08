@@ -13,3 +13,9 @@ function getAllCookingMethods()
     $stmt->execute();
     return $stmt->fetchAll();
 }
+
+function setCookingMethod($cooking_method){
+    $db = DBconnection();
+    $stmt = $db->prepare('INSERT INTO cooking_method (name) VALUES (?)');
+    return $stmt->execute([$cooking_method]);
+}

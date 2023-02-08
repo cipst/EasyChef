@@ -21,3 +21,17 @@ function getChefById($id)
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
+
+function getChefByEmailAndPassword($email, $password)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT id, `name`, email FROM chef WHERE email = ? AND password = ?');
+    $stmt->execute([$email, $password]);
+    return $stmt->fetch();
+}
+
+function setChef($name, $email, $passowrd){
+    $db = DBconnection();
+    $stmt = $db->prepare('INSERT INTO chef (`name`, `email`, `password`) VALUES (?, ?, ?)');
+    return $stmt->execute([$name, $email, $passowrd]);
+}
