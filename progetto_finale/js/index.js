@@ -46,4 +46,28 @@ $(() => {
             $("nav").css({ "box-shadow": "none" });
         }
     });
+
+
+    //TODO: do this on login / reigster page
+    if (sessionStorage.getItem("chef") === null) {
+        const textAsBuffer = new TextEncoder().encode("topolino");
+        window.crypto.subtle.digest('SHA-256', textAsBuffer).then((hashBuffer) => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer))
+            const digest = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            makeRequest({
+                type: "POST",
+                url: "./api/user.php",
+                data: { email: "topolino@gmail.com", password: digest },
+                onSuccess: (response) => {
+                    console.log(response);
+                    //set session storage
+                    sessionStorage.setItem("chef", response.chef);
+                    console.log(JSON.parse(response.chef));
+                },
+                onError: (response) => {
+                    console.log(response);
+                }
+            });
+        });
+    }
 });
