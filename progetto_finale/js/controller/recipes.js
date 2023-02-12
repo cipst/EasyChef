@@ -37,7 +37,7 @@ $(async () => {
             ingredientNames.push(ingredient.value);
         });
 
-        handleSubmit({ title, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
+        handleSubmit({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
     });
 
     $("#title").on("input", (event) => {
@@ -119,13 +119,13 @@ const clearStatus = () => {
  * 
  * @param {String} ingredientName 
  */
-const handleSubmit = ({ title, procedure, portions, cooking_time, cooking_method, category, ingredients }) => {
+const handleSubmit = ({ title, chef_id, procedure, portions, cooking_time, cooking_method, category, ingredients }) => {
     makeRequest({
         type: "POST",
         url: "./api/recipes/create.php",
         data: {
             "title": title,
-            "chef_id": CHEF_ID,
+            "chef_id": chef_id,
             "procedure": procedure,
             "portions": portions,
             "cooking_time": cooking_time,
@@ -138,7 +138,7 @@ const handleSubmit = ({ title, procedure, portions, cooking_time, cooking_method
             // redirect to the home page
             setTimeout(() => {
                 window.location.href = "./index.php";
-            }, 5000);
+            }, 2000);
         },
         onError: (response) => {
             console.log(response);

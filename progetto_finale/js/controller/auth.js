@@ -6,6 +6,7 @@ $(async () => {
     // const user = await userLogged();
 
     testLogin();
+    testLogin("minnie");
 });
 
 function testLogin(who = "topolino") {
