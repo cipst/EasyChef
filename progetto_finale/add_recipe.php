@@ -1,4 +1,10 @@
-<?php include_once("php/top.php"); ?>
+<?php
+include_once("php/top.php");
+
+if (!isset($_SESSION["id"]))
+    header("Location: index.php");
+
+?>
 <title>Add Recipe</title>
 <script type="module" src="js/controller/recipes.js"></script>
 <script type="module" src="js/controller/ingredients.js"></script>
@@ -38,7 +44,8 @@
                 <h5>Cooking Method</h5>
                 <select class="form-input" name="cookingMethod" id="cookingMethod">
                 </select>
-                <label id="cookingMethod-error" class="label-error" for="cookingMethod">Cooking method is required</label>
+                <label id="cookingMethod-error" class="label-error" for="cookingMethod">Cooking method is
+                    required</label>
             </div>
             </br>
             <div>
@@ -56,8 +63,8 @@
                         </label></div>
                     <div><input type="radio" id="ethnic" name="category" value="ethnic" /> <label for="ethnic">
                             Ethnic </label></div>
-                    <div><input type="radio" id="sandwich" name="category" value="sandwich" /> <label
-                            for="sandwich"> Sandwich </label></div>
+                    <div><input type="radio" id="sandwich" name="category" value="sandwich" /> <label for="sandwich">
+                            Sandwich </label></div>
                     <div><input type="radio" id="dessert" name="category" value="dessert" /> <label for="dessert">
                             Dessert </label></div>
                     <div><input type="radio" id="other" name="category" value="other" /> <label for="other"> Other

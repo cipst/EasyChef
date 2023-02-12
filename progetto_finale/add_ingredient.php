@@ -1,4 +1,10 @@
-<?php include_once("php/top.php"); ?>
+<?php
+include_once("php/top.php");
+
+if (!isset($_SESSION["id"]))
+    header("Location: index.php");
+
+?>
 <title>Add Ingredient</title>
 <script type="module" src="js/controller/ingredients.js"></script>
 <?php include_once("php/navbar.php"); ?>
