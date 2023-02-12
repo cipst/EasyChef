@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { ALERT_TYPE } from "../constants.js";
+import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
 import { makeRequest, userLogged } from "../common.js";
 
 $(async () => {
@@ -24,11 +24,11 @@ function testLogin(who = "topolino") {
                 onSuccess: (response) => {
                     const { status } = response;
                     switch (status) {
-                        case "redirect":
+                        case RESPONSE_STATUS.REDIRECT:
                             // window.location.href = response.link;
                             break;
 
-                        case "success":
+                        case RESPONSE_STATUS.OK:
                             const user = JSON.parse(response.user);
                             console.log(user);
                             if (user === null)
