@@ -8,6 +8,7 @@
 <?php include_once("php/navbar.php"); ?>
 
 <button id="tmp-login-topolino" class="btn">Login topolino</button>
+<button id="tmp-login-minnie" class="btn">Login minnie</button>
 
 <header class="hero">
     <div class="hero-container">
