@@ -24,8 +24,14 @@
                     <img src="assets/images/final_logo.png" alt="EasyChef">
                 </a>
             </li>
-            <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
-            <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
+            <?php
+            if (isset($_SESSION["id"])) {
+                ?>
+                <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
+                <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
+                <?php
+            }
+            ?>
             <li id="search">
                 <form id="nav-search" action="index.php">
                     <button class="input-icon" type="submit" id="button-search">
