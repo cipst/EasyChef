@@ -17,3 +17,9 @@ export const ALERT_ICON = Object.freeze({
     "WARNING": "fa-triangle-exclamation",
     "INFO": "fa-circle-info"
 });
+
+export const RESPONSE_STATUS = Object.freeze({
+    "OK": "success",
+    "ERROR": "error",
+    "REDIRECT": "redirect"
+});

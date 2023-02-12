@@ -60,6 +60,22 @@ function getRecipeById($id)
     return $stmt->fetch();
 }
 
+function getRecipesByIngredient($ingredient)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT * FROM recipe WHERE id IN (SELECT recipe FROM ingredients_list WHERE ingredient = ?)');
+    $stmt->execute([$ingredient]);
+    return $stmt->fetchAll();
+}
+
+function getRecipesByCookingMethod($cooking_method)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT * FROM recipe WHERE cooking_method = ?');
+    $stmt->execute([$cooking_method]);
+    return $stmt->fetchAll();
+}
+
 function deleteRecipe($id)
 {
     $db = DBconnection();

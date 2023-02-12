@@ -1,6 +1,6 @@
 import { Alert } from "../alert.js";
 import { makeRequest, capitalize, isValid, userLogged } from "../common.js";
-import { ALERT_TYPE } from "../constants.js";
+import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
 
 $(async () => {
 
@@ -12,6 +12,10 @@ $(async () => {
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has("id"))
         getRecipeById(searchParams.get("id"), user?.id);
+    else if (searchParams.has("ingredient"))
+        getRecipesByIngredient(searchParams.get("ingredient"), user?.id);
+    else if (searchParams.has("method"))
+        getRecipesByCookingMethod(searchParams.get("method"), user?.id);
     else
         getAllRecipes(user?.id);
 
@@ -40,79 +44,8 @@ $(async () => {
         handleSubmit({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
     });
 
-    $("#title").on("input", (event) => {
-        const title = $("#title").val().trim();
-        isValid(title, "#title", "Title is required!");
-    });
-
-    $("#procedure").on("input", (event) => {
-        const procedure = $("#procedure").val().trim();
-        isValid(procedure, "#procedure", "Procedure is required!");
-    });
-
-    $("#portions").on("input", (event) => {
-        const portions = $("#portions").val().trim();
-        isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
-    });
-
-    $("#cookingTime").on("input", (event) => {
-        const cookingTime = $("#cookingTime").val().trim();
-        isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
-    });
-
-    $("#cookingMethod").on("input", (event) => {
-        const cookingMethod = $("#cookingMethod option:selected").val();
-        isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
-    });
-
-    $("input[name='category']").on("change", (event) => {
-        const category = $("input[name='category']").val();
-        isValid(category, ".categories", "Category is required!");
-    });
-
-    $(".ingredients.form-choice").change((event) => {
-        const ingredients = $("input[name='ingredient']:checked").val();
-        isValid(ingredients, ".ingredients", "At least one ingredient is required!");
-    });
+    addListenersAddRecipe();
 });
-
-const areDataValid = (title, procedure, portions, cookingTime, cookingMethod, category, ingredients) => {
-    let areValid = true;
-
-    areValid &= isValid(title, "#title", "Title is required!");
-    areValid &= isValid(procedure, "#procedure", "Procedure is required!");
-    areValid &= isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
-    areValid &= isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
-    areValid &= isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
-    areValid &= isValid(category, ".categories", "Category is required!");
-    areValid &= isValid(ingredients, ".ingredients", "At least one ingredient is required!");
-
-    return areValid;
-};
-
-const clearStatus = () => {
-    $("#title").css({ "border-color": "var(--grey-500)" });
-    $("#title + .label-error").text("");
-    $("#title + .label-error").css({ "display": "none" });
-    $("#procedure").css({ "border-color": "var(--grey-500)" });
-    $("#procedure + .label-error").text("");
-    $("#procedure + .label-error").css({ "display": "none" });
-    $("#portions").css({ "border-color": "var(--grey-500)" });
-    $("#portions + .label-error").text("");
-    $("#portions + .label-error").css({ "display": "none" });
-    $("#cookingTime").css({ "border-color": "var(--grey-500)" });
-    $("#cookingTime + .label-error").text("");
-    $("#cookingTime + .label-error").css({ "display": "none" });
-    $("#cookingMethod option").css({ "border-color": "var(--grey-500)" });
-    $("#cookingMethod + .label-error").text("");
-    $("#cookingMethod + .label-error").css({ "display": "none" });
-    $(".categories").css({ "border": "1px solid var(--grey-500)" });
-    $(".categories + .label-error").text("");
-    $(".categories + .label-error").css({ "display": "none" });
-    $(".ingredients").css({ "border": "1px solid var(--grey-500)" });
-    $(".ingredients + .label-error").text("");
-    $(".ingredients + .label-error").css({ "display": "none" });
-};
 
 /**
  * Handle the submit event of the form to add a new ingredient
@@ -150,26 +83,6 @@ const handleSubmit = ({ title, chef_id, procedure, portions, cooking_time, cooki
             }
 
             new Alert(ALERT_TYPE.ERROR, "Error", error);
-        }
-    });
-};
-
-/**
- * Get the name and email by the chef id
- * 
- * @param {int} id 
- */
-const getChefById = (id) => {
-    makeRequest({
-        type: "GET",
-        url: `./api/chefs/getById.php?id=${id}`,
-        onSuccess: (response) => {
-            const { name } = JSON.parse(response.chef);
-            $("#chefName").append(`<b>${name}</b>`);
-        },
-        onError: (response) => {
-            console.log(response);
-            window.location.href = "./not_found.php";
         }
     });
 };
@@ -241,6 +154,65 @@ const getAllRecipes = (chef_id) => {
     });
 };
 
+/**
+ * Get all recipes by ingredient and append them to the recipes list
+ * @param {*} ingredient 
+ * @param {*} chef_id 
+ */
+const getRecipesByIngredient = (ingredient, chef_id) => {
+    makeRequest({
+        type: "GET",
+        url: `./api/recipes/getByIngredient.php?ingredient=${ingredient.toLowerCase()}`,
+        onSuccess: (response) => {
+            const recipes = JSON.parse(response.recipes);
+
+            $(".featured-recipes h3").append(capitalize(ingredient));
+
+            appendRecipesList(recipes.entries(), chef_id);
+
+            $("#index-search").on("input", (e) => {
+                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+            });
+        },
+        onError: (response) => {
+            $(".featured-recipes h3").append(capitalize(ingredient));
+            if (response.responseJSON.status == RESPONSE_STATUS.OK)
+                $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+            else
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+        }
+    });
+};
+
+/**
+ * Get all recipes by cooking method and append them to the recipes list
+ * @param {*} cooking_method
+ * @param {*} chef_id
+ */
+const getRecipesByCookingMethod = (cooking_method, chef_id) => {
+    makeRequest({
+        type: "GET",
+        url: `./api/recipes/getByCookingMethod.php?cooking_method=${cooking_method.toLowerCase()}`,
+        onSuccess: (response) => {
+            const recipes = JSON.parse(response.recipes);
+
+            $(".featured-recipes h3").append(capitalize(cooking_method));
+
+            appendRecipesList(recipes.entries(), chef_id);
+
+            $("#index-search").on("input", (e) => {
+                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+            });
+        },
+        onError: (response) => {
+            $(".featured-recipes h3").append(capitalize(cooking_method));
+            if (response.responseJSON.status == RESPONSE_STATUS.OK)
+                $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+            else
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+        }
+    });
+};
 
 /**
  * Check if the recipe is liked by the current chef
@@ -262,7 +234,6 @@ const checkLiked = (recipe, chef_id) => {
  * This function is called when the user clicks on the star icon
  * If the recipe is not liked, it will be liked (and the star will be filled)
  * If the recipe is liked, it will be unliked (and the star will be empty)
- * 
  * 
  * @param {Object} recipe
  */
@@ -319,7 +290,7 @@ const appendRecipesList = (recipes, chef_id) => {
     }
 };
 
-function filterRecipes(recipes, value, chef_id) {
+const filterRecipes = (recipes, value, chef_id) => {
     const recipesFiltered = recipes.filter(recipe => recipe.title.toLowerCase().includes(value.toLowerCase()) ||
         recipe.category.toLowerCase().includes(value.toLowerCase()) ||
         recipe.cooking_method.toLowerCase().includes(value.toLowerCase()) ||
@@ -334,4 +305,80 @@ function filterRecipes(recipes, value, chef_id) {
 
     // append the filtered recipes
     appendRecipesList(recipesFiltered.entries(), chef_id);
+};
+
+const areDataValid = (title, procedure, portions, cookingTime, cookingMethod, category, ingredients) => {
+    let areValid = true;
+
+    areValid &= isValid(title, "#title", "Title is required!");
+    areValid &= isValid(procedure, "#procedure", "Procedure is required!");
+    areValid &= isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
+    areValid &= isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
+    areValid &= isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
+    areValid &= isValid(category, ".categories", "Category is required!");
+    areValid &= isValid(ingredients, ".ingredients", "At least one ingredient is required!");
+
+    return areValid;
+};
+
+const clearStatus = () => {
+    $("#title").css({ "border-color": "var(--grey-500)" });
+    $("#title + .label-error").text("");
+    $("#title + .label-error").css({ "display": "none" });
+    $("#procedure").css({ "border-color": "var(--grey-500)" });
+    $("#procedure + .label-error").text("");
+    $("#procedure + .label-error").css({ "display": "none" });
+    $("#portions").css({ "border-color": "var(--grey-500)" });
+    $("#portions + .label-error").text("");
+    $("#portions + .label-error").css({ "display": "none" });
+    $("#cookingTime").css({ "border-color": "var(--grey-500)" });
+    $("#cookingTime + .label-error").text("");
+    $("#cookingTime + .label-error").css({ "display": "none" });
+    $("#cookingMethod option").css({ "border-color": "var(--grey-500)" });
+    $("#cookingMethod + .label-error").text("");
+    $("#cookingMethod + .label-error").css({ "display": "none" });
+    $(".categories").css({ "border": "1px solid var(--grey-500)" });
+    $(".categories + .label-error").text("");
+    $(".categories + .label-error").css({ "display": "none" });
+    $(".ingredients").css({ "border": "1px solid var(--grey-500)" });
+    $(".ingredients + .label-error").text("");
+    $(".ingredients + .label-error").css({ "display": "none" });
+};
+
+const addListenersAddRecipe = () => {
+    $("#title").on("input", (event) => {
+        const title = $("#title").val().trim();
+        isValid(title, "#title", "Title is required!");
+    });
+
+    $("#procedure").on("input", (event) => {
+        const procedure = $("#procedure").val().trim();
+        isValid(procedure, "#procedure", "Procedure is required!");
+    });
+
+    $("#portions").on("input", (event) => {
+        const portions = $("#portions").val().trim();
+        isValid(portions, "#portions", "Portions is required!", "Portions must be greater than 0");
+    });
+
+    $("#cookingTime").on("input", (event) => {
+        const cookingTime = $("#cookingTime").val().trim();
+        isValid(cookingTime, "#cookingTime", "Cooking time is required!", "Cooking time must be greater than 0");
+    });
+
+    $("#cookingMethod").on("input", (event) => {
+        const cookingMethod = $("#cookingMethod option:selected").val();
+        isValid(cookingMethod, "#cookingMethod", "Cooking method is required!");
+    });
+
+    $("input[name='category']").on("change", (event) => {
+        const category = $("input[name='category']").val();
+        isValid(category, ".categories", "Category is required!");
+    });
+
+    $(".ingredients.form-choice").change((event) => {
+        const ingredients = $("input[name='ingredient']:checked").val();
+        isValid(ingredients, ".ingredients", "At least one ingredient is required!");
+    });
 }
+
