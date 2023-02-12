@@ -96,6 +96,7 @@ nav #expanded #nav-search {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
 }
 
 nav #expanded #nav-search input {

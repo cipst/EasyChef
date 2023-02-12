@@ -10,11 +10,11 @@ export const makeRequest = async ({ type = "POST" || "GET", url, data, onSuccess
         success: onSuccess,
         error: onError
     });
-}
+};
 
 export const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
 export const isValid = (target, id, text, text2 = "") => {
     if (target === undefined || target.length === 0) {
@@ -46,4 +46,4 @@ export const userLogged = async () => {
     }).then(response => {
         return JSON.parse(response.user);
     });
-}
+};

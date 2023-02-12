@@ -27,18 +27,25 @@
             <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
             <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
             <li id="search">
-                <form id="nav-search">
-                    <span class="input-icon"><span class="fa-solid fa-search fa-lg"></span></span>
-                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search">
-                    <!-- <i class="fa-solid fa-search fa-lg"></i>
-                    <input type="text" id="index-search" placeholder="Search" name="s"> -->
-                    <!-- <button class="btn" type="submit" id="button-search"> -->
-                    <!-- </button> -->
+                <form id="nav-search" action="index.php">
+                    <button class="input-icon" type="submit" id="button-search">
+                        <i class="fa-solid fa-search fa-lg"></i>
+                    </button>
+                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search" name="q">
                 </form>
             </li>
             <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
-            <!-- <li id="profile"><a href="profile.php">Profile</a></li> -->
-            <li id="login"><a href="login.php">login</a></li>
+            <?php
+            if (isset($_SESSION['id'])) {
+                ?>
+                <li id="profile"><a href="profile.php">Profile</a></li>
+                <?php
+            } else {
+                ?>
+                <li id="login"><a href="login.php">Login</a></li>
+                <?php
+            }
+            ?>
 
         </ul>
         <ul id="collapsed">

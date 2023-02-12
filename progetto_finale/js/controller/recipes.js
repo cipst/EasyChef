@@ -224,23 +224,15 @@ const getAllRecipes = (chef_id) => {
         onSuccess: (response) => {
             const recipes = JSON.parse(response.recipes);
 
-            appendListRecipes(recipes.entries(), chef_id);
+            appendRecipesList(recipes.entries(), chef_id);
 
             $("#index-search").on("input", (e) => {
-                const value = $(e.target).val();
-
-                const recipesFiltered = recipes.filter(recipe =>
-                    recipe.title.toLowerCase().includes(value.toLowerCase()) ||
-                    recipe.category.toLowerCase().includes(value.toLowerCase()) ||
-                    recipe.cooking_method.toLowerCase().includes(value.toLowerCase()) ||
-                    recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(value.toLowerCase()))
-                );
-
-                $(".recipes-list div").remove(); // remove all recipes from the list
-
-                // append the filtered recipes
-                appendListRecipes(recipesFiltered.entries(), chef_id);
+                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
             });
+
+            let searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.has("q"))
+                filterRecipes(recipes, searchParams.get("q").trim(), chef_id);
         },
         onError: (response) => {
             console.log(response.responseJSON);
@@ -248,6 +240,7 @@ const getAllRecipes = (chef_id) => {
         }
     });
 };
+
 
 /**
  * Check if the recipe is liked by the current chef
@@ -261,6 +254,7 @@ const checkLiked = (recipe, chef_id) => {
         ? $(`#like_recipe_${recipe.id}`).html(`<i class="fas fa-star"></i> ${recipe.likes.length}`)
         : $(`#like_recipe_${recipe.id}`).html(`<i class="far fa-star"></i> ${recipe.likes.length}`);
 };
+
 
 /**
  * Handle the like of a recipe
@@ -306,7 +300,7 @@ const handleLike = (recipe, chef_id) => {
     });
 };
 
-const appendListRecipes = (recipes, chef_id) => {
+const appendRecipesList = (recipes, chef_id) => {
     for (const [index, recipe] of recipes) {
         $(".recipes-list").append(`
             <div class="recipe" title="${recipe.title} - ${recipe.category}" key="${index}">
@@ -318,8 +312,26 @@ const appendListRecipes = (recipes, chef_id) => {
                 <h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>
             </div>`
         );
+
         checkLiked(recipe, chef_id);
 
         $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe, chef_id));
     }
+};
+
+function filterRecipes(recipes, value, chef_id) {
+    const recipesFiltered = recipes.filter(recipe => recipe.title.toLowerCase().includes(value.toLowerCase()) ||
+        recipe.category.toLowerCase().includes(value.toLowerCase()) ||
+        recipe.cooking_method.toLowerCase().includes(value.toLowerCase()) ||
+        recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(value.toLowerCase())) ||
+        `${recipe.cooking_time} min`.includes(value.toLowerCase()) ||
+        recipe.portions.toString().includes(value)
+    );
+
+    $(".recipes-list div").remove(); // remove all recipes from the list
+
+    $(".content").animate({ scrollTop: $('.recipes-list').offset().top - 100 }, 1000);
+
+    // append the filtered recipes
+    appendRecipesList(recipesFiltered.entries(), chef_id);
 }
