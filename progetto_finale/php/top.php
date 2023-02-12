@@ -4,9 +4,9 @@
  * Top part in commons between all pages
  */
 
-require_once("common.php");
 session_start();
-$_SESSION["id"] = 4;
+
+require_once("common.php");
 ?>
 
 <!DOCTYPE html>

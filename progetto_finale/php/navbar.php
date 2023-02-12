@@ -28,10 +28,12 @@
             <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
             <li id="search">
                 <form id="nav-search">
-                    <input type="text" placeholder="Search">
-                    <button class="btn" type="button" id="button-search">
-                        <i class="fa-solid fa-search fa-lg"></i>
-                    </button>
+                    <span class="input-icon"><span class="fa-solid fa-search fa-lg"></span></span>
+                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search">
+                    <!-- <i class="fa-solid fa-search fa-lg"></i>
+                    <input type="text" id="index-search" placeholder="Search" name="s"> -->
+                    <!-- <button class="btn" type="submit" id="button-search"> -->
+                    <!-- </button> -->
                 </form>
             </li>
             <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
