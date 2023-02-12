@@ -1,26 +1,19 @@
 import { Alert } from "../alert.js";
-import { makeRequest, capitalize, isValid } from "../common.js";
-import { ALERT_TYPE, CHEF_ID } from "../constants.js";
+import { makeRequest, capitalize, isValid, userLogged } from "../common.js";
+import { ALERT_TYPE } from "../constants.js";
 
-$(() => {
+$(async () => {
 
-    // IMPORTANT
-    // BUG
-    // TODO
-    // get the chef id from the PHP session
-    // const CHEF_ID = $("#chef_id").data("chef-id");
-    // or doing a request to the server
-    // then pass the chef id to getAllRecipes() and getRecipeById()
-    // and removit from the constants.js file
+    const user = await userLogged();
+
+    if (user?.name !== undefined) $("#chefName").append(`<b>${user.name}</b>`);
 
     // if the current recipe is the one shown in the single recipe page, show the title and the description
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has("id"))
-        getRecipeById(searchParams.get("id"));
+        getRecipeById(searchParams.get("id"), user?.id);
     else
-        getAllRecipes();
-
-    getChefById(CHEF_ID); // get the name and email by the chef id
+        getAllRecipes(user?.id);
 
     // add recipe
     $("#submit-add-recipe").on("click", (event) => {
@@ -185,8 +178,9 @@ const getChefById = (id) => {
  * Get the recipe info by id
  * 
  * @param {int} id 
+ * @param {int} chef_id the chef id of the current user 
  */
-const getRecipeById = (id) => {
+const getRecipeById = (id, chef_id) => {
     makeRequest({
         type: "GET",
         url: `./api/recipes/getById.php?id=${id}`,
@@ -208,8 +202,8 @@ const getRecipeById = (id) => {
                 $("#recipe-ingredients").append(`<p class="single-ingredient">${capitalize(ingredient)}</p>`);
             };
 
-            recipe.likes.includes(`${CHEF_ID}`) ? $("#like_btn").html("Unlike recipe") : $("#like_btn").html("Like recipe");
-            $("#like_btn").on("click", () => handleLike(recipe));
+            recipe.likes.includes(`${chef_id}`) ? $("#like_btn").html("Unlike recipe") : $("#like_btn").html("Like recipe");
+            $("#like_btn").on("click", () => handleLike(recipe, chef_id));
         },
         onError: (response) => {
             console.log(response);
@@ -220,28 +214,33 @@ const getRecipeById = (id) => {
 
 /**
  * Get all recipes and append them to the recipes list
+ * 
+ * @param {int} chef_id the chef id of the current user
  */
-const getAllRecipes = () => {
+const getAllRecipes = (chef_id) => {
     makeRequest({
         type: "GET",
         url: "./api/recipes/getAll.php",
         onSuccess: (response) => {
-            console.log(JSON.parse(response.recipes));
-            for (const [index, recipe] of JSON.parse(response.recipes).entries()) {
-                $(".recipes-list").append(`
-                <div class="recipe">
-                    <a href="single_recipe.php?id=${recipe.id}" class="recipe-link" id="recipe_${recipe.id}">
-                        <img src="./assets/images/recipes/${recipe.category}.jpg" class="img recipe-img" alt="${recipe.category}" />
-                        <h5>${recipe.title}</h5>
-                        <p>Portions : ${recipe.portions} | Cook : ${recipe.cooking_time} min</p>
-                    </a>
-                    <h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>
-                </div>`
-                );
-                checkLiked(recipe);
+            const recipes = JSON.parse(response.recipes);
 
-                $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe));
-            }
+            appendListRecipes(recipes.entries(), chef_id);
+
+            $("#index-search").on("input", (e) => {
+                const value = $(e.target).val();
+
+                const recipesFiltered = recipes.filter(recipe =>
+                    recipe.title.toLowerCase().includes(value.toLowerCase()) ||
+                    recipe.category.toLowerCase().includes(value.toLowerCase()) ||
+                    recipe.cooking_method.toLowerCase().includes(value.toLowerCase()) ||
+                    recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(value.toLowerCase()))
+                );
+
+                $(".recipes-list div").remove(); // remove all recipes from the list
+
+                // append the filtered recipes
+                appendListRecipes(recipesFiltered.entries(), chef_id);
+            });
         },
         onError: (response) => {
             console.log(response.responseJSON);
@@ -257,8 +256,8 @@ const getAllRecipes = () => {
  * 
  * @param {Object} recipe
  */
-const checkLiked = (recipe) => {
-    recipe.likes.includes(`${CHEF_ID}`)
+const checkLiked = (recipe, chef_id) => {
+    recipe.likes.includes(`${chef_id}`)
         ? $(`#like_recipe_${recipe.id}`).html(`<i class="fas fa-star"></i> ${recipe.likes.length}`)
         : $(`#like_recipe_${recipe.id}`).html(`<i class="far fa-star"></i> ${recipe.likes.length}`);
 };
@@ -273,32 +272,30 @@ const checkLiked = (recipe) => {
  * 
  * @param {Object} recipe
  */
-const handleLike = (recipe) => {
-    if (true) {
-        new Alert(ALERT_TYPE.INFO,
+const handleLike = (recipe, chef_id) => {
+    if (chef_id === undefined)
+        return new Alert(ALERT_TYPE.INFO,
             "Registration required",
             `You must be logged in to like a recipe<br>
             <a href='./login.php'>Login</a> or <a href='./register.php'>Register</a>`
         );
-        return;
-    }
 
     makeRequest({
         type: "POST",
         url: "./api/recipes/like.php",
-        data: { recipe_id: recipe.id, chef_id: CHEF_ID },
+        data: { recipe_id: recipe.id, chef_id: chef_id },
         onSuccess: (_) => {
             let newClass = "";
             let newText = "";
 
-            if (!recipe.likes.includes(`${CHEF_ID}`)) {
+            if (!recipe.likes.includes(`${chef_id}`)) {
                 // If the recipe is not liked, it will be liked
-                recipe.likes.push(`${CHEF_ID}`);
+                recipe.likes.push(`${chef_id}`);
                 newClass = "fas";
                 newText = "Unlike recipe";
             } else {
                 // If the recipe is liked, it will be unliked
-                recipe.likes = recipe.likes.filter((like) => like != `${CHEF_ID}`);
+                recipe.likes = recipe.likes.filter((like) => like != `${chef_id}`);
                 newClass = "far";
                 newText = "Like recipe";
             }
@@ -308,3 +305,21 @@ const handleLike = (recipe) => {
         }
     });
 };
+
+const appendListRecipes = (recipes, chef_id) => {
+    for (const [index, recipe] of recipes) {
+        $(".recipes-list").append(`
+            <div class="recipe" title="${recipe.title} - ${recipe.category}" key="${index}">
+                <a href="single_recipe.php?id=${recipe.id}" class="recipe-link" id="recipe_${recipe.id}">
+                    <img src="./assets/images/recipes/${recipe.category}.jpg" class="img recipe-img" alt="${recipe.category}" />
+                    <h5>${recipe.title}</h5>
+                    <p>Portions : ${recipe.portions} | Cook : ${recipe.cooking_time} min</p>
+                </a>
+                <h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>
+            </div>`
+        );
+        checkLiked(recipe, chef_id);
+
+        $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe, chef_id));
+    }
+}
