@@ -1,8 +1,8 @@
 import { ALERT_TYPE } from "./constants.js";
 import { Alert } from "./alert.js";
 
-export const makeRequest = ({ type = "POST" || "GET", url, data, onSuccess, onError }) => {
-    $.ajax({
+export const makeRequest = async ({ type = "POST" || "GET", url, data, onSuccess = () => { }, onError }) => {
+    return await $.ajax({
         type: type,
         url: url,
         dataType: "json",
@@ -35,3 +35,15 @@ export const isValid = (target, id, text, text2 = "") => {
     $(`${id} + .label-error`).css({ "display": "none" });
     return true;
 };
+
+export const userLogged = async () => {
+    return await makeRequest({
+        type: "GET",
+        url: "./api/auth/session.php",
+        onError: (_) => {
+            new Alert(ALERT_TYPE.ERROR, "Error", "An error occurred while checking if you are logged in");
+        }
+    }).then(response => {
+        return JSON.parse(response.user);
+    });
+}
