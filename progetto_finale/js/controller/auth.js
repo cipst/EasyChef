@@ -1,10 +1,8 @@
 import { Alert } from "../alert.js";
 import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
-import { makeRequest, userLogged } from "../common.js";
+import { makeRequest } from "../common.js";
 
 $(async () => {
-    // const user = await userLogged();
-
     testLogin();
     testLogin("minnie");
 

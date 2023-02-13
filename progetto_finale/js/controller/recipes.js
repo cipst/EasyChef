@@ -242,7 +242,7 @@ const handleLike = (recipe, chef_id) => {
         return new Alert(ALERT_TYPE.INFO,
             "Registration required",
             `You must be logged in to like a recipe<br>
-            <a href='./login.php'>Login</a> or <a href='./register.php'>Register</a>`
+            <a href='./login.php'>Login</a> or <a href='./sign_up.php'>Register</a>`
         );
 
     makeRequest({

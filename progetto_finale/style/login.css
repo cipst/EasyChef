@@ -1,26 +1,11 @@
-/* h1 {
-    font-weight: bold;
-    margin: 0;
+.content {
+    background: var(--primary-200);
+    background: -webkit-linear-gradient(135deg, var(--primary-100) 45%, var(--primary-200) 55%);
+    background: linear-gradient(135deg, var(--primary-100) 45%, var(--primary-200) 55%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
 }
-
-p {
-    font-size: 14px;
-    font-weight: 100;
-    line-height: 20px;
-    letter-spacing: 0.5px;
-    margin: 20px 0 30px;
-}
-
-span {
-    font-size: 12px;
-}
-
-a {
-    color: #333;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 15px 0;
-} */
 
 nav {
     display: none;
@@ -103,7 +88,6 @@ input {
     height: 100%;
     cursor: pointer;
 }
-
 
 .overlay {
     background: var(--primary-500);

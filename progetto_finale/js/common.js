@@ -12,7 +12,7 @@ export const makeRequest = async ({ type = "POST" || "GET", url, data, onSuccess
             error: onError
         });
     } catch (e) {
-        // console.log(e);
+        console.log(e);
     }
 };
 
