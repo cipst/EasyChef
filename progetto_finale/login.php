@@ -10,6 +10,7 @@ include_once("php/top.php");
 if (isset($_SESSION["id"]))
     header("Location: index.php");
 
+include_once("php/navbar.php");
 ?>
 <title>Login</title>
 <script type="module" src="js/controller/auth.js"></script>
@@ -18,8 +19,8 @@ if (isset($_SESSION["id"]))
     <div class="form-container log-in-container">
         <form id="login">
             <h1>Login</h1>
-            <input type="email" placeholder="Email" name="email" required />
-            <input type="password" placeholder="Password" name="password" required />
+            <input type="email" id="login-email" placeholder="Email" name="email" required />
+            <input type="password" id="login-password" placeholder="Password" name="password" required />
             <p>You don't have an account? <br>
                 <a href="./sign_up.php">Register now</a>
             </p>
