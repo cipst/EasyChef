@@ -9,7 +9,7 @@
 function getAllChefs()
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, name FROM chef');
+    $stmt = $db->prepare('SELECT id, `name`, email FROM chef');
     $stmt->execute();
     return $stmt->fetchAll();
 }
@@ -22,6 +22,14 @@ function getChefById($id)
     return $stmt->fetch();
 }
 
+function getChefByEmail($email)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT id, `name`, `password` FROM chef WHERE email = ?');
+    $stmt->execute([$email]);
+    return $stmt->fetch();
+}
+
 function getChefByEmailAndPassword($email, $password)
 {
     $db = DBconnection();
@@ -30,8 +38,10 @@ function getChefByEmailAndPassword($email, $password)
     return $stmt->fetch();
 }
 
-function setChef($name, $email, $passowrd){
+function setChef($name, $email, $passowrd)
+{
     $db = DBconnection();
     $stmt = $db->prepare('INSERT INTO chef (`name`, `email`, `password`) VALUES (?, ?, ?)');
-    return $stmt->execute([$name, $email, $passowrd]);
+    $stmt->execute([strtolower($name), strtolower($email), strtolower($passowrd)]);
+    return $db->lastInsertId();
 }
