@@ -1,15 +1,19 @@
 import { ALERT_TYPE } from "./constants.js";
 import { Alert } from "./alert.js";
 
-export const makeRequest = async ({ type = "POST" || "GET", url, data, onSuccess = () => { }, onError }) => {
-    return await $.ajax({
-        type: type,
-        url: url,
-        dataType: "json",
-        data: data,
-        success: onSuccess,
-        error: onError
-    });
+export const makeRequest = async ({ type = "POST" || "GET", url, data, onSuccess = () => { }, onError = () => { } }) => {
+    try {
+        return await $.ajax({
+            type: type,
+            url: url,
+            dataType: "json",
+            data: data,
+            success: onSuccess,
+            error: onError
+        });
+    } catch (e) {
+        // console.log(e);
+    }
 };
 
 export const capitalize = (string) => {

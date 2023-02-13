@@ -11,12 +11,12 @@ try {
     if(!$response)
         return response(300, "error", ["error" => "No chefs found!"]);
 
-    $recipes = array();
-    foreach ($response as $recipe) {
-        $recipes[] = $recipe["name"];
+    $chefs = array();
+    foreach ($response as $chef) {
+        $chefs[] = $chef["name"];
     }
 
-    return response(200, "success", ["chefs" => json_encode($recipes)]);
+    return response(200, "success", ["chefs" => json_encode($chefs)]);
 } catch (Exception $e) {
     return response(300, "error", ["error" => $e->getMessage()]);
 } catch (Error $e) {
