@@ -8,10 +8,26 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 try {
     checkData($_POST);
 
-    $response = setChef($_POST["name"], $_POST["email"], $_POST["password"]);
+    $all = getAllChefs();
 
-    if (!$response)
-        return response(300, "error", ["error" => "No chef found!"]);
+    foreach ($all as $chef) {
+        if (strtolower($chef["name"]) == strtolower($_POST["name"]))
+            return response(300, "error", ["error" => "Chef name already exists!"]);
+
+        if (strtolower($chef["email"]) == strtolower($_POST["email"]))
+            return response(300, "error", ["error" => "Email already exists!"]);
+    }
+
+    $id = setChef($_POST["name"], $_POST["email"], $_POST["password"]);
+
+    if (!$id)
+        return response(300, "error", ["error" => "Chef not created!"]);
+
+    session_start();
+
+    $_SESSION["id"] = $id;
+    $_SESSION["name"] = $_POST["name"];
+    $_SESSION["email"] = $_POST['email'];
 
     return response(200, "success", ["ok" => "Chef created!"]);
 } catch (Exception $e) {
