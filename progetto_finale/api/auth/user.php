@@ -15,14 +15,17 @@ try {
         return response(200, "success", ["user" => json_encode(null)]);
     }
 
-    $response = getChefByEmailAndPassword($_POST['email'], $_POST['password']);
+    $response = getChefByEmail($_POST['email']);
 
     if (!$response)
-        return response(300, "error", ["error" => "No chef found!"]);
+        return response(300, "error", ["error" => "Email not found!"]);
+
+    if ($response["password"] != $_POST['password'])
+        return response(300, "error", ["error" => "Password not correct!"]);
 
     $_SESSION["id"] = $response["id"];
     $_SESSION["name"] = $response["name"];
-    $_SESSION["email"] = $response["email"];
+    $_SESSION["email"] = $_POST['email'];
 
     return response(200, "success", ["user" => json_encode($_SESSION)]);
 } catch (Exception $e) {
