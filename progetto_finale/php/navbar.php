@@ -37,7 +37,7 @@
                     <button class="input-icon" type="submit" id="button-search">
                         <i class="fa-solid fa-search fa-lg"></i>
                     </button>
-                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search" name="q">
+                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search Recipe" name="q">
                 </form>
             </li>
             <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
