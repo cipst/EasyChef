@@ -70,6 +70,10 @@ Recipes
     transition: var(--transition);
 }
 
+.ingredients-list a:hover {
+    color: var(--primary-500);
+}
+
 .tags-list a {
     text-transform: capitalize;
     display: block;
