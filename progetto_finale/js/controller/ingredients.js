@@ -39,6 +39,7 @@ const handleSubmit = (ingredientName) => {
         onSuccess: (response) => {
             alert(response.ok);
             new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            $("#add-ingredients-list").append(`<p>${capitalize(ingredientName)}</p><hr>`);
         },
         onError: (response) => {
             console.log(response);

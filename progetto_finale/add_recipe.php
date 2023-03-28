@@ -87,7 +87,7 @@ if (!isset($_SESSION["id"]))
                 <textarea name="procedure" id="procedure" class="form-textarea"></textarea>
                 <label id="procedure-error" class="label-error" for="procedure">Procedure is required</label>
             </div>
-            <button type="click" id="submit-add-recipe" class="btn btn-block">
+            <button type="click" id="submit-add-recipe" class="btn">
                 submit
             </button>
         </form>
