@@ -26,6 +26,7 @@ try {
     $_SESSION["id"] = $response["id"];
     $_SESSION["name"] = $response["name"];
     $_SESSION["email"] = $_POST['email'];
+    $_SESSION["role"] = $response["role"];
 
     return response(200, "success", ["user" => json_encode($_SESSION)]);
 } catch (Exception $e) {

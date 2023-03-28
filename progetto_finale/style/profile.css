@@ -1,0 +1,35 @@
+
+/*
+=============== 
+Profile Page
+===============
+*/
+
+.profile-page h2 {
+    text-transform: none;
+    font-weight: bold;
+  }
+  .profile-page {
+    display: grid;
+    gap: 2rem 4rem;
+    padding-bottom: 3rem;
+  }
+  .profile-img {
+    border-radius: var(--borderRadius);
+    /* height: 300px; */
+  }
+  
+  @media screen and (min-width: 992px) {
+    .profile-page {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 400px;
+      align-items: center;
+    }
+    .profile-img {
+      /* height: 100%; */
+    }
+  }
+  
+  .featured-title {
+    text-align: center;
+  }

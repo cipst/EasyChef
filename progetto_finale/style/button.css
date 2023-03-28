@@ -41,6 +41,16 @@ BUTTON
   color: #FFFFFF;
 }
 
+.btn.btn-error {
+  border: 2px solid var(--error-color);
+  background-color: var(--error-color);
+}
+
+.btn.btn-error:hover {
+  background-color: transparent;
+  color: var(--error-color);
+}
+
 .radio {
   text-transform: capitalize;
   padding: 0.375rem 0.75rem;

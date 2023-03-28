@@ -48,9 +48,9 @@ $(async () => {
 });
 
 /**
- * Handle the submit event of the form to add a new ingredient
+ * Handle the submit event of the form to add a new recipe
  * 
- * @param {String} ingredientName 
+ * @param {Object} recipe
  */
 const handleSubmit = ({ title, chef_id, procedure, portions, cooking_time, cooking_method, category, ingredients }) => {
     makeRequest({

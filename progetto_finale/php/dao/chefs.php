@@ -9,7 +9,7 @@
 function getAllChefs()
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, `name`, email FROM chef');
+    $stmt = $db->prepare('SELECT id, `name`, email, `role` FROM chef');
     $stmt->execute();
     return $stmt->fetchAll();
 }
@@ -17,7 +17,7 @@ function getAllChefs()
 function getChefById($id)
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT `name`, `email` FROM chef WHERE id = ?');
+    $stmt = $db->prepare('SELECT `name`, `email`, `role` FROM chef WHERE id = ?');
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
@@ -25,7 +25,7 @@ function getChefById($id)
 function getChefByEmail($email)
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, `name`, `password` FROM chef WHERE email = ?');
+    $stmt = $db->prepare('SELECT id, `name`, `password`, `role` FROM chef WHERE email = ?');
     $stmt->execute([$email]);
     return $stmt->fetch();
 }
@@ -33,7 +33,7 @@ function getChefByEmail($email)
 function getChefByEmailAndPassword($email, $password)
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, `name`, email FROM chef WHERE email = ? AND password = ?');
+    $stmt = $db->prepare('SELECT id, `name`, email, `role` FROM chef WHERE email = ? AND password = ?');
     $stmt->execute([$email, $password]);
     return $stmt->fetch();
 }
