@@ -115,10 +115,10 @@ Recipes
 .star-icon {
     float: left;
     color: white !important;
-    border: 1px solid var(--grey-500);
+    border: 1px solid var(--primary-500);
     border-radius: 10em;
     padding: .25em .5em;
-    background-color: var(--grey-500);
+    background-color: var(--primary-500);
 }
 
 .recipe p {

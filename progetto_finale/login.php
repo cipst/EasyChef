@@ -24,7 +24,7 @@ include_once("php/navbar.php");
             <p>You don't have an account? <br>
                 <a href="./sign_up.php">Register now</a>
             </p>
-            <button type="submit" id="login">Log In</button>
+            <button type="submit" id="login" class="btn">Log In</button>
         </form>
     </div>
     <div class="overlay-container">

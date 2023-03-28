@@ -11,19 +11,6 @@ nav {
     display: none;
 }
 
-button {
-    border-radius: 20px;
-    border: 1px solid var(--primary-500);
-    background-color: var(--primary-500);
-    color: #FFFFFF;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 45px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
-}
-
 form {
     background-color: #FFFFFF;
     display: flex;
