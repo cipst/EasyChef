@@ -2,6 +2,12 @@
 
 function checkData($post)
 {
+    if (!isset($post))
+        throw new Exception("Missing data!");
+
+    if (count($post) == 0)
+        throw new Exception("Missing data!");
+
     foreach ($post as $key => $value) {
         if (!isset($value))
             throw new Exception("Missing $key!");
@@ -26,7 +32,7 @@ function DBconnection()
     $dbconnstring = 'mysql:dbname=easychef;host=localhost:3306';
     $dbuser = 'root';
     $dbpasswd = '';
-    
+
     $db = new PDO($dbconnstring, $dbuser, $dbpasswd);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $db;

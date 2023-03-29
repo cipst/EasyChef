@@ -9,8 +9,9 @@ $(async () => {
     if (user?.name !== undefined) $("#profile-name").append(`<b>${user.name}</b>`);
     if (user?.email !== undefined) $("#profile-email").append(`<b>${user.email}</b>`);
 
-    // TODO: get all recipes liked by the user
     getRecipesByChefId(user?.id);
+
+    getRecipesLikedByChefId(user?.id);
 
     // TODO: add event listener to DELETE buttons
 
@@ -23,35 +24,69 @@ $(async () => {
  */
 const getRecipesByChefId = (chef_id) => {
     makeRequest({
-        type: "GET",
+        type: "POST",
         url: "./api/recipes/getByChefId.php",
-        body: {
-            "chef_id": chef_id,
+        data: {
+            chef_id: chef_id,
         },
         onSuccess: (response) => {
             const recipes = JSON.parse(response.recipes);
             console.log("RECIPES: ", recipes);
+
+            const className = "recipes-list";
             
-            appendRecipesList(recipes.entries(), chef_id);
+            appendRecipesList(recipes.entries(), chef_id, className);
 
             $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+                filterRecipes(recipes, $(e.target).val().trim(), chef_id, className);
             });
 
             let searchParams = new URLSearchParams(window.location.search);
             if (searchParams.has("q"))
-                filterRecipes(recipes, searchParams.get("q").trim(), chef_id);
+                filterRecipes(recipes, searchParams.get("q").trim(), chef_id, className);
         },
         onError: (response) => {
+            console.log(response);
             console.log(response.responseJSON);
             new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
         }
     });
 };
 
-const appendRecipesList = (recipes, chef_id) => {
+const getRecipesLikedByChefId = (chef_id) => {
+    makeRequest({
+        type: "POST",
+        url: "./api/recipes/getLikedByChefId.php",
+        data: {
+            chef_id: chef_id,
+        },
+        onSuccess: (response) => {
+            const recipes = JSON.parse(response.recipes);
+            console.log("RECIPES: ", recipes);
+            
+            const className = "liked-recipes-list";
+
+            appendRecipesList(recipes.entries(), chef_id, className);
+
+            $("#index-search").on("input", (e) => {
+                filterRecipes(recipes, $(e.target).val().trim(), chef_id, className);
+            });
+
+            let searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.has("q"))
+                filterRecipes(recipes, searchParams.get("q").trim(), chef_id, className);
+        },
+        onError: (response) => {
+            console.log(response);
+            console.log(response.responseJSON);
+            new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+        }
+    });
+}
+
+const appendRecipesList = (recipes, chef_id, className) => {
     for (const [index, recipe] of recipes) {
-        $(".recipes-list").append(`
+        $(`.${className}`).append(`
             <div class="recipe" title="${recipe.title} - ${recipe.category}" key="${index}">
                 <a href="single_recipe.php?id=${recipe.id}" class="recipe-link" id="recipe_${recipe.id}">
                     <img src="./assets/images/recipes/${recipe.category}.jpg" class="img recipe-img" alt="${recipe.category}" />
@@ -71,7 +106,7 @@ const appendRecipesList = (recipes, chef_id) => {
     }
 };
 
-const filterRecipes = (recipes, value, chef_id) => {
+const filterRecipes = (recipes, value, chef_id, className) => {
     const recipesFiltered = recipes.filter(recipe => recipe.title.toLowerCase().includes(value.toLowerCase()) ||
         recipe.category.toLowerCase().includes(value.toLowerCase()) ||
         recipe.cooking_method.toLowerCase().includes(value.toLowerCase()) ||
@@ -80,12 +115,12 @@ const filterRecipes = (recipes, value, chef_id) => {
         recipe.portions.toString().includes(value)
     );
 
-    $(".recipes-list div").remove(); // remove all recipes from the list
+    $(`.${className} div`).remove(); // remove all recipes from the list
 
-    $(".content").animate({ scrollTop: $('.recipes-list').offset().top - 100 }, 1000);
+    $(".content").animate({ scrollTop: $(`.${className}`).offset().top - 100 }, 1000);
 
     // append the filtered recipes
-    appendRecipesList(recipesFiltered.entries(), chef_id);
+    appendRecipesList(recipesFiltered.entries(), chef_id, className);
 };
 
 /**

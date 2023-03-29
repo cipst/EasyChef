@@ -31,16 +31,12 @@ include_once("php/top.php");
 <section class="featured-recipes">
     <h3 class="featured-title">My recipes:</h3>
     <div class="recipes-list">
-        <!-- TODO: inserire lista di ricette basandosi sull'id chef-->
-        <!-- single recipe -->
-        <a href="single-recipe.html" class="recipe">
-            <img src="./assets/images/recipes/pasta.jpg" class="img recipe-img" alt="" />
-            <h5>Pasta con le sarde</h5>
-            <p>Portions : 2 | Cook : 35min</p>
-            </br>
-            <btn class="btn btn-error" id="deleterecipe">Delete Recipe</btn>
-        </a>
-        <!-- end of single recipe -->
+    </div>
+</section>
+
+<section class="liked-recipes">
+    <h3 class="liked-title">Recipes liked:</h3>
+    <div class="liked-recipes-list">
     </div>
 </section>
 

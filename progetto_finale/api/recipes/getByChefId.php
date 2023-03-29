@@ -6,8 +6,9 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
     return response(300, "error", ["error" => "Invalid request method!"]);
 
 try {
+    checkData($_POST);
+
     $recipe = getRecipesByChefId($_POST["chef_id"]);
-    // $recipe = getAllRecipes();
 
     if (!$recipe)
         return response(300, "error", ["error" => "No recipes found!"]);
