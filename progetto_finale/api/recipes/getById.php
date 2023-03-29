@@ -21,6 +21,7 @@ try {
 
     $recipe["id"] = $id;
     $recipe["chef"] = $chef["name"];
+    $recipe["chef_id"] = $response["chef_id"];
     $recipe["title"] = $response["title"];
     $recipe["procedure"] = $response["procedure"];
     $recipe["category"] = $response["category"];
