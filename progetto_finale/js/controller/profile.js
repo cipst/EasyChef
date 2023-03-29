@@ -10,7 +10,7 @@ $(async () => {
     if (user?.email !== undefined) $("#profile-email").append(`<b>${user.email}</b>`);
 
     // TODO: get all recipes liked by the user
-    getAllRecipes(user?.id);
+    getRecipesByChefId(user?.id);
 
     // TODO: add event listener to DELETE buttons
 
@@ -21,10 +21,13 @@ $(async () => {
  * 
  * @param {int} chef_id the chef id of the current user
  */
-const getAllRecipes = (chef_id) => {
+const getRecipesByChefId = (chef_id) => {
     makeRequest({
         type: "GET",
-        url: "./api/recipes/getAll.php",
+        url: "./api/recipes/getByChefId.php",
+        body: {
+            "chef_id": chef_id,
+        },
         onSuccess: (response) => {
             const recipes = JSON.parse(response.recipes);
             console.log("RECIPES: ", recipes);

@@ -76,6 +76,20 @@ function getRecipesByCookingMethod($cooking_method)
     return $stmt->fetchAll();
 }
 
+function getRecipesByChefId($chef_id){
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT * FROM recipe WHERE chef_id = ?');
+    $stmt->execute([$chef_id]);
+    return $stmt->fetchAll();
+}
+
+function getRecipesLikedByChefId($chef_id){
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT * FROM recipe WHERE id IN (SELECT recipe FROM likes WHERE chef = ?)');
+    $stmt->execute([$chef_id]);
+    return $stmt->fetchAll();
+}
+
 function deleteRecipe($id)
 {
     $db = DBconnection();
