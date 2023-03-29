@@ -34,21 +34,22 @@ const getRecipesByChefId = (chef_id) => {
             console.log("RECIPES: ", recipes);
 
             const className = "recipes-list";
-            
+
             appendRecipesList(recipes.entries(), chef_id, className);
 
-            $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id, className);
+            $("#index-search").on("click", (e) => {
+                $(".content").animate({ scrollTop: $(`.${className}`).offset().top - 200 }, 1000);
             });
 
-            let searchParams = new URLSearchParams(window.location.search);
-            if (searchParams.has("q"))
-                filterRecipes(recipes, searchParams.get("q").trim(), chef_id, className);
+            handleSearch(recipes, chef_id, className);
         },
         onError: (response) => {
             console.log(response);
             console.log(response.responseJSON);
-            new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            if (response.responseJSON.status == RESPONSE_STATUS.OK)
+                $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+            else
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
         }
     });
 };
@@ -63,25 +64,33 @@ const getRecipesLikedByChefId = (chef_id) => {
         onSuccess: (response) => {
             const recipes = JSON.parse(response.recipes);
             console.log("RECIPES: ", recipes);
-            
+
             const className = "liked-recipes-list";
 
             appendRecipesList(recipes.entries(), chef_id, className);
 
-            $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id, className);
-            });
+            handleSearch(recipes, chef_id, className);
 
-            let searchParams = new URLSearchParams(window.location.search);
-            if (searchParams.has("q"))
-                filterRecipes(recipes, searchParams.get("q").trim(), chef_id, className);
         },
         onError: (response) => {
             console.log(response);
             console.log(response.responseJSON);
-            new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            if (response.responseJSON.status == RESPONSE_STATUS.OK)
+                $(".liked-recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+            else
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
         }
     });
+}
+
+const handleSearch = (recipes, chef_id, className) => {
+    $("#index-search").on("input", (e) => {
+        filterRecipes(recipes, $(e.target).val().trim(), chef_id, className);
+    });
+
+    let searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has("q"))
+        filterRecipes(recipes, searchParams.get("q").trim(), chef_id, className);
 }
 
 const appendRecipesList = (recipes, chef_id, className) => {
@@ -94,9 +103,10 @@ const appendRecipesList = (recipes, chef_id, className) => {
                     <p>Portions : ${recipe.portions} | Cook : ${recipe.cooking_time} min</p>
                 </a>
                 <h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>
-                <br/>
-                <br/>
-                <button class="btn btn-error" id="deleterecipe_${recipe.id}">Delete Recipe</button>
+                ${chef_id === recipe.chef_id
+                ? `<br/><br/>
+                <button class="btn btn-error" id="deleterecipe_${recipe.id}">Delete Recipe</button>`
+                : ""}
             </div>`
         );
 
@@ -116,8 +126,6 @@ const filterRecipes = (recipes, value, chef_id, className) => {
     );
 
     $(`.${className} div`).remove(); // remove all recipes from the list
-
-    $(".content").animate({ scrollTop: $(`.${className}`).offset().top - 100 }, 1000);
 
     // append the filtered recipes
     appendRecipesList(recipesFiltered.entries(), chef_id, className);

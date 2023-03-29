@@ -34,8 +34,8 @@ include_once("php/top.php");
     </div>
 </section>
 
-<section class="liked-recipes">
-    <h3 class="liked-title">Recipes liked:</h3>
+<section class="featured-recipes">
+    <h3 class="featured-title">Recipes liked:</h3>
     <div class="liked-recipes-list">
     </div>
 </section>
