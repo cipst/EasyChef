@@ -8,6 +8,10 @@ $(async () => {
 
     if (user?.name !== undefined) $("#chefName").append(`<b>${user.name}</b>`);
 
+    $("#index-search").on("click", (e) => {
+        $(".content").animate({ scrollTop: $('.recipes-list').offset().top - 100 }, 1000);
+    });
+
     // if the current recipe is the one shown in the single recipe page, show the title and the description
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has("id"))
@@ -169,7 +173,7 @@ const getRecipesByIngredient = (ingredient, chef_id) => {
             $(".featured-recipes h3").append(capitalize(ingredient));
 
             appendRecipesList(recipes.entries(), chef_id);
-
+            
             $("#index-search").on("input", (e) => {
                 filterRecipes(recipes, $(e.target).val().trim(), chef_id);
             });
@@ -300,8 +304,6 @@ const filterRecipes = (recipes, value, chef_id) => {
     );
 
     $(".recipes-list div").remove(); // remove all recipes from the list
-
-    $(".content").animate({ scrollTop: $('.recipes-list').offset().top - 100 }, 1000);
 
     // append the filtered recipes
     appendRecipesList(recipesFiltered.entries(), chef_id);

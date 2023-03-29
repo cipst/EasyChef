@@ -33,7 +33,7 @@
             }
             ?>
             <li id="search">
-                <form id="nav-search" action="index.php">
+                <form id="nav-search">
                     <button class="input-icon" type="submit" id="button-search">
                         <i class="fa-solid fa-search fa-lg"></i>
                     </button>
