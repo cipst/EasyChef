@@ -47,7 +47,7 @@ include_once("php/top.php");
             <h3>instructions</h3>
             <p id="recipe-procedure">
             </p>
-            <btn class="btn" id="like_btn"></btn>
+            <button class="btn" id="like_btn"></button>
         </article>
         <article class="second-column">
             <div>

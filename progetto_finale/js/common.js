@@ -51,3 +51,20 @@ export const userLogged = async () => {
         return JSON.parse(response.user);
     });
 };
+
+export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
+    `<div class="recipe" id="recipe_${recipe.id}" title="${recipe.title} - ${recipe.category}" key="${recipe.title.toLowerCase()}_${recipe.category.toLowerCase()}">
+    <a href="single_recipe.php?id=${recipe.id}" class="recipe-link" id="recipe_${recipe.id}">
+        <img src="./assets/images/recipes/${recipe.category}.jpg" class="img recipe-img" alt="${recipe.category}" />
+        <h5>${recipe.title}</h5>
+        <p>Portions : ${recipe.portions} | Cook : ${recipe.cooking_time} min</p>
+    </a>
+    ${chef_id !== recipe.chef_id ?
+        `<h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>`
+        : ""
+    }
+    ${inProfile && chef_id === recipe.chef_id
+        ? `<br/><br/>
+    <button class="btn btn-error" id="deleterecipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
+        : ""}
+</div>`;

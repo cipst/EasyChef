@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { makeRequest, capitalize, isValid, userLogged } from "../common.js";
+import { makeRequest, capitalize, isValid, userLogged, createRecipeCard } from "../common.js";
 import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
 
 $(async () => {
@@ -119,7 +119,15 @@ const getRecipeById = (id, chef_id) => {
                 $("#recipe-ingredients").append(`<p class="single-ingredient">${capitalize(ingredient)}</p>`);
             };
 
-            recipe.likes.includes(`${chef_id}`) ? $("#like_btn").html("Unlike recipe") : $("#like_btn").html("Like recipe");
+            $("#like_btn").css({ "display": chef_id === recipe.chef_id ? "none" : "block" });
+            if (recipe.likes.includes(`${chef_id}`)) {
+                $("#like_btn").html("Unlike recipe");
+                $("#like_btn").addClass("btn-warning");
+            } else {
+                $("#like_btn").html("Like recipe");
+                $("#like_btn").addClass("btn-success");
+            }
+
             $("#like_btn").on("click", () => handleLike(recipe, chef_id));
         },
         onError: (response) => {
@@ -173,7 +181,7 @@ const getRecipesByIngredient = (ingredient, chef_id) => {
             $(".featured-recipes h3").append(capitalize(ingredient));
 
             appendRecipesList(recipes.entries(), chef_id);
-            
+
             $("#index-search").on("input", (e) => {
                 filterRecipes(recipes, $(e.target).val().trim(), chef_id);
             });
@@ -231,7 +239,6 @@ const checkLiked = (recipe, chef_id) => {
         : $(`#like_recipe_${recipe.id}`).html(`<i class="far fa-star"></i> ${recipe.likes.length}`);
 };
 
-
 /**
  * Handle the like of a recipe
  * This function make a request to the server to like or unlike a recipe
@@ -269,6 +276,12 @@ const handleLike = (recipe, chef_id) => {
                 newText = "Like recipe";
             }
 
+            if (!$("#like_btn").hasClass("btn-warning")) $("#like_btn").addClass("btn-warning");
+            else $("#like_btn").removeClass("btn-warning");
+
+            if (!$("#like_btn").hasClass("btn-success")) $("#like_btn").addClass("btn-success");
+            else $("#like_btn").removeClass("btn-success");
+
             $("#like_btn").html(newText);
             $(`#like_recipe_${recipe.id}`).html(`<i class="${newClass} fa-star"></i> ${recipe.likes.length}`);
         }
@@ -277,16 +290,7 @@ const handleLike = (recipe, chef_id) => {
 
 const appendRecipesList = (recipes, chef_id) => {
     for (const [index, recipe] of recipes) {
-        $(".recipes-list").append(`
-            <div class="recipe" title="${recipe.title} - ${recipe.category}" key="${index}">
-                <a href="single_recipe.php?id=${recipe.id}" class="recipe-link" id="recipe_${recipe.id}">
-                    <img src="./assets/images/recipes/${recipe.category}.jpg" class="img recipe-img" alt="${recipe.category}" />
-                    <h5>${recipe.title}</h5>
-                    <p>Portions : ${recipe.portions} | Cook : ${recipe.cooking_time} min</p>
-                </a>
-                <h5 class="star-icon" id="like_recipe_${recipe.id}"></h5>
-            </div>`
-        );
+        $(".recipes-list").append(createRecipeCard(recipe, chef_id));
 
         checkLiked(recipe, chef_id);
 
