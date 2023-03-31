@@ -17,14 +17,10 @@ function checkData($post)
     }
 }
 
-function response(int $code, string $status, $data = null)
+function response(int $code, $data = null)
 {
     http_response_code($code);
-    $response = [
-        "status" => $status,
-    ];
-    $response = array_merge($response, $data);
-    return print(json_encode($response));
+    return print(json_encode($data));
 }
 
 function DBconnection()

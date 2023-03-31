@@ -3,13 +3,13 @@ require_once("../../php/common.php");
 require_once("../../php/dao/recipes.php");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
-    return response(300, "error", ["error" => "Invalid request method!"]);
+    return response(300, ["error" => "Invalid request method!"]);
 
 try {
     $recipe = getAllRecipes();
 
     if (!$recipe)
-        return response(300, "error", ["error" => "No recipes found!"]);
+        return response(300, ["error" => "No recipes found!"]);
 
     $recipes = array();
     foreach ($recipe as $index => $recipe) {
@@ -30,9 +30,9 @@ try {
         $recipes[$index]["likes"] = $likes;
     }
 
-    return response(200, "success", ["recipes" => json_encode($recipes)]);
+    return response(200, ["recipes" => json_encode($recipes)]);
 } catch (Exception $e) {
-    return response(300, "error", ["error" => $e->getMessage()]);
+    return response(300, ["error" => $e->getMessage()]);
 } catch (Error $e) {
-    return response(500, "error", ["error" => $e->getMessage()]);
+    return response(500, ["error" => $e->getMessage()]);
 }
