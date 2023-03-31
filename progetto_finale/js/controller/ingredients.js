@@ -37,7 +37,6 @@ const handleSubmit = (ingredientName) => {
         url: "./api/ingredients/create.php",
         data: { name: ingredientName.toLowerCase() },
         onSuccess: (response) => {
-            alert(response.ok);
             new Alert(ALERT_TYPE.SUCCESS, response.ok);
             $("#add-ingredients-list").append(`<p>${capitalize(ingredientName)}</p><hr>`);
         },
