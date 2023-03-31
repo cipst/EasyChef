@@ -7,15 +7,6 @@ $(async () => {
 
     $("footer #year").text(new Date().getFullYear());
 
-    $("#alert i.close").on("click", (e) => {
-        $("#alert").fadeOut(200, () => {
-            $("#alert .alert-icon").removeClass(alert.icon);
-            $("#alert .alert-message").text("");
-        });
-        $("#mask").fadeOut(200);
-        e.preventDefault();
-    });
-
     $("#mask").on("click", (e) => {
         $("#alert").fadeOut(200, () => {
             $("#alert .alert-icon").removeClass(alert.icon);
@@ -38,8 +29,6 @@ $(async () => {
         $("nav #expanded").slideDown(500).css({ "display": "grid" });
         $("nav #collapsed").slideUp(500);
     });
-
-    // let alert = new Alert(ALERT_TYPE.ERROR, "Error", "This is an error message");
 
     $(".content").on("scroll", () => {
         if ($(".content").scrollTop() > 0) {

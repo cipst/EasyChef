@@ -29,13 +29,13 @@ export class Alert {
         this.#icon = ALERT_ICON[type.toUpperCase()];
 
         this.showAlert();
+
+        $("#alert i.close").on("click", this.closeAlert);
     }
 
     showAlert() {
         $("#alert").css("border-color", `var(--${this.#type.toLowerCase()}-color)`); //changing border color
         $("#alert .alert-heading").css("color", `var(--${this.#type.toLowerCase()}-color)`); //changing heading color
-
-        // $("#alert .alert-message *").remove(); //removing all previuos messages
 
         $("#alert .alert-icon").addClass(this.#icon); //adding icon
         $("#alert .alert-title").text(this.#title); //adding title
@@ -44,6 +44,15 @@ export class Alert {
         $("#alert").fadeIn(500);
         $("#alert").show();
         $("#mask").show();
+    }
+
+    closeAlert = (e) => {
+        $("#alert").fadeOut(200, () => {
+            $("#alert .alert-icon").removeClass(this.#icon);
+            $("#alert .alert-message").text("");
+        });
+        $("#mask").fadeOut(200);
+        e.preventDefault();
     }
 
     get title() {
