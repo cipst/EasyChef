@@ -15,7 +15,7 @@ include_once("php/navbar.php");
 <title>Sign Up</title>
 <script type="module" src="js/controller/auth.js"></script>
 
-<div class="container" id="container">
+<section class="container" id="container">
     <div class="overlay-container">
         <div class="overlay signup">
             <div class="overlay-panel overlay-left">
@@ -37,7 +37,7 @@ include_once("php/navbar.php");
             <button type="submit" class="btn">Sign Up</button>
         </form>
     </div>
-</div>
+</section>
 
 
 <?php

@@ -15,7 +15,7 @@ include_once("php/navbar.php");
 <title>Login</title>
 <script type="module" src="js/controller/auth.js"></script>
 
-<div class="container" id="container">
+<section class="container" id="container">
     <div class="form-container log-in-container">
         <form id="login">
             <h1>Login</h1>
@@ -36,7 +36,7 @@ include_once("php/navbar.php");
             </div>
         </div>
     </div>
-</div>
+</section>
 
 
 <?php

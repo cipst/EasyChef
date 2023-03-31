@@ -73,7 +73,7 @@ input {
     left: 50%;
     width: 50%;
     height: 100%;
-    cursor: pointer;
+    cursor: default;
 }
 
 .overlay {

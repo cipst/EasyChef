@@ -6,10 +6,6 @@ $(async () => {
     testLogin();
     testLogin("minnie");
 
-    $(".overlay-container").on("click", (_) => {
-        window.location.href = "./index.php";
-    });
-
     $(".form-container form#login").on("submit", (e) => {
         e.preventDefault();
 
@@ -27,24 +23,18 @@ $(async () => {
                 url: "./api/auth/user.php",
                 data: { email: email, password: digest },
                 onSuccess: (response) => {
-                    const { status } = response;
-                    switch (status) {
-                        case RESPONSE_STATUS.REDIRECT:
-                            // window.location.href = response.link;
-                            break;
-
-                        case RESPONSE_STATUS.OK:
-                            const user = JSON.parse(response.user);
-                            console.log(user);
-                            if (user === null)
-                                alert(`${email} LOGGED OUT`);
-                            else
-                                alert(`${email} LOGGED IN`);
+                    const user = JSON.parse(response.user);
+                    console.log(user);
+                    if (user === null) {
+                        new Alert(ALERT_TYPE.SUCCESS, "You have been logged out");
+                        setTimeout(() => {
+                            window.location.href = "./login.php";
+                        }, 2000);
+                    } else {
+                        new Alert(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
+                        setTimeout(() => {
                             window.location.href = "./index.php";
-                            break;
-
-                        default:
-                            break;
+                        }, 2000);
                     }
                 },
                 onError: (response) => {
@@ -83,21 +73,10 @@ $(async () => {
                 url: "./api/chefs/create.php",
                 data: { name: name, email: email, password: digest },
                 onSuccess: (response) => {
-                    const { status } = response;
-                    switch (status) {
-                        case RESPONSE_STATUS.REDIRECT:
-                            // window.location.href = response.link;
-                            break;
-
-                        case RESPONSE_STATUS.OK:
-                            console.log(response);
-                            alert(response.ok);
-                            window.location.href = "./index.php";
-                            break;
-
-                        default:
-                            break;
-                    }
+                    console.log(response);
+                    alert(response.ok);
+                    new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                    window.location.href = "./index.php";
                 },
                 onError: (response) => {
                     console.log("ERROR", response);
@@ -133,10 +112,6 @@ function testLogin(who = "topolino") {
                 onSuccess: (response) => {
                     const { status } = response;
                     switch (status) {
-                        case RESPONSE_STATUS.REDIRECT:
-                            // window.location.href = response.link;
-                            break;
-
                         case RESPONSE_STATUS.OK:
                             const user = JSON.parse(response.user);
                             console.log(user);
