@@ -1,4 +1,8 @@
-<?php include_once("php/top.php"); ?>
+<?php include_once("php/top.php");
+
+if (!isset($_SESSION["id"]))
+    header("Location: login.php");
+?>
 <title>EasyChef</title>
 <script type="module" src="js/controller/auth.js"></script>
 <script type="module" src="js/controller/recipes.js"></script>

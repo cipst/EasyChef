@@ -2,6 +2,9 @@
 include_once("php/dao/recipes.php");
 include_once("php/dao/chefs.php");
 include_once("php/top.php");
+
+if (!isset($_SESSION["id"]))
+    header("Location: login.php");
 ?>
 <title>Recipe</title>
 <script type="module" src="js/controller/recipes.js"></script>

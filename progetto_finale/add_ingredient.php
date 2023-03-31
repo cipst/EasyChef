@@ -2,7 +2,7 @@
 include_once("php/top.php");
 
 if (!isset($_SESSION["id"]))
-    header("Location: index.php");
+    header("Location: login.php");
 
 ?>
 <title>Add Ingredient</title>
