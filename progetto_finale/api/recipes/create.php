@@ -5,7 +5,9 @@ require_once("../../php/dao/recipes.php");
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
     return response(300, ["error" => "Invalid request method!"]);
 
-if(!isset($_SESSION["role"]) || $_SESSION["role"] != "USER")
+session_start();
+
+if (!isset($_SESSION["role"]) || $_SESSION["role"] != "USER")
     return response(401, ["error" => "Unauthorized request!"]);
 
 try {
