@@ -54,21 +54,27 @@ nav #expanded #logo {
     grid-column: 1/3;
 }
 
-nav #expanded #add-recipe {
+nav #expanded #add-recipe,
+nav #expanded #admin-dashboard {
     grid-column: 3/5;
+    margin: 0 1em;
 }
 
-nav #expanded #add-ingredient {
-    grid-column: 5/6;
+nav #expanded #add-ingredient,
+nav #expanded #admin-control-panel {
+    grid-column: 5/7;
+    margin: 0 1em;
 }
 
 nav #expanded #search {
     grid-column: 7/11;
+    margin: 0 2em;
 }
 
 nav #expanded #login,
 nav #expanded #profile {
-    grid-column: 12/13;
+    grid-column: 11/13;
+    margin: 0 3em;
 }
 
 nav #expanded #nav-search {
@@ -79,8 +85,7 @@ nav #expanded #nav-search {
     align-items: center;
     flex-direction: row;
     border: 1px solid var(--primary-500);
-    border-radius: .3em;
-    height: 2.3em;
+    border-radius: 25px;
 }
 
 .input-with-icon {
@@ -91,19 +96,22 @@ nav #expanded #nav-search {
 .input-icon {
     color: var(--white);
     background-color: var(--primary-500);
-    padding: 0 .5em;
+    padding: 1.5em 1em;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
+    border-radius: 100% 0 0 100%;
 }
 
 nav #expanded #nav-search input {
-    border-radius: 0 .3em .3em 0;
+    border-radius: 0 25px 25px 0;
     height: 2em;
     padding-left: 1em;
     width: 100%;
+    height: 2.5em;
+    outline: none;
 }
 
 nav #expanded #nav-search input:focus,
@@ -123,7 +131,8 @@ nav #expanded #nav-search button ion-icon {
         grid-column: 6/10;
     }
 
-    nav #expanded #add-recipe {
+    nav #expanded #add-recipe,
+    nav #expanded #admin-dashboard {
         grid-column: 4/6;
     }
 }
@@ -134,11 +143,13 @@ nav #expanded #nav-search button ion-icon {
         grid-column: 7/11;
     }
 
-    nav #expanded #add-recipe {
+    nav #expanded #add-recipe,
+    nav #expanded #admin-dashboard {
         grid-column: 3/5;
     }
 
-    nav #expanded #add-ingredient {
+    nav #expanded #add-ingredient,
+    nav #expanded #admin-control-panel {
         grid-column: 5/7;
     }
 }
@@ -193,12 +204,14 @@ nav #expanded #nav-search button ion-icon {
         padding: 0 2em;
     }
 
-    nav #expanded #add-recipe {
+    nav #expanded #add-recipe,
+    nav #expanded #admin-dashboard {
         grid-column: 1;
         grid-row: 2/3;
     }
 
-    nav #expanded #add-ingredient {
+    nav #expanded #add-ingredient,
+    nav #expanded #admin-control-panel {
         grid-column: 1;
         grid-row: 3/4;
     }

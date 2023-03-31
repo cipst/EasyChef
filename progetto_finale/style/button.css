@@ -4,13 +4,18 @@ BUTTON
 ===============
 */
 .btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 6px;
   border-radius: 20px;
   border: 2px solid var(--primary-500);
   background-color: var(--primary-500);
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;
-  padding: 10px 45px;
+  padding: 10px 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in, background-color 0.15s ease-in-out;
@@ -44,6 +49,7 @@ BUTTON
 .btn.btn-error {
   border: 2px solid var(--error-color);
   background-color: var(--error-color);
+  padding: 10px 45px;
 }
 
 .btn.btn-error:hover {
@@ -51,9 +57,29 @@ BUTTON
   color: var(--error-color);
 }
 
+.btn.btn-error-outline {
+  border-radius: 20px;
+  border: 2px solid var(--error-color);
+  background-color: transparent;
+  color: var(--error-color);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in, background-color 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn.btn-error-outline:hover{
+  background-color: var(--error-color);
+  color: #FFFFFF;
+}
+
 .btn.btn-success {
   border: 2px solid var(--success-color);
   background-color: var(--success-color);
+  padding: 10px 45px;
 }
 
 .btn.btn-success:hover {

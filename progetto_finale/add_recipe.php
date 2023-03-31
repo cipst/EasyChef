@@ -79,7 +79,6 @@ if (!isset($_SESSION["id"]))
                 </div>
                 <label id="ingredients-error" class="label-error" for="ingredients">Ingredients are required</label>
                 </br>
-                <!-- <a href="add_ingredient.html"> If not present add new ingredient </a> -->
             </div>
             </br>
             <div class="form-row">
@@ -87,7 +86,7 @@ if (!isset($_SESSION["id"]))
                 <textarea name="procedure" id="procedure" class="form-textarea"></textarea>
                 <label id="procedure-error" class="label-error" for="procedure">Procedure is required</label>
             </div>
-            <button type="click" id="submit-add-recipe" class="btn">
+            <button type="click" id="submit-add-recipe" class="btn btn-success">
                 submit
             </button>
         </form>

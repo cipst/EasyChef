@@ -15,8 +15,9 @@ if (!isset($_SESSION["id"]))
 <section class="profile-page">
     <article>
         <h2>Personal Chef profile</h2>
-        <h3 id="profile-name"></h3>
-        <h4 id="profile-email"></h4>
+        <h1 id="profile-name"></h1>
+        <h3 id="profile-email"></h3>
+        <button class="btn btn-error">Logout <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i></button>
     </article>
     <figure>
         <img src="./assets/images/chef.jpg" alt="Chef Image" class="img profile-img" style="height: 300px" />
@@ -32,13 +33,13 @@ if (!isset($_SESSION["id"]))
 </section>
 
 <section class="featured-recipes">
-    <h3 class="featured-title">My recipes:</h3>
+    <h2 class="featured-title">My recipes</h2>
     <div class="recipes-list">
     </div>
 </section>
 
 <section class="featured-recipes">
-    <h3 class="featured-title">Recipes liked:</h3>
+    <h2 class="featured-title">Recipes liked</h2>
     <div class="liked-recipes-list">
     </div>
 </section>

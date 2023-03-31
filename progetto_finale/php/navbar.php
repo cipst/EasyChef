@@ -25,10 +25,19 @@
                 </a>
             </li>
             <?php
-            if (isset($_SESSION["id"])) {
+            if (isset($_SESSION["id"]) && $_SESSION["role"] == "USER") {
                 ?>
-                <li id="add-recipe"><a href="add_recipe.php">Add Recipe</a></li>
-                <li id="add-ingredient"><a href="add_ingredient.php">Add Ingredient</a></li>
+                <li id="add-recipe"><a class="btn" href="add_recipe.php">Add Recipe <i class="fas fa-receipt fa-xl"></i>
+                    </a></li>
+                <li id="add-ingredient"><a class="btn" href="add_ingredient.php">Add Ingredient <i
+                            class="fas fa-wheat-awn fa-xl"></i></a></li>
+                <?php
+            }
+            if (isset($_SESSION["id"]) && $_SESSION["role"] == "ADMIN") {
+                ?>
+                <li id="admin-dashboard"><a class="btn" href="dashboard.php">Dashboard <i
+                            class="fa-solid fa-magnifying-glass-chart fa-xl"></i></a></li>
+                <li id="admin-control-panel"><a class="btn" href="control_panel.php">Control Panel</a></li>
                 <?php
             }
             ?>
@@ -40,19 +49,8 @@
                     <input type="text" class="input-with-icon" id="index-search" placeholder="Search Recipe" name="q">
                 </form>
             </li>
-            <!-- LOGIN or PROFILE (depends if the user is logged in or not) -->
-            <?php
-            if (isset($_SESSION['id'])) {
-                ?>
-                <li id="profile"><a href="profile.php">Profile</a></li>
-                <?php
-            } else {
-                ?>
-                <li id="login"><a href="login.php">Login</a></li>
-                <?php
-            }
-            ?>
-
+            <li id="profile"><a class="btn btn-outline" href="profile.php">Profile <i class="far fa-user fa-xl"></i></a>
+            </li>
         </ul>
         <ul id="collapsed">
             <i class="open fa-solid fa-bars fa-2xl"></i>

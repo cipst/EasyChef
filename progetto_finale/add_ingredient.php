@@ -26,7 +26,7 @@ if (!isset($_SESSION["id"]))
 
             </br>
 
-            <button type="button" id="addIngredient" class="btn">
+            <button type="button" id="addIngredient" class="btn btn-success">
                 submit
             </button>
         </form>

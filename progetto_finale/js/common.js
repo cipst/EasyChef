@@ -65,7 +65,7 @@ export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
     }
     ${inProfile && chef_id === recipe.chef_id
         ? `<br/>
-    <button class="btn btn-error" id="deleterecipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
+    <button class="btn btn-error-outline" id="deleterecipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
         : ""}
 </div>`;
 
