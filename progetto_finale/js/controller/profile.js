@@ -1,6 +1,6 @@
 import { Alert } from "../alert.js";
-import { makeRequest, capitalize, isValid, userLogged, createRecipeCard } from "../common.js";
-import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
+import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard } from "../common.js";
+import { ALERT_TYPE } from "../constants.js";
 
 $(async () => {
 
@@ -46,10 +46,7 @@ const getRecipesByChefId = (chef_id) => {
         onError: (response) => {
             console.log(response);
             console.log(response.responseJSON);
-            if (response.responseJSON.status == RESPONSE_STATUS.OK)
-                $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
-            else
-                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
         }
     });
 };
@@ -75,10 +72,7 @@ const getRecipesLikedByChefId = (chef_id) => {
         onError: (response) => {
             console.log(response);
             console.log(response.responseJSON);
-            if (response.responseJSON.status == RESPONSE_STATUS.OK)
-                $(".liked-recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
-            else
-                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            $(".liked-recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
         }
     });
 }
@@ -96,9 +90,9 @@ const handleSearch = (recipes, chef_id, className) => {
 const appendRecipesList = (recipes, chef_id, className) => {
     for (const [index, recipe] of recipes) {
         console.log("RECIPE: ", recipe.id);
-        $(`.${className}`).append(createRecipeCard(recipe, chef_id));
+        $(`.${className}`).append(createRecipeCard(recipe, chef_id, true));
 
-        checkLiked(recipe, chef_id);
+        addLikeToRecipeCard(recipe, chef_id);
 
         $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe, chef_id));
     }
@@ -165,21 +159,10 @@ const handleLike = (recipe, chef_id) => {
 
             $("#like_btn").html(newText);
             $(`#like_recipe_${recipe.id}`).html(`<i class="${newClass} fa-star"></i> ${recipe.likes.length}`);
+        },
+        onError: (response) => {
+            console.log(response.responseJSON);
+            new Alert(ALERT_TYPE.ERROR, response.responseJSON.error);
         }
     });
 };
-
-/**
- * Check if the recipe is liked by the current chef
- * If the recipe is liked, the star will be filled
- * If the recipe is not liked, the star will be empty
- * 
- * @param {Object} recipe
- */
-const checkLiked = (recipe, chef_id) => {
-    recipe.likes.includes(`${chef_id}`)
-        ? $(`#like_recipe_${recipe.id}`).html(`<i class="fas fa-star"></i> ${recipe.likes.length}`)
-        : $(`#like_recipe_${recipe.id}`).html(`<i class="far fa-star"></i> ${recipe.likes.length}`);
-};
-
-

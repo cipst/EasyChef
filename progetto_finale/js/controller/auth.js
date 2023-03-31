@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { ALERT_TYPE, RESPONSE_STATUS } from "../constants.js";
+import { ALERT_TYPE } from "../constants.js";
 import { makeRequest } from "../common.js";
 
 $(async () => {
@@ -110,20 +110,12 @@ function testLogin(who = "topolino") {
                 url: "./api/auth/user.php",
                 data: { email: `${who}@gmail.com`, password: digest },
                 onSuccess: (response) => {
-                    const { status } = response;
-                    switch (status) {
-                        case RESPONSE_STATUS.OK:
-                            const user = JSON.parse(response.user);
-                            console.log(user);
-                            if (user === null)
-                                alert(`${who} LOGGED OUT`);
-                            else
-                                alert(`${who} LOGGED IN`);
-                            break;
-
-                        default:
-                            break;
-                    }
+                    const user = JSON.parse(response.user);
+                    console.log(user);
+                    if (user === null)
+                        alert(`${who} LOGGED OUT`);
+                    else
+                        alert(`${who} LOGGED IN`);
                 },
                 onError: (response) => {
                     console.log("ERROR", response);

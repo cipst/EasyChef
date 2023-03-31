@@ -64,7 +64,17 @@ export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
         : ""
     }
     ${inProfile && chef_id === recipe.chef_id
-        ? `<br/><br/>
+        ? `<br/>
     <button class="btn btn-error" id="deleterecipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
         : ""}
 </div>`;
+
+/**
+* Check if the recipe is liked by the current chef
+* If the recipe is liked, the star will be filled
+* If the recipe is not liked, the star will be empty
+* 
+* @param {Object} recipe
+*/
+export const addLikeToRecipeCard = (recipe, chef_id) =>
+    $(`#like_recipe_${recipe.id}`).html(`<i class="${recipe.likes.includes(chef_id) ? "fas fa-star" : "far fa-star"}"></i> ${recipe.likes.length}`);
