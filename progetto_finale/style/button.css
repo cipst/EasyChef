@@ -22,9 +22,11 @@ BUTTON
   cursor: pointer;
 }
 
-.btn:hover {
+.btn:hover,
+.btn.active:hover {
   background-color: transparent;
   color: var(--primary-500);
+  border: 2px solid var(--primary-500);
 }
 
 .btn.btn-outline {
@@ -103,6 +105,13 @@ BUTTON
   padding: 0.375rem 0.75rem;
   border: 1px solid var(--grey-200);
 } 
+
+.btn.active{
+  background-color: transparent;
+  color: var(--primary-500);
+  border: 2px solid transparent;
+  transition: all .15s ease-in-out;
+}
 
 .btn#login,
 .btn#signup {

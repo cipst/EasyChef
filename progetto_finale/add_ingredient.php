@@ -4,6 +4,9 @@ include_once("php/top.php");
 if (!isset($_SESSION["id"]))
     header("Location: login.php");
 
+if (!isset($_SESSION["role"]) || $_SESSION["role"] == "ADMIN")
+    header("Location: index.php");
+
 ?>
 <title>Add Ingredient</title>
 <script type="module" src="js/controller/ingredients.js"></script>
