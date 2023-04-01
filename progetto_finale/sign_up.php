@@ -34,7 +34,7 @@ include_once("php/navbar.php");
             <p>You already have an account? <br>
                 <a href="./login.php">Login</a>
             </p>
-            <button type="submit" class="btn">Sign Up</button>
+            <button type="submit" id="signup" class="btn">Sign Up</button>
         </form>
     </div>
 </section>
