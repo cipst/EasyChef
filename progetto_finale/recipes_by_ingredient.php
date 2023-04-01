@@ -7,12 +7,10 @@ if (!isset($_SESSION["id"]))
 <script type="module" src="js/controller/recipes.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
-<div class="featured-recipes"> <!-- TODO: inserire nel seguente tag l'ingrediente selezionato -->
+<div class="featured-recipes">
     <h3>Recipes containing </h3>
-    <!-- recipes list -->
     <div class="recipes-list">
     </div>
-    <!-- end of recipe list -->
 </div>
 
 <?php

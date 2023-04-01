@@ -44,7 +44,7 @@ function isActive(string $page)
                 ?>
                 <li id="admin-dashboard"><a class="btn <?= isActive("dashboard")?>" href="dashboard.php">Dashboard <i
                             class="fa-solid fa-magnifying-glass-chart fa-xl"></i></a></li>
-                <li id="admin-control-panel"><a class="btn <?= isActive("control_panel")?>" href="control_panel.php">Control Panel</a></li>
+                <li id="admin-control-panel"><a class="btn <?= isActive("control_panel")?>" href="control_panel.php">Control Panel <i class="fa-solid fa-wrench fa-xl"></i></a></li>
                 <?php
             }
             ?>
