@@ -69,6 +69,26 @@ export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
         : ""}
 </div>`;
 
+export const createRecipeEntries = (recipes) => {
+    for (const [index, recipe] of recipes)
+        $("#recipe-table").append(`<tr>
+        <th scope="row">${recipe.id}</th>
+        <td>${recipe.chef_id}</td>
+        <td>${recipe.title}</td>
+        <td>${recipe.category}</td>
+        <td>${recipe.cooking_method}</td>
+        <td>${recipe.portions}</td>
+        <td>${recipe.cooking_time}</td>
+        <td>${recipe.procedure}</td>
+        <td>
+            <button class="btn-action danger" type="button"><i
+                    class="fa-solid fa-trash-can fa-2xl"></i></button>
+            <button class="btn-action success" type="button"><i
+                    class="fa-solid fa-pen fa-2xl"></i></button>
+        </td>
+    </tr>`);
+};
+
 /**
 * Check if the recipe is liked by the current chef
 * If the recipe is liked, the star will be filled
@@ -78,3 +98,9 @@ export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
 */
 export const addLikeToRecipeCard = (recipe, chef_id) =>
     $(`#like_recipe_${recipe.id}`).html(`<i class="${recipe.likes.includes(chef_id) ? "fas fa-star" : "far fa-star"}"></i> ${recipe.likes.length}`);
+
+const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+export const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+)(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));

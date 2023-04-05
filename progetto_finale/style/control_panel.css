@@ -3,3 +3,9 @@ tbody tr td:last-child{
     justify-content: space-evenly;
     align-items: center;
 }
+
+tbody,
+tr,
+td {
+    height: 100%;
+}

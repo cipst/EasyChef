@@ -93,6 +93,7 @@ BUTTON
   border: 2px solid var(--warning-color);
   background-color: var(--warning-color);
   color: #FFFFFF;
+  padding: 10px 45px;
 }
 
 .btn.btn-warning:hover {
@@ -132,20 +133,22 @@ BUTTON
   cursor: pointer;
 }
 
-.btn-action.btn-danger {
-  color: var(--error-color);
-}
-
-.btn-action.btn-danger:hover {
+.btn-action.danger {
   background-color: var(--error-color);
   color: #FFFFFF;
 }
 
-.btn-action.btn-success {
-  color: var(--success-color);
+.btn-action.danger:hover {
+  background-color: transparent;
+  color: var(--error-color);
 }
 
-.btn-action.btn-success:hover {
+.btn-action.success {
   background-color: var(--success-color);
   color: #FFFFFF;
+}
+
+.btn-action.success:hover {
+  background-color: transparent;
+  color: var(--success-color);
 }

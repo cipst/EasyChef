@@ -1,12 +1,15 @@
 import { Alert } from "../alert.js";
-import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard } from "../common.js";
+import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard, createRecipeEntries, comparer } from "../common.js";
 import { ALERT_TYPE } from "../constants.js";
 
 $(async () => {
 
     const user = await userLogged();
 
-    if (user?.name !== undefined) $("#chefName").append(`<b>${user.name}</b>`);
+    if (user === null || user === undefined)
+        window.location.href = "./login.php";
+
+    if (user.name !== undefined) $("#chefName").append(`<b>${user.name}</b>`);
 
     $("#index-search").on("click", (e) => {
         $(".content").animate({ scrollTop: $('.recipes-list').offset().top - 100 }, 1000);
@@ -15,41 +18,60 @@ $(async () => {
     // if the current recipe is the one shown in the single recipe page, show the title and the description
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has("id"))
-        getRecipeById(searchParams.get("id"), user?.id);
+        getRecipeById(searchParams.get("id"), user);
     else if (searchParams.has("ingredient"))
-        getRecipesByIngredient(searchParams.get("ingredient"), user?.id);
+        getRecipesByIngredient(searchParams.get("ingredient"), user);
     else if (searchParams.has("method"))
-        getRecipesByCookingMethod(searchParams.get("method"), user?.id);
+        getRecipesByCookingMethod(searchParams.get("method"), user);
     else
-        getAllRecipes(user?.id);
+        getAllRecipes(user);
 
     // add recipe
-    $("#submit-add-recipe").on("click", (event) => {
-        event.preventDefault();
-        const title = $("#title").val().trim();
-        const procedure = $("#procedure").val().trim().replace(/\n/g, "<br>");
-        const portions = $("#portions").val().trim();
-        const cookingTime = $("#cookingTime").val().trim();
-        const cookingMethod = $("#cookingMethod option:selected").val();
-        const category = $("input[name='category']:checked").val();
-        const ingredients = $("input[name='ingredient']:checked").serializeArray();
-
-        const areValid = areDataValid(title, procedure, portions, cookingTime, cookingMethod, category, ingredients);
-
-        if (!areValid) return;
-
-        clearStatus();
-
-        const ingredientNames = [];
-        ingredients.forEach((ingredient) => {
-            ingredientNames.push(ingredient.value);
-        });
-
-        handleSubmit({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
-    });
+    $("#submit-add-recipe").on("click", newRecipe);
 
     addListenersAddRecipe();
+
+    // Table Sort
+    let asc = false;
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const tbody = th.closest('table').tBodies.item(0);
+
+        if (!asc)
+            th.innerHTML = th.innerHTML.replaceAll("↓", "&uarr;");
+        else
+            th.innerHTML = th.innerHTML.replaceAll("↑", "&darr;");
+
+
+        Array.from(tbody.querySelectorAll('tr:nth-child(n+1)'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), asc = !asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+
 });
+
+const newRecipe = (event) => {
+    event.preventDefault();
+    const title = $("#title").val().trim();
+    const procedure = $("#procedure").val().trim().replace(/\n/g, "<br>");
+    const portions = $("#portions").val().trim();
+    const cookingTime = $("#cookingTime").val().trim();
+    const cookingMethod = $("#cookingMethod option:selected").val();
+    const category = $("input[name='category']:checked").val();
+    const ingredients = $("input[name='ingredient']:checked").serializeArray();
+
+    const areValid = areDataValid(title, procedure, portions, cookingTime, cookingMethod, category, ingredients);
+
+    if (!areValid) return;
+
+    clearStatus();
+
+    const ingredientNames = [];
+    ingredients.forEach((ingredient) => {
+        ingredientNames.push(ingredient.value);
+    });
+
+    handleSubmit({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
+};
 
 /**
  * Handle the submit event of the form to add a new recipe
@@ -95,9 +117,11 @@ const handleSubmit = ({ title, chef_id, procedure, portions, cooking_time, cooki
  * Get the recipe info by id
  * 
  * @param {int} id 
- * @param {int} chef_id the chef id of the current user 
+ * @param {int} user the current user 
  */
-const getRecipeById = (id, chef_id) => {
+const getRecipeById = (id, user) => {
+    const chef_id = user.id;
+
     makeRequest({
         type: "GET",
         url: `./api/recipes/getById.php?id=${id}`,
@@ -140,9 +164,11 @@ const getRecipeById = (id, chef_id) => {
 /**
  * Get all recipes and append them to the recipes list
  * 
- * @param {int} chef_id the chef id of the current user
+ * @param {int} user the current user
  */
-const getAllRecipes = (chef_id) => {
+const getAllRecipes = (user) => {
+    const chef_id = user.id;
+
     makeRequest({
         type: "GET",
         url: "./api/recipes/getAll.php",
@@ -154,6 +180,9 @@ const getAllRecipes = (chef_id) => {
             $("#index-search").on("input", (e) => {
                 filterRecipes(recipes, $(e.target).val().trim(), chef_id);
             });
+
+            // Control Panel Admin - Recipes
+            createRecipeEntries(recipes.entries());
 
             let searchParams = new URLSearchParams(window.location.search);
             if (searchParams.has("q"))
@@ -169,9 +198,11 @@ const getAllRecipes = (chef_id) => {
 /**
  * Get all recipes by ingredient and append them to the recipes list
  * @param {*} ingredient 
- * @param {*} chef_id 
+ * @param {*} user the current user 
  */
-const getRecipesByIngredient = (ingredient, chef_id) => {
+const getRecipesByIngredient = (ingredient, user) => {
+    const chef_id = user.id;
+
     makeRequest({
         type: "GET",
         url: `./api/recipes/getByIngredient.php?ingredient=${ingredient.toLowerCase()}`,
@@ -197,9 +228,11 @@ const getRecipesByIngredient = (ingredient, chef_id) => {
 /**
  * Get all recipes by cooking method and append them to the recipes list
  * @param {*} cooking_method
- * @param {*} chef_id
+ * @param {*} user the current user
  */
-const getRecipesByCookingMethod = (cooking_method, chef_id) => {
+const getRecipesByCookingMethod = (cooking_method, user) => {
+    const chef_id = user.id;
+
     makeRequest({
         type: "GET",
         url: `./api/recipes/getByCookingMethod.php?cooking_method=${cooking_method.toLowerCase()}`,
