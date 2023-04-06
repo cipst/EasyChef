@@ -3,7 +3,7 @@
 <?php
 function isActive(string $page)
 {
-    return strpos($_SERVER['REQUEST_URI'], $page) ? "active" : "";
+    return strpos($_SERVER['REQUEST_URI'], $page) ? "active" : "nav";
 }
 ?>
 
@@ -34,28 +34,38 @@ function isActive(string $page)
             <?php
             if (isset($_SESSION["id"]) && $_SESSION["role"] == "USER") {
                 ?>
-                <li id="add-recipe"><a class="btn <?= isActive("add_recipe")?>" href="add_recipe.php">Add Recipe <i class="fas fa-receipt fa-xl"></i>
+                <li id="add-recipe"><a class="btn <?= isActive("add_recipe") ?>" href="add_recipe.php">Add Recipe <i
+                            class="fas fa-receipt fa-xl"></i>
                     </a></li>
-                <li id="add-ingredient"><a class="btn <?= isActive("add_ingredient")?>" href="add_ingredient.php">Add Ingredient <i
-                            class="fas fa-wheat-awn fa-xl"></i></a></li>
+                <li id="add-ingredient"><a class="btn <?= isActive("add_ingredient") ?>" href="add_ingredient.php">Add
+                        Ingredient <i class="fas fa-wheat-awn fa-xl"></i></a></li>
                 <?php
             }
             if (isset($_SESSION["id"]) && $_SESSION["role"] == "ADMIN") {
                 ?>
-                <li id="admin-dashboard"><a class="btn <?= isActive("dashboard")?>" href="dashboard.php">Dashboard <i
+                <li id="admin-dashboard"><a class="btn <?= isActive("dashboard") ?>" href="dashboard.php">Dashboard <i
                             class="fa-solid fa-magnifying-glass-chart fa-xl"></i></a></li>
-                <li id="admin-control-panel"><a class="btn <?= isActive("control_panel")?>" href="control_panel.php">Control Panel <i class="fa-solid fa-wrench fa-xl"></i></a></li>
+                <li id="admin-control-panel"><a class="btn <?= isActive("control_panel") ?>"
+                        href="control_panel.php">Control
+                        Panel <i class="fa-solid fa-wrench fa-xl"></i></a></li>
                 <?php
             }
             ?>
-            <li id="search">
-                <form id="nav-search">
-                    <button class="input-icon" type="submit" id="button-search">
-                        <i class="fa-solid fa-search fa-lg"></i>
-                    </button>
-                    <input type="text" class="input-with-icon" id="index-search" placeholder="Search Recipe" name="q">
-                </form>
-            </li>
+            <?php
+            if (!strpos($_SERVER['REQUEST_URI'], "control_panel.php")) {
+                ?>
+                <li id="search">
+                    <form id="nav-search">
+                        <button class="input-icon" type="submit" id="button-search">
+                            <i class="fa-solid fa-search fa-lg"></i>
+                        </button>
+                        <input type="text" class="input-with-icon" id="index-search" placeholder="Search Recipe" name="q">
+                    </form>
+                </li>
+                <?php
+            }
+            ?>
+
             <li id="profile"><a class="btn btn-outline" href="profile.php">Profile <i class="far fa-user fa-xl"></i></a>
             </li>
         </ul>

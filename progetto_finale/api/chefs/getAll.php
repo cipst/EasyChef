@@ -12,8 +12,12 @@ try {
         return response(300, ["error" => "No chefs found!"]);
 
     $chefs = array();
-    foreach ($response as $chef) {
-        $chefs[] = $chef["name"];
+    foreach ($response as $index => $chef) {
+        $chefs[$index]["id"] = $chef["id"];
+        $chefs[$index]["role"] = $chef["role"];
+        $chefs[$index]["name"] = $chef["name"];
+        $chefs[$index]["email"] = $chef["email"];
+        $chefs[$index]["password"] = $chef["password"];
     }
 
     return response(200, ["chefs" => json_encode($chefs)]);

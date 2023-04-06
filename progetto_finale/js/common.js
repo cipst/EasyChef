@@ -89,6 +89,22 @@ export const createRecipeEntries = (recipes) => {
     </tr>`);
 };
 
+export const createChefEntries = (chefs) => {
+    for (const [index, chef] of chefs) {
+        $("#chef-table").append(`<tr>
+            <th scope="row">${chef.id}</th>
+            <td>${chef.role}</td>
+            <td>${chef.name}</td>
+            <td>${chef.email}</td>
+            <td>${chef.password}</td>
+            <td>
+                <button class="btn-action danger" type="button"><i
+                        class="fa-solid fa-trash-can fa-2xl"></i></button>
+            </td>
+        </tr>`);
+    }
+}
+
 /**
 * Check if the recipe is liked by the current chef
 * If the recipe is liked, the star will be filled
@@ -98,9 +114,3 @@ export const createRecipeEntries = (recipes) => {
 */
 export const addLikeToRecipeCard = (recipe, chef_id) =>
     $(`#like_recipe_${recipe.id}`).html(`<i class="${recipe.likes.includes(chef_id) ? "fas fa-star" : "far fa-star"}"></i> ${recipe.likes.length}`);
-
-const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
-
-export const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
-    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
-)(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));

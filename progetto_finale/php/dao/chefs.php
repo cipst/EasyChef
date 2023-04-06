@@ -9,7 +9,7 @@
 function getAllChefs()
 {
     $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, `name`, email, `role` FROM chef');
+    $stmt = $db->prepare('SELECT id, `name`, email, `role`, `password` FROM chef');
     $stmt->execute();
     return $stmt->fetchAll();
 }

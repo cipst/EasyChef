@@ -8,7 +8,6 @@ if (!isset($_SESSION["id"]))
 <script type="module" src="js/controller/recipes.js"></script>
 <script type="module" src="js/controller/ingredients.js"></script>
 <script type="module" src="js/controller/cooking_methods.js"></script>
-<!-- <script type="module" src="js/chefs.js"></script> -->
 <?php include_once("php/navbar.php"); ?>
 
 <button id="tmp-login-topolino" class="btn btn-outline">Login topolino</button>

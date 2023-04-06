@@ -63,7 +63,6 @@ const getAllIngredients = () => {
         type: "GET",
         url: "./api/ingredients/getAll.php",
         onSuccess: (response) => {
-            console.log(JSON.parse(response.ingredients));
             for (const [index, ingredient] of JSON.parse(response.ingredients).entries()) {
                 $(".ingredients-list").append(`<a href="recipes_by_ingredient.php?ingredient=${ingredient.toLowerCase()}">${ingredient}</a>`);
                 $(".ingredients.form-choice").append(`
@@ -73,6 +72,17 @@ const getAllIngredients = () => {
                     </div>
                 `);
                 $("#add-ingredients-list").append(`<p>${capitalize(ingredient)}</p><hr>`);
+
+                // Control Panel Admin - Ingredients
+                $("#ingredient-table").append(`<tr>
+                    <th scope="row">${capitalize(ingredient)}</th>
+                    <td>
+                        <button class="btn-action danger" type="button"><i
+                                class="fa-solid fa-trash-can fa-2xl"></i></button>
+                        <button class="btn-action success" type="button"><i
+                                class="fa-solid fa-pen fa-2xl"></i></button>
+                    </td>
+                </tr>`);
             }
         }
     });

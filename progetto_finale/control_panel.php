@@ -10,10 +10,11 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 ?>
 <!-- My Styles -->
 <link href="style/control_panel.css" rel="stylesheet">
-<title>Dashboard</title>
+<title>Control Panel</title>
 <script type="module" src="js/controller/recipes.js"></script>
-<!-- <script type="module" src="js/controller/ingredients.js"></script>
-<script type="module" src="js/controller/cooking_methods.js"></script> -->
+<script type="module" src="js/controller/chefs.js"></script>
+<script type="module" src="js/controller/ingredients.js"></script>
+<script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
 <section class="">
@@ -27,7 +28,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
     <div class="row pb-5">
         <div class="col-12">
             <div class="table-responsive">
-                <table class="table table-responsive table-borderless table-hover">
+                <table class="table table-responsive table-hover">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -39,19 +40,6 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
                         </tr>
                     </thead>
                     <tbody id="chef-table">
-                        <!-- <tr>
-                            <th scope="row">1</th>
-                            <td>USER</td>
-                            <td>Topolino</td>
-                            <td>topolino@gmail.com</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere </td>
-                            <td>
-                                <button class="btn-action danger" type="button"><i
-                                        class="fa-solid fa-trash-can fa-2xl"></i></button>
-                                <button class="btn-action success" type="button"><i
-                                        class="fa-solid fa-pen fa-2xl"></i></button>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -67,17 +55,17 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
     <div class="row pb-5">
         <div class="col-12">
             <div class="table-responsive">
-                <table class="table table-responsive table-borderless table-hover">
+                <table class="table table-responsive table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">&darr;ID</th>
-                            <th scope="col">&darr;Chef ID</th>
-                            <th scope="col">&darr;Title</th>
-                            <th scope="col">&darr;Category</th>
-                            <th scope="col">&darr;Cooking Method</th>
-                            <th scope="col">&darr;Portions</th>
-                            <th scope="col">&darr;Cooking Time</th>
-                            <th scope="col">&darr;Procedure</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Chef ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Cooking Method</th>
+                            <th scope="col">Portions</th>
+                            <th scope="col">Cooking Time</th>
+                            <th scope="col">Procedure</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -88,16 +76,19 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
         </div>
     </div>
 
-    <!-- INGREDIENTS -->
-    <div class="row mt-5">
-        <div class="col-12">
+    <!-- INGREDIENTS + COOKING METHODS -->
+    <div class="row mt-5 d-flex justify-content-between">
+        <div class="col-5">
             <h2 class="text-center">Ingredients</h2>
         </div>
+        <div class="col-5">
+            <h2 class="text-center">Cooking Methods</h2>
+        </div>
     </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-5 col-xs-12">
+    <div class="row d-flex justify-content-around">
+        <div class="col-md-5 col-xs-6">
             <div class="table-responsive">
-                <table class="table table-responsive table-borderless table-hover">
+                <table class="table table-responsive table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
@@ -109,7 +100,22 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
                 </table>
             </div>
         </div>
+        <div class="col-md-5 col-xs-6">
+            <div class="table-responsive">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cooking-method-table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 </section>
 
 <?php

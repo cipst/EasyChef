@@ -22,6 +22,19 @@ BUTTON
   cursor: pointer;
 }
 
+.btn.nav {
+  background-color: transparent;
+  color: var(--primary-500);
+  border: none;
+}
+
+.btn.active {
+  background-color: var(--primary-500);
+  color: #FFF;
+  border: 2px solid transparent;
+  transition: all .15s ease-in-out;
+}
+
 .btn:hover,
 .btn.active:hover {
   background-color: transparent;
@@ -107,19 +120,13 @@ BUTTON
   border: 1px solid var(--grey-200);
 }
 
-.btn.active {
-  background-color: transparent;
-  color: var(--primary-500);
-  border: 2px solid transparent;
-  transition: all .15s ease-in-out;
-}
-
 .btn#login,
 .btn#signup {
   padding: 10px 45px;
 }
 
-.btn-action {
+.btn-action, 
+.btn-action-outline {
   background-color: transparent;
   width: 3em;
   height: 3em;
@@ -133,6 +140,16 @@ BUTTON
   cursor: pointer;
 }
 
+.btn-action-outline.danger {
+  border: 2px solid var(--error-color);
+  color: var(--error-color);
+}
+
+.btn-action-outline.danger:hover {
+  background-color: var(--error-color);
+  color: #FFFFFF;
+}
+
 .btn-action.danger {
   background-color: var(--error-color);
   color: #FFFFFF;
@@ -141,6 +158,16 @@ BUTTON
 .btn-action.danger:hover {
   background-color: transparent;
   color: var(--error-color);
+}
+
+.btn-action-outline.success {
+  border: 2px solid var(--success-color);
+  color: var(--success-color);
+}
+
+.btn-action-outline.success:hover {
+  background-color: var(--success-color);
+  color: #FFFFFF;
 }
 
 .btn-action.success {

@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard, createRecipeEntries, comparer } from "../common.js";
+import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard, createRecipeEntries } from "../common.js";
 import { ALERT_TYPE } from "../constants.js";
 
 $(async () => {
@@ -30,22 +30,6 @@ $(async () => {
     $("#submit-add-recipe").on("click", newRecipe);
 
     addListenersAddRecipe();
-
-    // Table Sort
-    let asc = false;
-    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-        const tbody = th.closest('table').tBodies.item(0);
-
-        if (!asc)
-            th.innerHTML = th.innerHTML.replaceAll("↓", "&uarr;");
-        else
-            th.innerHTML = th.innerHTML.replaceAll("↑", "&darr;");
-
-
-        Array.from(tbody.querySelectorAll('tr:nth-child(n+1)'))
-            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), asc = !asc))
-            .forEach(tr => tbody.appendChild(tr));
-    })));
 
 });
 
@@ -126,7 +110,6 @@ const getRecipeById = (id, user) => {
         type: "GET",
         url: `./api/recipes/getById.php?id=${id}`,
         onSuccess: (response) => {
-            console.log(JSON.parse(response.recipe));
             const recipe = JSON.parse(response.recipe);
             $("#recipe-title").html(recipe.title);
             $("#recipe-chef").html(recipe.chef);
