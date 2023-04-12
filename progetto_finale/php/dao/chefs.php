@@ -45,3 +45,10 @@ function setChef($name, $email, $passowrd)
     $stmt->execute([strtolower($name), strtolower($email), strtolower($passowrd)]);
     return $db->lastInsertId();
 }
+
+function deleteChef($id)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('DELETE FROM chef WHERE id = ?');
+    return $stmt->execute([$id]);
+}

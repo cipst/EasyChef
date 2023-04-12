@@ -87,25 +87,28 @@ export const createRecipeEntries = (recipes, deleteRecipe) => {
                     class="fa-solid fa-pen fa-2xl"></i></button>
         </td>
     </tr>`);
-    $(`#delete-recipe-${recipe.id}`).click(() => {
-        deleteRecipe(recipe.id);
-    });
+        $(`#delete-recipe-${recipe.id}`).click(() => {
+            deleteRecipe(recipe.id);
+        });
     }
 };
 
-export const createChefEntries = (chefs) => {
+export const createChefEntries = (chefs, deleteChef) => {
     for (const [index, chef] of chefs) {
-        $("#chef-table").append(`<tr>
+        $("#chef-table").append(`<tr id="chef-${chef.id}">
             <th scope="row">${chef.id}</th>
             <td>${chef.role}</td>
             <td>${chef.name}</td>
             <td>${chef.email}</td>
             <td>${chef.password}</td>
             <td>
-                <button class="btn-action danger" type="button"><i
+                <button class="btn-action danger" type="button" id="delete-chef-${chef.id}"><i
                         class="fa-solid fa-trash-can fa-2xl"></i></button>
             </td>
         </tr>`);
+        $(`#delete-chef-${chef.id}`).click(() => {
+            deleteChef(chef.id);
+        });
     }
 }
 
