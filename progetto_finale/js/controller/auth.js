@@ -95,6 +95,34 @@ $(async () => {
             });
         });
     });
+
+    $("#logout").on("click", () => {
+        makeRequest({
+            type: "GET",
+            url: "./api/auth/logout.php",
+            onSuccess: (response) => {
+                const user = JSON.parse(response.user);
+                console.log(user);
+                if (user === null) {
+                    new Alert(ALERT_TYPE.SUCCESS, "You have been logged out");
+                    setTimeout(() => {
+                        window.location.href = "./login.php";
+                    }, 2000);
+                } else {
+                    new Alert(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
+                    setTimeout(() => {
+                        window.location.href = "./index.php";
+                    }, 2000);
+                }
+            },
+            onError: (response) => {
+                console.log("ERROR", response);
+                const { error } = response.responseJSON;
+
+                return new Alert(ALERT_TYPE.WARNING, error);
+            }
+        });
+    });
 });
 
 function testLogin(who = "topolino") {
