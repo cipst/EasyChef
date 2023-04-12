@@ -12,9 +12,6 @@ try {
     $cooking_method = $_GET["cooking_method"];
     $response = getRecipesByCookingMethod($cooking_method);
 
-    if (!$response)
-        return response(300, ["error" => "No recipes found!"]);
-
     $recipes = array();
     foreach ($response as $index => $recipe) {
         $id = $recipe["id"];

@@ -9,10 +9,7 @@ try {
     checkData($_POST);
 
     $recipe = getRecipesLikedByChefId($_POST["chef_id"]);
-
-    if (!$recipe)
-        return response(300, ["error" => "No recipes found!"]);
-
+    
     $recipes = array();
     foreach ($recipe as $index => $recipe) {
         $id = $recipe["id"];

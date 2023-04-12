@@ -8,9 +8,6 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
 try {
     $recipe = getAllRecipes();
 
-    if (!$recipe)
-        return response(300, ["error" => "No recipes found!"]);
-
     $recipes = array();
     foreach ($recipe as $index => $recipe) {
         $id = $recipe["id"];

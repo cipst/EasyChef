@@ -12,9 +12,6 @@ try {
     $ingredient = $_GET["ingredient"];
     $response = getRecipesByIngredient($ingredient);
 
-    if (!$response)
-        return response(300, ["error" => "No recipes found!"]);
-
     $recipes = array();
     foreach ($response as $index => $recipe) {
         $id = $recipe["id"];

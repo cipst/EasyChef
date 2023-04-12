@@ -7,7 +7,7 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 
 session_start();
 
-if (!isset($_SESSION["role"]) || $_SESSION["role"] != "USER" || $_SESSION["role"] != "ADMIN")
+if (!isset($_SESSION["role"]) || ($_SESSION["role"] != "USER" && $_SESSION["role"] != "ADMIN"))
     return response(401, ["error" => "Unauthorized request!"]);
 
 try {

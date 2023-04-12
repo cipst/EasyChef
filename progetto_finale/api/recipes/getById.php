@@ -12,9 +12,6 @@ try {
     $id = $_GET["id"];
     $response = getRecipeById($id);
 
-    if (!$response)
-        return response(300, ["error" => "No recipe found!"]);
-
     $likes = createArray(getChefsLikeByRecipe($id), "chef");
     $ingredients = createArray(getIngredientsByRecipe($id), "ingredient");
     $chef = getChefById($response["chef_id"]);
