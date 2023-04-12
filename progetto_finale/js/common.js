@@ -65,13 +65,13 @@ export const createRecipeCard = (recipe, chef_id, inProfile = false) =>
     }
     ${inProfile && chef_id === recipe.chef_id
         ? `<br/>
-    <button class="btn btn-error-outline" id="deleterecipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
+    <button class="btn btn-error-outline" id="delete_recipe_${recipe.id}">Delete Recipe <i class="far fa-trash-can fa-xl"></i></button>`
         : ""}
 </div>`;
 
-export const createRecipeEntries = (recipes) => {
-    for (const [index, recipe] of recipes)
-        $("#recipe-table").append(`<tr>
+export const createRecipeEntries = (recipes, deleteRecipe) => {
+    for (const [index, recipe] of recipes) {
+        $("#recipe-table").append(`<tr id="recipe-${recipe.id}">
         <th scope="row">${recipe.id}</th>
         <td>${recipe.chef_id}</td>
         <td>${recipe.title}</td>
@@ -81,12 +81,16 @@ export const createRecipeEntries = (recipes) => {
         <td>${recipe.cooking_time}</td>
         <td>${recipe.procedure}</td>
         <td>
-            <button class="btn-action danger" type="button"><i
+            <button id="delete-recipe-${recipe.id}" class="btn-action danger" type="button"><i
                     class="fa-solid fa-trash-can fa-2xl"></i></button>
             <button class="btn-action success" type="button"><i
                     class="fa-solid fa-pen fa-2xl"></i></button>
         </td>
     </tr>`);
+    $(`#delete-recipe-${recipe.id}`).click(() => {
+        deleteRecipe(recipe.id);
+    });
+    }
 };
 
 export const createChefEntries = (chefs) => {

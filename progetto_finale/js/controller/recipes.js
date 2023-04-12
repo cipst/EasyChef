@@ -2,6 +2,261 @@ import { Alert } from "../alert.js";
 import { makeRequest, capitalize, isValid, userLogged, createRecipeCard, addLikeToRecipeCard, createRecipeEntries } from "../common.js";
 import { ALERT_TYPE } from "../constants.js";
 
+
+class RecipeRequests {
+
+    /**
+     * Handle the submit event of the form to add a new recipe
+     * 
+     * @param {Object} recipe
+     */
+    static createRecipe = ({ title, chef_id, procedure, portions, cooking_time, cooking_method, category, ingredients }) => {
+        makeRequest({
+            type: "POST",
+            url: "./api/recipes/create.php",
+            data: {
+                "title": title,
+                "chef_id": chef_id,
+                "procedure": procedure,
+                "portions": portions,
+                "cooking_time": cooking_time,
+                "cooking_method": cooking_method,
+                "category": category,
+                "ingredients": ingredients
+            },
+            onSuccess: (response) => {
+                new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                // redirect to the home page
+                setTimeout(() => {
+                    window.location.href = "./index.php";
+                }, 2000);
+            },
+            onError: (response) => {
+                console.log(response);
+                let error;
+                if (response.responseJSON.error.toLowerCase().includes("duplicate entry")) {
+                    error = "Ingredient already in the list";
+                } else {
+                    error = "Error adding the ingredient";
+                }
+
+                new Alert(ALERT_TYPE.ERROR, "Error", error);
+            }
+        });
+    };
+
+    /**
+     * Get the recipe info by id
+     * 
+     * @param {int} id 
+     * @param {int} user the current user 
+     */
+    static getRecipeById = (id, user) => {
+        const chef_id = user.id;
+
+        makeRequest({
+            type: "GET",
+            url: `./api/recipes/getById.php?id=${id}`,
+            onSuccess: (response) => {
+                const recipe = JSON.parse(response.recipe);
+                $("#recipe-title").html(recipe.title);
+                $("#recipe-chef").html(recipe.chef);
+                $("#recipe-procedure").html(recipe.procedure);
+                $("#recipe-portions").html(recipe.portions);
+                $("#recipe-cooking-time").html(`${recipe.cooking_time} min`);
+                $("#recipe-method").html(capitalize(recipe.cooking_method));
+                $("#recipe-category").html(recipe.category);
+                $("#recipe-img").attr("src", `./assets/images/recipes/${recipe.category}.jpg`);
+                $("#recipe-img").attr("alt", recipe.category);
+                $("#recipe-img").attr("title", recipe.category);
+
+                for (const ingredient of recipe.ingredients) {
+                    $("#recipe-ingredients").append(`<p class="single-ingredient">${capitalize(ingredient)}</p>`);
+                };
+
+                $("#like_btn").css({ "display": chef_id === recipe.chef_id ? "none" : "block" });
+                if (recipe.likes.includes(`${chef_id}`)) {
+                    $("#like_btn").html("Unlike recipe");
+                    $("#like_btn").addClass("btn-warning");
+                } else {
+                    $("#like_btn").html("Like recipe");
+                    $("#like_btn").addClass("btn-success");
+                }
+
+                $("#like_btn").on("click", () => handleLike(recipe, chef_id));
+            },
+            onError: (response) => {
+                console.log(response);
+                window.location.href = "./not_found.php";
+            }
+        });
+    };
+
+    /**
+     * Get all recipes and append them to the recipes list
+     * 
+     * @param {int} user the current user
+     */
+    static getAllRecipes = (user) => {
+        const chef_id = user.id;
+
+        makeRequest({
+            type: "GET",
+            url: "./api/recipes/getAll.php",
+            onSuccess: (response) => {
+                const recipes = JSON.parse(response.recipes);
+
+                appendRecipesList(recipes, chef_id);
+
+                $("#index-search").on("input", (e) => {
+                    filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+                });
+
+                let searchParams = new URLSearchParams(window.location.search);
+                if (searchParams.has("q"))
+                    filterRecipes(recipes, searchParams.get("q").trim(), chef_id);
+
+                // Control Panel Admin - Recipes
+                createRecipeEntries(recipes.entries(), this.deleteRecipe);
+            },
+            onError: (response) => {
+                console.log(response.responseJSON);
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            }
+        });
+    };
+
+    /**
+     * Get all recipes by ingredient and append them to the recipes list
+     * @param {*} ingredient 
+     * @param {*} user the current user 
+     */
+    static getRecipesByIngredient = (ingredient, user) => {
+        const chef_id = user.id;
+
+        makeRequest({
+            type: "GET",
+            url: `./api/recipes/getByIngredient.php?ingredient=${ingredient.toLowerCase()}`,
+            onSuccess: (response) => {
+                const recipes = JSON.parse(response.recipes);
+
+                $(".featured-recipes h3").append(capitalize(ingredient));
+
+                appendRecipesList(recipes, chef_id);
+
+                $("#index-search").on("input", (e) => {
+                    filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+                });
+            },
+            onError: (response) => {
+                $(".featured-recipes h3").append(capitalize(ingredient));
+                $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+                // new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            }
+        });
+    };
+
+    /**
+     * Get all recipes by cooking method and append them to the recipes list
+     * @param {*} cooking_method
+     * @param {*} user the current user
+     */
+    static getRecipesByCookingMethod = (cooking_method, user) => {
+        const chef_id = user.id;
+
+        makeRequest({
+            type: "GET",
+            url: `./api/recipes/getByCookingMethod.php?cooking_method=${cooking_method.toLowerCase()}`,
+            onSuccess: (response) => {
+                const recipes = JSON.parse(response.recipes);
+
+                $(".featured-recipes h3").append(capitalize(cooking_method));
+
+                appendRecipesList(recipes, chef_id);
+
+                $("#index-search").on("input", (e) => {
+                    filterRecipes(recipes, $(e.target).val().trim(), chef_id);
+                });
+            },
+            onError: (response) => {
+                $(".featured-recipes h3").append(capitalize(cooking_method));
+                // $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
+                new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+            }
+        });
+    };
+
+    /**
+     * Handle the like of a recipe
+     * This function make a request to the server to like or unlike a recipe
+     * This function is called when the user clicks on the star icon
+     * If the recipe is not liked, it will be liked (and the star will be filled)
+     * If the recipe is liked, it will be unliked (and the star will be empty)
+     * 
+     * @param {Object} recipe
+     */
+    static handleLike = (recipe, chef_id) => {
+        if (chef_id === undefined)
+            return new Alert(ALERT_TYPE.INFO,
+                "Registration required",
+                `You must be logged in to like a recipe<br>
+            <a href='./login.php'>Login</a> or <a href='./sign_up.php'>Register</a>`
+            );
+
+        makeRequest({
+            type: "POST",
+            url: "./api/recipes/like.php",
+            data: { recipe_id: recipe.id, chef_id: chef_id },
+            onSuccess: (_) => {
+                let newClass = "";
+                let newText = "";
+
+                if (!recipe.likes.includes(`${chef_id}`)) {
+                    // If the recipe is not liked, it will be liked
+                    recipe.likes.push(`${chef_id}`);
+                    newClass = "fas";
+                    newText = "Unlike recipe";
+                } else {
+                    // If the recipe is liked, it will be unliked
+                    recipe.likes = recipe.likes.filter((like) => like != `${chef_id}`);
+                    newClass = "far";
+                    newText = "Like recipe";
+                }
+
+                if (!$("#like_btn").hasClass("btn-warning")) $("#like_btn").addClass("btn-warning");
+                else $("#like_btn").removeClass("btn-warning");
+
+                if (!$("#like_btn").hasClass("btn-success")) $("#like_btn").addClass("btn-success");
+                else $("#like_btn").removeClass("btn-success");
+
+                $("#like_btn").html(newText);
+                $(`#like_recipe_${recipe.id}`).html(`<i class="${newClass} fa-star"></i> ${recipe.likes.length}`);
+            },
+            onError: (response) => {
+                console.log(response.responseJSON);
+                new Alert(ALERT_TYPE.ERROR, response.responseJSON.error);
+            }
+        });
+    };
+
+    static deleteRecipe = (recipe_id) => {
+        new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this recipe?", () => {
+            makeRequest({
+                type: "POST",
+                url: "./api/recipes/delete.php",
+                data: { id: recipe_id },
+                onSuccess: (response) => {
+                    new Alert(ALERT_TYPE.SUCCESS, "Recipe deleted", response.message);
+                    $(`#recipe-table #recipe-${recipe_id}`).remove();
+                },
+                onError: (response) => {
+                    new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+                }
+            });
+        });
+    }
+}
+
 $(async () => {
 
     const user = await userLogged();
@@ -18,22 +273,21 @@ $(async () => {
     // if the current recipe is the one shown in the single recipe page, show the title and the description
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has("id"))
-        getRecipeById(searchParams.get("id"), user);
+        RecipeRequests.getRecipeById(searchParams.get("id"), user);
     else if (searchParams.has("ingredient"))
-        getRecipesByIngredient(searchParams.get("ingredient"), user);
+        RecipeRequests.getRecipesByIngredient(searchParams.get("ingredient"), user);
     else if (searchParams.has("method"))
-        getRecipesByCookingMethod(searchParams.get("method"), user);
+        RecipeRequests.getRecipesByCookingMethod(searchParams.get("method"), user);
     else
-        getAllRecipes(user);
+        RecipeRequests.getAllRecipes(user);
 
     // add recipe
-    $("#submit-add-recipe").on("click", newRecipe);
+    $("#submit-add-recipe").on("click", (event) => newRecipe(event, user));
 
     addListenersAddRecipe();
-
 });
 
-const newRecipe = (event) => {
+const newRecipe = (event, user) => {
     event.preventDefault();
     const title = $("#title").val().trim();
     const procedure = $("#procedure").val().trim().replace(/\n/g, "<br>");
@@ -54,250 +308,22 @@ const newRecipe = (event) => {
         ingredientNames.push(ingredient.value);
     });
 
-    handleSubmit({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
+    RecipeRequests.createRecipe({ title, chef_id: user?.id, procedure, portions, cooking_time: cookingTime, cooking_method: cookingMethod, category, ingredients: ingredientNames });
 };
 
-/**
- * Handle the submit event of the form to add a new recipe
- * 
- * @param {Object} recipe
- */
-const handleSubmit = ({ title, chef_id, procedure, portions, cooking_time, cooking_method, category, ingredients }) => {
-    makeRequest({
-        type: "POST",
-        url: "./api/recipes/create.php",
-        data: {
-            "title": title,
-            "chef_id": chef_id,
-            "procedure": procedure,
-            "portions": portions,
-            "cooking_time": cooking_time,
-            "cooking_method": cooking_method,
-            "category": category,
-            "ingredients": ingredients
-        },
-        onSuccess: (response) => {
-            new Alert(ALERT_TYPE.SUCCESS, response.ok);
-            // redirect to the home page
-            setTimeout(() => {
-                window.location.href = "./index.php";
-            }, 2000);
-        },
-        onError: (response) => {
-            console.log(response);
-            let error;
-            if (response.responseJSON.error.toLowerCase().includes("duplicate entry")) {
-                error = "Ingredient already in the list";
-            } else {
-                error = "Error adding the ingredient";
-            }
-
-            new Alert(ALERT_TYPE.ERROR, "Error", error);
-        }
-    });
-};
-
-/**
- * Get the recipe info by id
- * 
- * @param {int} id 
- * @param {int} user the current user 
- */
-const getRecipeById = (id, user) => {
-    const chef_id = user.id;
-
-    makeRequest({
-        type: "GET",
-        url: `./api/recipes/getById.php?id=${id}`,
-        onSuccess: (response) => {
-            const recipe = JSON.parse(response.recipe);
-            $("#recipe-title").html(recipe.title);
-            $("#recipe-chef").html(recipe.chef);
-            $("#recipe-procedure").html(recipe.procedure);
-            $("#recipe-portions").html(recipe.portions);
-            $("#recipe-cooking-time").html(`${recipe.cooking_time} min`);
-            $("#recipe-method").html(capitalize(recipe.cooking_method));
-            $("#recipe-category").html(recipe.category);
-            $("#recipe-img").attr("src", `./assets/images/recipes/${recipe.category}.jpg`);
-            $("#recipe-img").attr("alt", recipe.category);
-            $("#recipe-img").attr("title", recipe.category);
-
-            for (const ingredient of recipe.ingredients) {
-                $("#recipe-ingredients").append(`<p class="single-ingredient">${capitalize(ingredient)}</p>`);
-            };
-
-            $("#like_btn").css({ "display": chef_id === recipe.chef_id ? "none" : "block" });
-            if (recipe.likes.includes(`${chef_id}`)) {
-                $("#like_btn").html("Unlike recipe");
-                $("#like_btn").addClass("btn-warning");
-            } else {
-                $("#like_btn").html("Like recipe");
-                $("#like_btn").addClass("btn-success");
-            }
-
-            $("#like_btn").on("click", () => handleLike(recipe, chef_id));
-        },
-        onError: (response) => {
-            console.log(response);
-            window.location.href = "./not_found.php";
-        }
-    });
-};
-
-/**
- * Get all recipes and append them to the recipes list
- * 
- * @param {int} user the current user
- */
-const getAllRecipes = (user) => {
-    const chef_id = user.id;
-
-    makeRequest({
-        type: "GET",
-        url: "./api/recipes/getAll.php",
-        onSuccess: (response) => {
-            const recipes = JSON.parse(response.recipes);
-
-            appendRecipesList(recipes.entries(), chef_id);
-
-            $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
-            });
-
-            // Control Panel Admin - Recipes
-            createRecipeEntries(recipes.entries());
-
-            let searchParams = new URLSearchParams(window.location.search);
-            if (searchParams.has("q"))
-                filterRecipes(recipes, searchParams.get("q").trim(), chef_id);
-        },
-        onError: (response) => {
-            console.log(response.responseJSON);
-            new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
-        }
-    });
-};
-
-/**
- * Get all recipes by ingredient and append them to the recipes list
- * @param {*} ingredient 
- * @param {*} user the current user 
- */
-const getRecipesByIngredient = (ingredient, user) => {
-    const chef_id = user.id;
-
-    makeRequest({
-        type: "GET",
-        url: `./api/recipes/getByIngredient.php?ingredient=${ingredient.toLowerCase()}`,
-        onSuccess: (response) => {
-            const recipes = JSON.parse(response.recipes);
-
-            $(".featured-recipes h3").append(capitalize(ingredient));
-
-            appendRecipesList(recipes.entries(), chef_id);
-
-            $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
-            });
-        },
-        onError: (response) => {
-            $(".featured-recipes h3").append(capitalize(ingredient));
-            $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
-            // new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
-        }
-    });
-};
-
-/**
- * Get all recipes by cooking method and append them to the recipes list
- * @param {*} cooking_method
- * @param {*} user the current user
- */
-const getRecipesByCookingMethod = (cooking_method, user) => {
-    const chef_id = user.id;
-
-    makeRequest({
-        type: "GET",
-        url: `./api/recipes/getByCookingMethod.php?cooking_method=${cooking_method.toLowerCase()}`,
-        onSuccess: (response) => {
-            const recipes = JSON.parse(response.recipes);
-
-            $(".featured-recipes h3").append(capitalize(cooking_method));
-
-            appendRecipesList(recipes.entries(), chef_id);
-
-            $("#index-search").on("input", (e) => {
-                filterRecipes(recipes, $(e.target).val().trim(), chef_id);
-            });
-        },
-        onError: (response) => {
-            $(".featured-recipes h3").append(capitalize(cooking_method));
-            $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
-            // new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
-        }
-    });
-};
-
-/**
- * Handle the like of a recipe
- * This function make a request to the server to like or unlike a recipe
- * This function is called when the user clicks on the star icon
- * If the recipe is not liked, it will be liked (and the star will be filled)
- * If the recipe is liked, it will be unliked (and the star will be empty)
- * 
- * @param {Object} recipe
- */
-const handleLike = (recipe, chef_id) => {
-    if (chef_id === undefined)
-        return new Alert(ALERT_TYPE.INFO,
-            "Registration required",
-            `You must be logged in to like a recipe<br>
-            <a href='./login.php'>Login</a> or <a href='./sign_up.php'>Register</a>`
-        );
-
-    makeRequest({
-        type: "POST",
-        url: "./api/recipes/like.php",
-        data: { recipe_id: recipe.id, chef_id: chef_id },
-        onSuccess: (_) => {
-            let newClass = "";
-            let newText = "";
-
-            if (!recipe.likes.includes(`${chef_id}`)) {
-                // If the recipe is not liked, it will be liked
-                recipe.likes.push(`${chef_id}`);
-                newClass = "fas";
-                newText = "Unlike recipe";
-            } else {
-                // If the recipe is liked, it will be unliked
-                recipe.likes = recipe.likes.filter((like) => like != `${chef_id}`);
-                newClass = "far";
-                newText = "Like recipe";
-            }
-
-            if (!$("#like_btn").hasClass("btn-warning")) $("#like_btn").addClass("btn-warning");
-            else $("#like_btn").removeClass("btn-warning");
-
-            if (!$("#like_btn").hasClass("btn-success")) $("#like_btn").addClass("btn-success");
-            else $("#like_btn").removeClass("btn-success");
-
-            $("#like_btn").html(newText);
-            $(`#like_recipe_${recipe.id}`).html(`<i class="${newClass} fa-star"></i> ${recipe.likes.length}`);
-        },
-        onError: (response) => {
-            console.log(response.responseJSON);
-            new Alert(ALERT_TYPE.ERROR, response.responseJSON.error);
-        }
-    });
-};
 
 const appendRecipesList = (recipes, chef_id) => {
-    for (const [index, recipe] of recipes) {
+    if (recipes.length === 0) {
+        $(".recipes-list").append(`<h3 class="text-center">No recipes found!</h4>`);
+        return;
+    }
+
+    for (const [index, recipe] of recipes.entries()) {
         $(".recipes-list").append(createRecipeCard(recipe, chef_id));
 
         addLikeToRecipeCard(recipe, chef_id);
 
-        $(`#like_recipe_${recipe.id}`).on('click', () => handleLike(recipe, chef_id));
+        $(`#like_recipe_${recipe.id}`).on('click', () => RecipeRequests.handleLike(recipe, chef_id));
     }
 };
 
@@ -313,7 +339,7 @@ const filterRecipes = (recipes, value, chef_id) => {
     $(".recipes-list div").remove(); // remove all recipes from the list
 
     // append the filtered recipes
-    appendRecipesList(recipesFiltered.entries(), chef_id);
+    appendRecipesList(recipesFiltered, chef_id);
 };
 
 const areDataValid = (title, procedure, portions, cookingTime, cookingMethod, category, ingredients) => {
@@ -390,4 +416,3 @@ const addListenersAddRecipe = () => {
         isValid(ingredients, ".ingredients", "At least one ingredient is required!");
     });
 }
-
