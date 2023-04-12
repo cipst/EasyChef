@@ -8,7 +8,7 @@ if (!isset($_SESSION["id"]))
 <?php include_once("php/navbar.php"); ?>
 
 <div class="featured-recipes">
-    <h3>Recipes containing </h3>
+    <h3>Recipes made by </h3>
     <div class="recipes-list">
     </div>
 </div>

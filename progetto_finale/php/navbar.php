@@ -18,6 +18,10 @@ function isActive(string $page)
         <p class="alert-message">
         </p>
         <i class="close fa-solid fa-xmark fa-xl"></i>
+        <div class="alert-buttons">
+            <button class="btn btn-error" id="alert-button-cancel">No</button>
+            <button class="btn btn-success" id="alert-button-confirm">Yes</button>
+        </div>
     </div>
 
     <div id="mask">

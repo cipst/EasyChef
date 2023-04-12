@@ -19,9 +19,17 @@ export class Alert {
      * @param {String|null} message 
      * @returns 
      */
-    constructor(type, title, message = null) {
+    constructor(type, title, message = null, callback = null) {
         if (!Object.values(ALERT_TYPE).includes(type))
             return;
+
+        if (callback !== null){
+            this.showButtons();
+            $("#alert #alert-button-confirm").on("click", () => {
+                callback();
+                this.hideButtons();
+            });
+        }
 
         this.#type = type;
         this.#title = title;
@@ -31,6 +39,7 @@ export class Alert {
         this.showAlert();
 
         $("#alert i.close").on("click", this.closeAlert);
+        $("#alert #alert-button-cancel").on("click", this.closeAlert);
     }
 
     showAlert() {
@@ -53,6 +62,14 @@ export class Alert {
         });
         $("#mask").fadeOut(200);
         e.preventDefault();
+    }
+
+    showButtons() {
+        $("#alert .alert-buttons").css({ "display": "flex" });
+    }
+
+    hideButtons() {
+        $("#alert .alert-buttons").css({ "display": "none" });
     }
 
     get title() {
