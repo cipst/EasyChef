@@ -4,6 +4,14 @@ Recipes
 ===============
 */
 
+#ingredient-table input {
+    display: none;
+}
+
+#ingredient-table span {
+    display: block;
+}
+
 .recipes-container {
     display: grid;
     gap: 2rem 1rem;

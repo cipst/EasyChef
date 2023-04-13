@@ -54,7 +54,6 @@ const createIngredient = (ingredientName) => {
     })
 }
 
-
 /**
  * Get all ingredients and append them to the ingredients list
  */
@@ -75,17 +74,42 @@ const getAllIngredients = () => {
 
                 // Control Panel Admin - Ingredients
                 $("#ingredient-table").append(`<tr id="ingredient-${ingredient}">
-                    <th scope="row">${capitalize(ingredient)}</th>
+                    <th scope="row">
+                        <input type="text" class="form-control" id="ingredient-${ingredient}-name-input" value="${capitalize(ingredient)}">
+                        <span id="ingredient-${ingredient}-name">${capitalize(ingredient)}</span>
+                    </th>
                     <td>
                         <button id="delete-ingredient-${ingredient}" class="btn-action danger" type="button"><i
                                 class="fa-solid fa-trash-can fa-2xl"></i></button>
-                        <button class="btn-action success" type="button"><i
+                        <button id="update-ingredient-${ingredient}" class="btn-action success" type="button"><i
                                 class="fa-solid fa-pen fa-2xl"></i></button>
                     </td>
                 </tr>`);
 
                 $(`#delete-ingredient-${ingredient}`).click(() => {
                     deleteIngredient(ingredient);
+                });
+
+                $(`#update-ingredient-${ingredient}`).click(() => {
+                    $(`#ingredient-${ingredient}-name-input`).show().focus();
+                    $(`#ingredient-${ingredient}-name`).hide();
+
+                    $(`#ingredient-${ingredient}-name-input`).keypress((event) => {
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            $(`#ingredient-${ingredient}-name-input`).hide();
+                            $(`#ingredient-${ingredient}-name`).show();
+                            updateIngredient(ingredient, $(`#ingredient-${ingredient}-name-input`).val().trim().toLowerCase());
+                        }
+                    });
+
+                    $(`#ingredient-${ingredient}-name-input`).keyup((event) => {
+                        if (event.key === "Escape") {
+                            event.preventDefault();
+                            $(`#ingredient-${ingredient}-name-input`).hide();
+                            $(`#ingredient-${ingredient}-name`).show();
+                        }
+                    });
                 });
             }
         }
@@ -107,5 +131,20 @@ const deleteIngredient = (ingredient) => {
                 new Alert(ALERT_TYPE.ERROR, "Error", "Error deleting the ingredient");
             }
         });
+    });
+}
+
+const updateIngredient = (oldIngredient, newIngredient) => {
+    makeRequest({
+        type: "POST",
+        url: "./api/ingredients/update.php",
+        data: { oldIngredient: oldIngredient, newIngredient: newIngredient },
+        onSuccess: (response) => {
+            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            $(`#ingredient-${oldIngredient}-name`).text(capitalize(newIngredient));
+        },
+        onError: (response) => {
+            new Alert(ALERT_TYPE.ERROR, "Error", "Error updating the ingredient");
+        }
     });
 }

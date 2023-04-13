@@ -42,3 +42,9 @@ function deleteIngredient($ingredient){
     $stmt = $db->prepare('DELETE FROM ingredient WHERE name = ?');
     return $stmt->execute([$ingredient]);
 }
+
+function updateIngredient($oldIngredient, $newIngredient){
+    $db = DBconnection();
+    $stmt = $db->prepare('UPDATE ingredient SET name = ? WHERE name = ?');
+    return $stmt->execute([$newIngredient, $oldIngredient]);
+}

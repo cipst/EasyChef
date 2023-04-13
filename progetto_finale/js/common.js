@@ -83,8 +83,6 @@ export const createRecipeEntries = (recipes, deleteRecipe) => {
         <td>
             <button id="delete-recipe-${recipe.id}" class="btn-action danger" type="button"><i
                     class="fa-solid fa-trash-can fa-2xl"></i></button>
-            <button class="btn-action success" type="button"><i
-                    class="fa-solid fa-pen fa-2xl"></i></button>
         </td>
     </tr>`);
         $(`#delete-recipe-${recipe.id}`).click(() => {
