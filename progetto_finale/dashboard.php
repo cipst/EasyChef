@@ -9,16 +9,17 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 
 ?>
 <!-- My Styles -->
-<link href="style/control_panel.css" rel="stylesheet">
-<title>Control Panel</title>
-<script type="module" src="js/controller/recipes.js"></script>
-<script type="module" src="js/controller/chefs.js"></script>
-<script type="module" src="js/controller/ingredients.js"></script>
-<script type="module" src="js/controller/cooking_methods.js"></script>
+<link href="style/chart.css" rel="stylesheet">
+<title>Dashboard</title>
+<script type="module" src="js/controller/chart.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
 <section class="dashboard-page">
-<h1>Dashboard</h1>
+    <div class="chart-container">
+        <canvas id="chartNumberRecipesByChef" class="chart"></canvas>
+        <canvas id="chartNumberLikesPerRecipeByChef" class="chart"></canvas>
+        <canvas id="chartNumberRecipesContainigIngredients" class="chart"></canvas>
+    </div>
 </section>
 
 <?php

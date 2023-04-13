@@ -25,6 +25,11 @@ require_once("common.php");
     <!-- Font Awesome local -->
     <link href="assets/css/all.css" rel="stylesheet">
 
+    <!-- Chart CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+
     <!-- My Styles -->
     <link href="style/index.css" rel="stylesheet">
 

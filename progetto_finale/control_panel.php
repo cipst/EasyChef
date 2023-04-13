@@ -77,16 +77,9 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
     </div>
 
     <!-- INGREDIENTS + COOKING METHODS -->
-    <div class="row mt-5 d-flex justify-content-between">
-        <div class="col-5">
-            <h2 class="text-center">Ingredients</h2>
-        </div>
-        <div class="col-5">
-            <h2 class="text-center">Cooking Methods</h2>
-        </div>
-    </div>
     <div class="row d-flex justify-content-around">
         <div class="col-md-5 col-xs-6">
+            <h2 class="text-center">Ingredients</h2>
             <div class="table-responsive">
                 <table class="table table-responsive table-hover">
                     <thead>
@@ -101,6 +94,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
             </div>
         </div>
         <div class="col-md-5 col-xs-6">
+            <h2 class="text-center">Cooking Methods</h2>
             <div class="table-responsive">
                 <table class="table table-responsive table-hover">
                     <thead>

@@ -83,7 +83,7 @@ class RecipeRequests {
                     $("#like_btn").addClass("btn-success");
                 }
 
-                $("#like_btn").on("click", () => handleLike(recipe, chef_id));
+                $("#like_btn").on("click", () => this.handleLike(recipe, chef_id));
             },
             onError: (response) => {
                 console.log(response);

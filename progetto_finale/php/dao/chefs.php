@@ -52,3 +52,19 @@ function deleteChef($id)
     $stmt = $db->prepare('DELETE FROM chef WHERE id = ?');
     return $stmt->execute([$id]);
 }
+
+function getNumberRecipesByChef($id)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT COUNT(*) as `count` FROM recipe WHERE chef_id = ?');
+    $stmt->execute([$id]);
+    return $stmt->fetch();
+}
+
+function getNumberLikeByChef($id)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT COUNT(*) as `count` FROM (SELECT id FROM recipe WHERE chef_id = ?) as tmp JOIN likes ON tmp.id = likes.recipe');
+    $stmt->execute([$id]);
+    return $stmt->fetchAll();
+}

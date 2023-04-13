@@ -20,7 +20,7 @@ function insertIngredientsRecipe($recipe, $ingredients)
     $stmt = $db->prepare('INSERT INTO ingredients_list (recipe, ingredient) VALUES (?, ?)');
     foreach ($ingredients as $ingredient) {
         $stmt->execute([$recipe, $ingredient]);
-    }    
+    }
 }
 
 function getIngredientsByRecipe($recipe)
@@ -31,20 +31,31 @@ function getIngredientsByRecipe($recipe)
     return $stmt->fetchAll();
 }
 
-function createIngredient($ingredient){
+function createIngredient($ingredient)
+{
     $db = DBconnection();
     $stmt = $db->prepare('INSERT INTO ingredient (name) VALUES (?)');
     return $stmt->execute([$ingredient]);
 }
 
-function deleteIngredient($ingredient){
+function deleteIngredient($ingredient)
+{
     $db = DBconnection();
     $stmt = $db->prepare('DELETE FROM ingredient WHERE name = ?');
     return $stmt->execute([$ingredient]);
 }
 
-function updateIngredient($oldIngredient, $newIngredient){
+function updateIngredient($oldIngredient, $newIngredient)
+{
     $db = DBconnection();
     $stmt = $db->prepare('UPDATE ingredient SET name = ? WHERE name = ?');
     return $stmt->execute([$newIngredient, $oldIngredient]);
+}
+
+function getNumberRecipesByIngredient($id)
+{
+    $db = DBconnection();
+    $stmt = $db->prepare('SELECT COUNT(*) as `count` FROM ingredients_list WHERE ingredient = ?');
+    $stmt->execute([$id]);
+    return $stmt->fetch();
 }

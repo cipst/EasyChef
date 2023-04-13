@@ -1,0 +1,20 @@
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5em;
+}
+
+/* .chart-container .chart:nth-child(even){
+    align-self: start;
+}
+
+.chart-container .chart:nth-child(odd){
+    align-self: end;
+} */
+
+.chart-container .chart {
+    width: 100% !important;
+    height: unset !important;
+}

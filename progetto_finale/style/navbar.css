@@ -176,7 +176,7 @@ nav #expanded #nav-search button ion-icon {
 
     nav #collapsed .open {
         position: absolute;
-        top: 1em;
+        top: 1.4em;
         right: 1em;
         color: var(--primary-500);
     }
@@ -193,7 +193,7 @@ nav #expanded #nav-search button ion-icon {
 
     nav #expanded .close {
         position: absolute;
-        top: 1em;
+        top: 1.4em;
         right: 1em;
         color: var(--primary-500);
     }
