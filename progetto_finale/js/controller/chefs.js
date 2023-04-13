@@ -20,7 +20,7 @@ $(() => {
 });
 
 const deleteChef = (chef_id) => {
-    new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this chef adn ALL of his recipes?", () => {
+    new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this chef and ALL of his recipes?", () => {
         makeRequest({
             type: "POST",
             url: "./api/chefs/delete.php",

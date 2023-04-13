@@ -102,8 +102,10 @@ export const createChefEntries = (chefs, deleteChef) => {
             <td>${chef.email}</td>
             <td>${chef.password}</td>
             <td>
-                <button class="btn-action danger" type="button" id="delete-chef-${chef.id}"><i
-                        class="fa-solid fa-trash-can fa-2xl"></i></button>
+            ${chef.role === "ADMIN" ? "" :
+                `<button class="btn-action danger" type="button" id=delete-chef-${chef.id}><i
+                    class="fa-solid fa-trash-can fa-2xl"></i></button>`
+            }
             </td>
         </tr>`);
         $(`#delete-chef-${chef.id}`).click(() => {
