@@ -76,6 +76,7 @@ const getAllIngredients = () => {
                 $("#ingredient-table").append(`<tr id="ingredient-${ingredient}">
                     <th scope="row">
                         <input type="text" class="form-control" id="ingredient-${ingredient}-name-input" value="${capitalize(ingredient)}">
+                        <label id="ingredient-${ingredient}-error" class="label-error" for="ingredient-${ingredient}-name-input"></label>
                         <span id="ingredient-${ingredient}-name">${capitalize(ingredient)}</span>
                     </th>
                     <td>
@@ -97,9 +98,20 @@ const getAllIngredients = () => {
                     $(`#ingredient-${ingredient}-name-input`).keypress((event) => {
                         if (event.key === "Enter") {
                             event.preventDefault();
-                            $(`#ingredient-${ingredient}-name-input`).hide();
-                            $(`#ingredient-${ingredient}-name`).show();
-                            updateIngredient(ingredient, $(`#ingredient-${ingredient}-name-input`).val().trim().toLowerCase());
+                            const newIngredient = $(`#ingredient-${ingredient}-name-input`).val().trim().toLowerCase();
+
+                            if (newIngredient === ingredient) {
+                                new Alert(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
+                                return;
+                            }
+
+                            if (isValid(newIngredient, `#ingredient-${ingredient}-name-input`, "Please enter an ingredient name!")) {
+                                updateIngredient(ingredient, newIngredient);
+
+                                $(`#ingredient-${ingredient}-name-input`).hide();
+                                $(`#ingredient-${ingredient}-error`).hide();
+                                $(`#ingredient-${ingredient}-name`).show();
+                            }
                         }
                     });
 
@@ -107,6 +119,7 @@ const getAllIngredients = () => {
                         if (event.key === "Escape") {
                             event.preventDefault();
                             $(`#ingredient-${ingredient}-name-input`).hide();
+                            $(`#ingredient-${ingredient}-error`).hide();
                             $(`#ingredient-${ingredient}-name`).show();
                         }
                     });

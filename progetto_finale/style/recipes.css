@@ -4,10 +4,13 @@ Recipes
 ===============
 */
 
+/* hide all input of cooking method table execpt for the last one */
+#cooking-method-table input:not(#cookingMethodName),
 #ingredient-table input {
     display: none;
 }
 
+#cooking-method-table span,
 #ingredient-table span {
     display: block;
 }

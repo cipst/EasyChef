@@ -18,17 +18,54 @@ const getAllCookingMethods = () => {
 
                 // Control Panel Admin - Cooking Methods
                 $("#cooking-method-table").append(`<tr id="cooking-method-${method}">
-                    <th scope="row">${capitalize(method)}</th>
+                    <th scope="row">
+                        <input type="text" class="form-control" id="cooking-method-${method}-name-input" value="${capitalize(method)}">
+                        <label id="cooking-method-${method}-error" class="label-error" for="cooking-method-${method}-name-input"></label>
+                        <span id="cooking-method-${method}-name">${capitalize(method)}</span>
+                    </th>
                     <td>
                         <button id="delete-cooking-method-${method}" class="btn-action danger" type="button"><i
                                 class="fa-solid fa-trash-can fa-2xl"></i></button>
-                        <button class="btn-action success" type="button"><i
+                        <button id="update-cooking-method-${method}" class="btn-action success" type="button"><i
                                 class="fa-solid fa-pen fa-2xl"></i></button>
                     </td>
                 </tr>`);
 
                 $(`#delete-cooking-method-${method}`).click(() => {
                     deleteCookingMethod(method);
+                });
+
+                $(`#update-cooking-method-${method}`).click(() => {
+                    $(`#cooking-method-${method}-name-input`).show().focus();
+                    $(`#cooking-method-${method}-name`).hide();
+
+                    $(`#cooking-method-${method}-name-input`).keypress((event) => {
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            const newMethod = $(`#cooking-method-${method}-name-input`).val().trim().toLowerCase();
+
+                            if (newMethod === method) {
+                                new Alert(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
+                                return;
+                            }
+
+                            if (isValid(newMethod, `#cooking-method-${method}-name-input`, "Please enter a cooking method!")) {
+                                updateCookingMethod(method, newMethod);
+                                $(`#cooking-method-${method}-name-input`).hide();
+                                $(`#cooking-method-${method}-error`).hide();
+                                $(`#cooking-method-${method}-name`).show();
+                            }
+                        }
+                    });
+
+                    $(`#cooking-method-${method}-name-input`).keyup((event) => {
+                        if (event.key === "Escape") {
+                            event.preventDefault();
+                            $(`#cooking-method-${method}-name-input`).hide();
+                            $(`#cooking-method-${method}-error`).hide();
+                            $(`#cooking-method-${method}-name`).show();
+                        }
+                    });
                 });
             }
 
@@ -95,6 +132,21 @@ const deleteCookingMethod = (method) => {
                 new Alert(ALERT_TYPE.ERROR, "Error", "Error deleting the cooking method");
             }
         });
+    });
+}
+
+const updateCookingMethod = (oldMethod, newMethod) => {
+    makeRequest({
+        type: "POST",
+        url: "./api/cooking_methods/update.php",
+        data: { oldName: oldMethod, newName: newMethod },
+        onSuccess: (response) => {
+            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            $(`#cooking-method-${oldMethod}-name`).text(capitalize(newMethod));
+        },
+        onError: (response) => {
+            new Alert(ALERT_TYPE.ERROR, "Error", "Error updating the cooking method");
+        }
     });
 }
 
