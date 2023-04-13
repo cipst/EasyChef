@@ -17,7 +17,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
-<section class="">
+<section class="control-panel-page">
 
     <!-- CHEFS -->
     <div class="row mt-5">
