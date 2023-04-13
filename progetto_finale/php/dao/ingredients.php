@@ -36,3 +36,9 @@ function createIngredient($ingredient){
     $stmt = $db->prepare('INSERT INTO ingredient (name) VALUES (?)');
     return $stmt->execute([$ingredient]);
 }
+
+function deleteIngredient($ingredient){
+    $db = DBconnection();
+    $stmt = $db->prepare('DELETE FROM ingredient WHERE name = ?');
+    return $stmt->execute([$ingredient]);
+}

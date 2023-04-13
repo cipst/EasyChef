@@ -103,7 +103,7 @@ export const createChefEntries = (chefs, deleteChef) => {
             <td>${chef.password}</td>
             <td>
             ${chef.role === "ADMIN" ? "" :
-                `<button class="btn-action danger" type="button" id=delete-chef-${chef.id}><i
+                `<button class="btn-action danger" type="button" id="delete-chef-${chef.id}"><i
                     class="fa-solid fa-trash-can fa-2xl"></i></button>`
             }
             </td>

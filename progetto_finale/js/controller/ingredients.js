@@ -21,7 +21,7 @@ $(() => {
         event.preventDefault();
         const ingredientName = $("#ingredientName").val().trim();
         if (isValid(ingredientName, "#ingredientName", "Please enter an ingredient name!"))
-            handleSubmit(ingredientName);
+            createIngredient(ingredientName);
     });
 
 });
@@ -31,7 +31,7 @@ $(() => {
  * 
  * @param {String} ingredientName 
  */
-const handleSubmit = (ingredientName) => {
+const createIngredient = (ingredientName) => {
     makeRequest({
         type: "POST",
         url: "./api/ingredients/create.php",
@@ -74,16 +74,38 @@ const getAllIngredients = () => {
                 $("#add-ingredients-list").append(`<p>${capitalize(ingredient)}</p><hr>`);
 
                 // Control Panel Admin - Ingredients
-                $("#ingredient-table").append(`<tr>
+                $("#ingredient-table").append(`<tr id="ingredient-${ingredient}">
                     <th scope="row">${capitalize(ingredient)}</th>
                     <td>
-                        <button class="btn-action danger" type="button"><i
+                        <button id="delete-ingredient-${ingredient}" class="btn-action danger" type="button"><i
                                 class="fa-solid fa-trash-can fa-2xl"></i></button>
                         <button class="btn-action success" type="button"><i
                                 class="fa-solid fa-pen fa-2xl"></i></button>
                     </td>
                 </tr>`);
+
+                $(`#delete-ingredient-${ingredient}`).click(() => {
+                    deleteIngredient(ingredient);
+                });
             }
         }
+    });
+}
+
+const deleteIngredient = (ingredient) => {
+    new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this ingredient?", () => {
+
+        makeRequest({
+            type: "POST",
+            url: "./api/ingredients/delete.php",
+            data: { name: ingredient },
+            onSuccess: (response) => {
+                new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                $(`#ingredient-table #ingredient-${ingredient}`).remove();
+            },
+            onError: (response) => {
+                new Alert(ALERT_TYPE.ERROR, "Error", "Error deleting the ingredient");
+            }
+        });
     });
 }

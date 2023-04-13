@@ -19,3 +19,9 @@ function setCookingMethod($cooking_method){
     $stmt = $db->prepare('INSERT INTO cooking_method (name) VALUES (?)');
     return $stmt->execute([$cooking_method]);
 }
+
+function deleteCookingMethod($cooking_method){
+    $db = DBconnection();
+    $stmt = $db->prepare('DELETE FROM cooking_method WHERE name = ?');
+    return $stmt->execute([$cooking_method]);
+}

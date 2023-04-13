@@ -13,12 +13,10 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 try {
     checkData($_POST);
 
-    $response = setCookingMethod($_POST["name"]);
-
-    if (!$response)
-        return response(300, ["error" => "Error while adding cooking method!"]);
-
-    return response(200, ["ok" => "Cooking method added!"]);
+    if (deleteCookingMethod($_POST["name"]))
+        return response(200, ["ok" => "Cooking Method deleted!"]);
+    else
+        return response(300, ["error" => "Cooking Method not deleted!"]);
 } catch (Exception $e) {
     return response(300, ["error" => $e->getMessage()]);
 } catch (Error $e) {
