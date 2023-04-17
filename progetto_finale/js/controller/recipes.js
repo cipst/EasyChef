@@ -37,7 +37,7 @@ class RecipeRequests {
                 if (response.responseJSON.error.toLowerCase().includes("duplicate entry")) {
                     error = "Ingredient already in the list";
                 } else {
-                    error = "Error adding the ingredient";
+                    error = response.responseJSON.error;
                 }
 
                 new Alert(ALERT_TYPE.ERROR, "Error", error);

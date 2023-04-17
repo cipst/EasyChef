@@ -13,6 +13,13 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "USER")
 try {
     checkData($_POST);
 
+    $all = getAllRecipes();
+
+    foreach($all as $recipe){
+        if (strtolower($recipe["title"]) == strtolower($_POST["title"]))
+            return response(300, ["error" => "This recipe already exists!"]);
+    }
+
     createRecipe(
         $_POST["chef_id"],
         $_POST["title"],
