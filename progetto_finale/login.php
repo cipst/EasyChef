@@ -3,7 +3,7 @@ include_once("php/top.php");
 ?>
 
 <!-- My Styles -->
-<link href="style/login.css" rel="stylesheet">
+<link href="style/auth.css" rel="stylesheet">
 
 <?php
 
