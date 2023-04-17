@@ -1,6 +1,6 @@
 import { Alert } from "../alert.js";
 import { ALERT_TYPE } from "../constants.js";
-import { makeRequest } from "../common.js";
+import { makeRequest, sha256 } from "../common.js";
 
 $(async () => {
     testLogin();
@@ -13,15 +13,13 @@ $(async () => {
         const email = f.get("email");
         const password = f.get("password");
 
-        const textAsBuffer = new TextEncoder().encode(password);
-        window.crypto.subtle.digest('SHA-256', textAsBuffer).then((hashBuffer) => {
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const digest = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        (async () => {
+            const passwordHash = await sha256(password);
 
             makeRequest({
                 type: "POST",
                 url: "./api/auth/user.php",
-                data: { email: email, password: digest },
+                data: { email: email, password: passwordHash },
                 onSuccess: (response) => {
                     const user = JSON.parse(response.user);
                     console.log(user);
@@ -52,7 +50,8 @@ $(async () => {
                     return new Alert(ALERT_TYPE.WARNING, error);
                 }
             });
-        });
+        })();
+
     });
 
     $(".form-container form#signup").on("submit", (e) => {
@@ -63,15 +62,13 @@ $(async () => {
         const email = f.get("email").trim().toLowerCase();
         const password = f.get("password").trim().toLowerCase();
 
-        const textAsBuffer = new TextEncoder().encode(password);
-        window.crypto.subtle.digest('SHA-256', textAsBuffer).then((hashBuffer) => {
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const digest = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        (async () => {
+            const passwordHash = await sha256(password);
 
             makeRequest({
                 type: "POST",
                 url: "./api/chefs/create.php",
-                data: { name: name, email: email, password: digest },
+                data: { name: name, email: email, password: passwordHash },
                 onSuccess: (response) => {
                     console.log(response);
                     alert(response.ok);
@@ -93,7 +90,7 @@ $(async () => {
                     return new Alert(ALERT_TYPE.WARNING, error);
                 }
             });
-        });
+        })();
     });
 
     $("#logout").on("click", () => {
