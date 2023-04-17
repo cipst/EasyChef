@@ -10,10 +10,10 @@ try {
 
     session_start();
 
-    if (isset($_SESSION["id"])) {
-        session_destroy();
-        return response(200, ["user" => json_encode(null)]);
-    }
+    // if (isset($_SESSION["id"])) {
+    //     session_destroy();
+    //     return response(200, ["user" => json_encode(null)]);
+    // }
 
     $response = getChefByEmail($_POST['email']);
 
