@@ -25,3 +25,9 @@ function deleteCookingMethod($cooking_method){
     $stmt = $db->prepare('DELETE FROM cooking_method WHERE name = ?');
     return $stmt->execute([$cooking_method]);
 }
+
+function updateCookingMethod($old_cooking_method, $new_cooking_method){
+    $db = DBconnection();
+    $stmt = $db->prepare('UPDATE cooking_method SET name = ? WHERE name = ?');
+    return $stmt->execute([$new_cooking_method, $old_cooking_method]);
+}

@@ -139,7 +139,7 @@ const updateCookingMethod = (oldMethod, newMethod) => {
     makeRequest({
         type: "POST",
         url: "./api/cooking_methods/update.php",
-        data: { oldName: oldMethod, newName: newMethod },
+        data: { oldCookingMethod: oldMethod, newCookingMethod: newMethod },
         onSuccess: (response) => {
             new Alert(ALERT_TYPE.SUCCESS, response.ok);
             $(`#cooking-method-${oldMethod}-name`).text(capitalize(newMethod));
