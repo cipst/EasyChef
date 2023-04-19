@@ -63,6 +63,8 @@ const getAllIngredients = () => {
         url: "./api/ingredients/getAll.php",
         onSuccess: (response) => {
             for (const [index, ingredient] of JSON.parse(response.ingredients).entries()) {
+                let oldIngredient = ingredient;
+
                 $(".ingredients-list").append(`<a href="recipes_by_ingredient.php?ingredient=${ingredient.toLowerCase()}">${ingredient}</a>`);
                 $(".ingredients.form-choice").append(`
                     <div key=${index}>
@@ -100,14 +102,14 @@ const getAllIngredients = () => {
                             event.preventDefault();
                             const newIngredient = $(`#ingredient-${ingredient}-name-input`).val().trim().toLowerCase();
 
-                            if (newIngredient === ingredient) {
+                            if (newIngredient === oldIngredient) {
                                 Alert.init(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
                                 return;
                             }
 
                             if (isValid(newIngredient, `#ingredient-${ingredient}-name-input`, "Please enter an ingredient name!")) {
                                 updateIngredient(ingredient, newIngredient);
-
+                                oldIngredient = newIngredient;
                                 $(`#ingredient-${ingredient}-name-input`).hide();
                                 $(`#ingredient-${ingredient}-error`).hide();
                                 $(`#ingredient-${ingredient}-name`).show();
