@@ -30,14 +30,6 @@ function getChefByEmail($email)
     return $stmt->fetch();
 }
 
-function getChefByEmailAndPassword($email, $password)
-{
-    $db = DBconnection();
-    $stmt = $db->prepare('SELECT id, `name`, email, `role` FROM chef WHERE email = ? AND password = ?');
-    $stmt->execute([$email, $password]);
-    return $stmt->fetch();
-}
-
 function setChef($name, $email, $passowrd)
 {
     $db = DBconnection();
