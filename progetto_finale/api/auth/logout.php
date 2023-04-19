@@ -8,6 +8,7 @@ try {
     session_start();
 
     if (isset($_SESSION["id"])) {
+        session_unset();
         session_destroy();
         return response(200, ["user" => json_encode(null)]);
     }
