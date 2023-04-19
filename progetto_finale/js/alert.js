@@ -8,10 +8,10 @@ import { ALERT_TYPE, ALERT_ICON } from "./constants.js";
  */
 export class Alert {
 
-    #type;
-    #title;
-    #message;
-    #icon;
+    static #type;
+    static #title;
+    static #message;
+    static #icon;
 
     /**
      * @param {ALERT_TYPE} type 
@@ -19,66 +19,71 @@ export class Alert {
      * @param {String|null} message 
      * @returns 
      */
-    constructor(type, title, message = null, callback = null) {
+    static init(type, title, message = null, callback = null) {
         if (!Object.values(ALERT_TYPE).includes(type))
             return;
 
-        if (callback !== null){
-            this.showButtons();
+        if (callback !== null) {
+            Alert.showButtons();
             $("#alert #alert-button-confirm").on("click", () => {
                 callback();
-                this.hideButtons();
+                Alert.hideButtons();
             });
         }
 
-        this.#type = type;
-        this.#title = title;
-        this.#message = message;
-        this.#icon = ALERT_ICON[type.toUpperCase()];
+        Alert.#type = type;
+        Alert.#title = title;
+        Alert.#message = message;
+        Alert.#icon = ALERT_ICON[type.toUpperCase()];
 
-        this.showAlert();
+        Alert.showAlert();
 
-        $("#alert i.close").on("click", this.closeAlert);
-        $("#alert #alert-button-cancel").on("click", this.closeAlert);
+        $("#alert i.close").on("click", Alert.closeAlert);
+        $("#alert #alert-button-cancel").on("click", Alert.closeAlert);
     }
 
-    showAlert() {
-        $("#alert").css("border-color", `var(--${this.#type.toLowerCase()}-color)`); //changing border color
-        $("#alert .alert-heading").css("color", `var(--${this.#type.toLowerCase()}-color)`); //changing heading color
+    static showAlert() {
+        $("#alert").css("border-color", `var(--${Alert.#type.toLowerCase()}-color)`); //changing border color
+        $("#alert .alert-heading").css("color", `var(--${Alert.#type.toLowerCase()}-color)`); //changing heading color
 
-        $("#alert .alert-icon").addClass(this.#icon); //adding icon
-        $("#alert .alert-title").text(this.#title); //adding title
-        $("#alert .alert-message").html(this.#message); //adding message
+        $("#alert .alert-icon").removeClass(ALERT_ICON.ERROR);
+        $("#alert .alert-icon").removeClass(ALERT_ICON.INFO);
+        $("#alert .alert-icon").removeClass(ALERT_ICON.SUCCESS);
+        $("#alert .alert-icon").removeClass(ALERT_ICON.WARNING);
+
+        $("#alert .alert-icon").addClass(Alert.#icon); //adding icon
+        $("#alert .alert-title").text(Alert.#title); //adding title
+        $("#alert .alert-message").html(Alert.#message); //adding message
 
         $("#alert").fadeIn(500);
         $("#alert").show();
         $("#mask").show();
     }
 
-    closeAlert = (e) => {
+    static closeAlert = (e) => {
         $("#alert").fadeOut(200, () => {
-            $("#alert .alert-icon").removeClass(this.#icon);
+            $("#alert .alert-icon").removeClass(Alert.#icon);
             $("#alert .alert-message").text("");
         });
         $("#mask").fadeOut(200);
         e.preventDefault();
     }
 
-    showButtons() {
+    static showButtons() {
         $("#alert .alert-buttons").css({ "display": "flex" });
     }
 
-    hideButtons() {
+    static hideButtons() {
         $("#alert .alert-buttons").css({ "display": "none" });
     }
 
     get title() {
-        return this.#title;
+        return Alert.#title;
     }
     get message() {
-        return this.#message;
+        return Alert.#message;
     }
     get icon() {
-        return `${this.#icon}`;
+        return `${Alert.#icon}`;
     }
 }
