@@ -13,6 +13,8 @@ const getAllCookingMethods = () => {
         data: {},
         onSuccess: (response) => {
             for (const [index, method] of JSON.parse(response.methods).entries()) {
+                let oldMethod = method;
+
                 $(".tags-list").append(`<a href="recipes_by_cooking_method.php?method=${method.toLowerCase()}">${method}</a>`);
                 $("select.form-input").append(`<option key=${index} value=${method}>${method}</option>`);
 
@@ -44,13 +46,14 @@ const getAllCookingMethods = () => {
                             event.preventDefault();
                             const newMethod = $(`#cooking-method-${method}-name-input`).val().trim().toLowerCase();
 
-                            if (newMethod === method) {
-                                Alert.init(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
+                            if (newMethod === oldMethod) {
+                                Alert.init(ALERT_TYPE.ERROR, "Error", "New cooking method name is the same as the old one");
                                 return;
                             }
 
                             if (isValid(newMethod, `#cooking-method-${method}-name-input`, "Please enter a cooking method!")) {
                                 updateCookingMethod(method, newMethod);
+                                oldMethod = newMethod;
                                 $(`#cooking-method-${method}-name-input`).hide();
                                 $(`#cooking-method-${method}-error`).hide();
                                 $(`#cooking-method-${method}-name`).show();

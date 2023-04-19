@@ -14,20 +14,27 @@ function getAllCookingMethods()
     return $stmt->fetchAll();
 }
 
-function setCookingMethod($cooking_method){
+function setCookingMethod($cooking_method)
+{
     $db = DBconnection();
     $stmt = $db->prepare('INSERT INTO cooking_method (name) VALUES (?)');
-    return $stmt->execute([$cooking_method]);
+    $stmt->bindParam(1, $cooking_method, PDO::PARAM_STR);
+    return $stmt->execute();
 }
 
-function deleteCookingMethod($cooking_method){
+function deleteCookingMethod($cooking_method)
+{
     $db = DBconnection();
     $stmt = $db->prepare('DELETE FROM cooking_method WHERE name = ?');
-    return $stmt->execute([$cooking_method]);
+    $stmt->bindParam(1, $cooking_method, PDO::PARAM_STR);
+    return $stmt->execute();
 }
 
-function updateCookingMethod($old_cooking_method, $new_cooking_method){
+function updateCookingMethod($old_cooking_method, $new_cooking_method)
+{
     $db = DBconnection();
     $stmt = $db->prepare('UPDATE cooking_method SET name = ? WHERE name = ?');
-    return $stmt->execute([$new_cooking_method, $old_cooking_method]);
+    $stmt->bindParam(1, $new_cooking_method, PDO::PARAM_STR);
+    $stmt->bindParam(2, $old_cooking_method, PDO::PARAM_STR);
+    return $stmt->execute();
 }
