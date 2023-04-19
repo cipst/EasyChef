@@ -74,7 +74,7 @@ class ProfileRequests {
      */
     static handleLike = (recipe, chef_id) => {
         if (chef_id === undefined)
-            return new Alert(ALERT_TYPE.INFO,
+            return Alert.init(ALERT_TYPE.INFO,
                 "Registration required",
                 `You must be logged in to like a recipe<br>
             <a href='./login.php'>Login</a> or <a href='./sign_up.php'>Register</a>`
@@ -112,22 +112,22 @@ class ProfileRequests {
             },
             onError: (response) => {
                 console.log(response.responseJSON);
-                new Alert(ALERT_TYPE.ERROR, response.responseJSON.error);
+                Alert.init(ALERT_TYPE.ERROR, response.responseJSON.error);
             }
         });
     };
     static deleteRecipe = (recipe_id) => {
-        new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this recipe?", () => {
+        Alert.init(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this recipe?", () => {
             makeRequest({
                 type: "POST",
                 url: "./api/recipes/delete.php",
                 data: { id: recipe_id },
                 onSuccess: (response) => {
-                    new Alert(ALERT_TYPE.SUCCESS, "Recipe deleted", response.message);
+                    Alert.init(ALERT_TYPE.SUCCESS, "Recipe deleted", response.message);
                     $(`#delete_recipe_${recipe_id}`).display = "none";
                 },
                 onError: (response) => {
-                    new Alert(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
+                    Alert.init(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
                 }
             });
         });

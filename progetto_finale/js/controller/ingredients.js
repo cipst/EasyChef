@@ -37,7 +37,7 @@ const createIngredient = (ingredientName) => {
         url: "./api/ingredients/create.php",
         data: { name: ingredientName.toLowerCase() },
         onSuccess: (response) => {
-            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            Alert.init(ALERT_TYPE.SUCCESS, response.ok);
             $("#add-ingredients-list").append(`<p>${capitalize(ingredientName)}</p><hr>`);
         },
         onError: (response) => {
@@ -49,7 +49,7 @@ const createIngredient = (ingredientName) => {
                 error = "Error adding the ingredient";
             }
 
-            new Alert(ALERT_TYPE.ERROR, "Error", error);
+            Alert.init(ALERT_TYPE.ERROR, "Error", error);
         }
     })
 }
@@ -101,7 +101,7 @@ const getAllIngredients = () => {
                             const newIngredient = $(`#ingredient-${ingredient}-name-input`).val().trim().toLowerCase();
 
                             if (newIngredient === ingredient) {
-                                new Alert(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
+                                Alert.init(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
                                 return;
                             }
 
@@ -130,18 +130,18 @@ const getAllIngredients = () => {
 }
 
 const deleteIngredient = (ingredient) => {
-    new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this ingredient?", () => {
+    Alert.init(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this ingredient?", () => {
 
         makeRequest({
             type: "POST",
             url: "./api/ingredients/delete.php",
             data: { name: ingredient },
             onSuccess: (response) => {
-                new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                Alert.init(ALERT_TYPE.SUCCESS, response.ok);
                 $(`#ingredient-table #ingredient-${ingredient}`).remove();
             },
             onError: (response) => {
-                new Alert(ALERT_TYPE.ERROR, "Error", "Error deleting the ingredient");
+                Alert.init(ALERT_TYPE.ERROR, "Error", "Error deleting the ingredient");
             }
         });
     });
@@ -153,11 +153,11 @@ const updateIngredient = (oldIngredient, newIngredient) => {
         url: "./api/ingredients/update.php",
         data: { oldIngredient: oldIngredient, newIngredient: newIngredient },
         onSuccess: (response) => {
-            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            Alert.init(ALERT_TYPE.SUCCESS, response.ok);
             $(`#ingredient-${oldIngredient}-name`).text(capitalize(newIngredient));
         },
         onError: (response) => {
-            new Alert(ALERT_TYPE.ERROR, "Error", "Error updating the ingredient");
+            Alert.init(ALERT_TYPE.ERROR, "Error", "Error updating the ingredient");
         }
     });
 }

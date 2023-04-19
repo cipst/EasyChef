@@ -45,7 +45,7 @@ const getAllCookingMethods = () => {
                             const newMethod = $(`#cooking-method-${method}-name-input`).val().trim().toLowerCase();
 
                             if (newMethod === method) {
-                                new Alert(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
+                                Alert.init(ALERT_TYPE.ERROR, "Error", "New ingredient name is the same as the old one");
                                 return;
                             }
 
@@ -88,7 +88,7 @@ const createCookingMethod = (method) => {
         url: "./api/cooking_methods/create.php",
         data: { name: method.toLowerCase() },
         onSuccess: (response) => {
-            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            Alert.init(ALERT_TYPE.SUCCESS, response.ok);
             $("#cooking-method-last-insert-row").remove();
 
             $("#cooking-method-table").append(`<tr id="cooking-method-${method}">
@@ -112,24 +112,24 @@ const createCookingMethod = (method) => {
                 error = "Error adding the ingredient";
             }
 
-            new Alert(ALERT_TYPE.ERROR, "Error", error);
+            Alert.init(ALERT_TYPE.ERROR, "Error", error);
         }
     })
 }
 
 const deleteCookingMethod = (method) => {
-    new Alert(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this cooking method and ALL the recipes containing it?", () => {
+    Alert.init(ALERT_TYPE.WARNING, "Are you sure?", "Are you sure you want to delete this cooking method and ALL the recipes containing it?", () => {
 
         makeRequest({
             type: "POST",
             url: "./api/cooking_methods/delete.php",
             data: { name: method },
             onSuccess: (response) => {
-                new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                Alert.init(ALERT_TYPE.SUCCESS, response.ok);
                 $(`#cooking-method-table #cooking-method-${method}`).remove();
             },
             onError: (response) => {
-                new Alert(ALERT_TYPE.ERROR, "Error", "Error deleting the cooking method");
+                Alert.init(ALERT_TYPE.ERROR, "Error", "Error deleting the cooking method");
             }
         });
     });
@@ -141,11 +141,11 @@ const updateCookingMethod = (oldMethod, newMethod) => {
         url: "./api/cooking_methods/update.php",
         data: { oldCookingMethod: oldMethod, newCookingMethod: newMethod },
         onSuccess: (response) => {
-            new Alert(ALERT_TYPE.SUCCESS, response.ok);
+            Alert.init(ALERT_TYPE.SUCCESS, response.ok);
             $(`#cooking-method-${oldMethod}-name`).text(capitalize(newMethod));
         },
         onError: (response) => {
-            new Alert(ALERT_TYPE.ERROR, "Error", "Error updating the cooking method");
+            Alert.init(ALERT_TYPE.ERROR, "Error", "Error updating the cooking method");
         }
     });
 }

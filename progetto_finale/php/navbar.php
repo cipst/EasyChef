@@ -9,6 +9,7 @@ function isActive(string $page)
 
 <body>
 
+    <!-- ALERT -->
     <div id="alert">
         <div class="alert-heading">
             <i class="alert-icon fa-solid fa-xl"></i>

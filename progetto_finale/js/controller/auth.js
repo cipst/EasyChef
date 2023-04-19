@@ -24,12 +24,12 @@ $(async () => {
                     const user = JSON.parse(response.user);
                     console.log(user);
                     if (user === null) {
-                        new Alert(ALERT_TYPE.SUCCESS, "You have been logged out");
+                        Alert.init(ALERT_TYPE.SUCCESS, "You have been logged out");
                         setTimeout(() => {
                             window.location.href = "./login.php";
                         }, 2000);
                     } else {
-                        new Alert(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
+                        Alert.init(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
                         setTimeout(() => {
                             window.location.href = "./index.php";
                         }, 2000);
@@ -47,7 +47,7 @@ $(async () => {
                         $("#login-password").css({ "border": "1px solid var(--error-color)" });
                     }
 
-                    return new Alert(ALERT_TYPE.WARNING, error);
+                    return Alert.init(ALERT_TYPE.WARNING, error);
                 }
             });
         })();
@@ -72,7 +72,7 @@ $(async () => {
                 onSuccess: (response) => {
                     console.log(response);
                     alert(response.ok);
-                    new Alert(ALERT_TYPE.SUCCESS, response.ok);
+                    Alert.init(ALERT_TYPE.SUCCESS, response.ok);
                     window.location.href = "./index.php";
                 },
                 onError: (response) => {
@@ -87,7 +87,7 @@ $(async () => {
                         $("#signup-name").css({ "border": "1px solid var(--error-color)" });
                     }
 
-                    return new Alert(ALERT_TYPE.WARNING, error);
+                    return Alert.init(ALERT_TYPE.WARNING, error);
                 }
             });
         })();
@@ -101,12 +101,12 @@ $(async () => {
                 const user = JSON.parse(response.user);
                 console.log(user);
                 if (user === null) {
-                    new Alert(ALERT_TYPE.SUCCESS, "You have been logged out");
+                    Alert.init(ALERT_TYPE.SUCCESS, "You have been logged out");
                     setTimeout(() => {
                         window.location.href = "./login.php";
                     }, 2000);
                 } else {
-                    new Alert(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
+                    Alert.init(ALERT_TYPE.SUCCESS, `Welcome back ${user.name}`);
                     setTimeout(() => {
                         window.location.href = "./index.php";
                     }, 2000);
@@ -116,7 +116,7 @@ $(async () => {
                 console.log("ERROR", response);
                 const { error } = response.responseJSON;
 
-                return new Alert(ALERT_TYPE.WARNING, error);
+                return Alert.init(ALERT_TYPE.WARNING, error);
             }
         });
     });

@@ -9,7 +9,7 @@ $(async () => {
 
     $("#mask").on("click", (e) => {
         $("#alert").fadeOut(200, () => {
-            $("#alert .alert-icon").removeClass(alert.icon);
+            $("#alert .alert-icon").removeClass(Alert.icon);
             $("#alert .alert-message").text("");
         });
         $("#mask").fadeOut(200);

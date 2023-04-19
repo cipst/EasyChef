@@ -60,7 +60,7 @@ export const userLogged = async () => {
         type: "GET",
         url: "./api/auth/session.php",
         onError: (_) => {
-            new Alert(ALERT_TYPE.ERROR, "Error", "An error occurred while checking if you are logged in");
+            Alert.init(ALERT_TYPE.ERROR, "Error", "An error occurred while checking if you are logged in");
         }
     }).then(response => {
         return JSON.parse(response.user);
