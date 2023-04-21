@@ -22,6 +22,8 @@ try {
             return response(300, ["error" => "Email already exists!"]);
     }
 
+    $password = hash("sha256", $password);
+
     $id = setChef($name, $email, $password);
 
     if (!$id)
@@ -30,8 +32,9 @@ try {
     session_start();
 
     $_SESSION["id"] = $id;
-    $_SESSION["name"] = $_POST["name"];
-    $_SESSION["email"] = $_POST['email'];
+    $_SESSION["name"] = $name;
+    $_SESSION["email"] = $email;
+    $_SESSION["role"] = "USER";
 
     return response(200, ["ok" => "Chef created!"]);
 } catch (Exception $e) {

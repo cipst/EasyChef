@@ -17,7 +17,8 @@ try {
 
     if (!$response)
         return response(300, ["error" => "Email not found!"]);
-
+        
+    $password = hash("sha256", $password);
     if ($response["password"] != $password)
         return response(300, ["error" => "Password not correct!"]);
 
