@@ -8,24 +8,22 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 try {
     checkData($_POST);
 
+    $email = strip_tags($_POST['email']);
+    $password = strip_tags($_POST['password']);
+
     session_start();
 
-    // if (isset($_SESSION["id"])) {
-    //     session_destroy();
-    //     return response(200, ["user" => json_encode(null)]);
-    // }
-
-    $response = getChefByEmail($_POST['email']);
+    $response = getChefByEmail($email);
 
     if (!$response)
         return response(300, ["error" => "Email not found!"]);
 
-    if ($response["password"] != $_POST['password'])
+    if ($response["password"] != $password)
         return response(300, ["error" => "Password not correct!"]);
 
     $_SESSION["id"] = $response["id"];
     $_SESSION["name"] = $response["name"];
-    $_SESSION["email"] = $_POST['email'];
+    $_SESSION["email"] = $email;
     $_SESSION["role"] = $response["role"];
 
     return response(200, ["user" => json_encode($_SESSION)]);

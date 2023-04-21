@@ -13,7 +13,9 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 try {
     checkData($_POST);
 
-    if (deleteIngredient($_POST["name"]))
+    $name = strip_tags($_POST["name"]);
+
+    if (deleteIngredient($name))
         return response(200, ["ok" => "Ingredient deleted!"]);
     else
         return response(300, ["error" => "Ingredient not deleted!"]);

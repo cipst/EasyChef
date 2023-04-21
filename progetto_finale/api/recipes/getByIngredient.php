@@ -9,7 +9,7 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
 try {
     checkData($_GET);
 
-    $ingredient = $_GET["ingredient"];
+    $ingredient = strip_tags($_GET["ingredient"]);
     $response = getRecipesByIngredient($ingredient);
 
     $recipes = array();

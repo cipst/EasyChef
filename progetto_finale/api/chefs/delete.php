@@ -13,7 +13,9 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 try {
     checkData($_POST);
 
-    if (deleteChef($_POST["id"]))
+    $id = strip_tags($_POST["id"]);
+
+    if (deleteChef($id))
         return response(200, ["ok" => "Chef deleted!"]);
     else
         return response(300, ["error" => "Chef not deleted!"]);

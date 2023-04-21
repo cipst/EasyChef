@@ -13,7 +13,9 @@ if (!isset($_SESSION["role"]))
 try {
     checkData($_POST);
 
-    createIngredient($_POST["name"]);
+    $name = strip_tags($_POST["name"]);
+
+    createIngredient($name);
 
     return response(200, ["ok" => "Ingredient added!"]);
 } catch (Exception $e) {

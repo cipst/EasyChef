@@ -13,7 +13,10 @@ if (!isset($_SESSION["role"]))
 try {
     checkData($_POST);
 
-    if (updateIngredient($_POST["oldIngredient"], $_POST["newIngredient"]))
+    $oldIngredient = strip_tags($_POST["oldIngredient"]);
+    $newIngredient = strip_tags($_POST["newIngredient"]);
+
+    if (updateIngredient($oldIngredient, $newIngredient))
         return response(200, ["ok" => "Ingredient updated!"]);
     else
         return response(300, ["error" => "Ingredient not updated!"]);

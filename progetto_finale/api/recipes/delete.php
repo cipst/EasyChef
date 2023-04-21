@@ -13,7 +13,9 @@ if (!isset($_SESSION["role"]) || ($_SESSION["role"] != "USER" && $_SESSION["role
 try {
     checkData($_POST);
 
-    if (deleteRecipe($_POST["id"]))
+    $id = strip_tags($_POST["id"]);
+
+    if (deleteRecipe($id))
         return response(200, ["ok" => "Recipe deleted!"]);
     else
         return response(300, ["error" => "Recipe not deleted!"]);

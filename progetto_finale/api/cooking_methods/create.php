@@ -13,7 +13,9 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "ADMIN")
 try {
     checkData($_POST);
 
-    $response = setCookingMethod($_POST["name"]);
+    $name = strip_tags($_POST["name"]);
+
+    $response = setCookingMethod($name);
 
     if (!$response)
         return response(300, ["error" => "Error while adding cooking method!"]);

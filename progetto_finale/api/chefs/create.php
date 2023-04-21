@@ -8,17 +8,21 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 try {
     checkData($_POST);
 
+    $email = strip_tags($_POST['email']);
+    $name = strip_tags($_POST['name']);
+    $password = strip_tags($_POST['password']);
+
     $all = getAllChefs();
 
     foreach ($all as $chef) {
-        if (strtolower($chef["name"]) == strtolower($_POST["name"]))
+        if (strtolower($chef["name"]) == strtolower($name))
             return response(300, ["error" => "Chef name already exists!"]);
 
-        if (strtolower($chef["email"]) == strtolower($_POST["email"]))
+        if (strtolower($chef["email"]) == strtolower($email))
             return response(300, ["error" => "Email already exists!"]);
     }
 
-    $id = setChef($_POST["name"], $_POST["email"], $_POST["password"]);
+    $id = setChef($name, $email, $password);
 
     if (!$id)
         return response(300, ["error" => "Chef not created!"]);

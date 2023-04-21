@@ -8,8 +8,10 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "POST")
 try {
     checkData($_POST);
 
-    $recipe = getRecipesLikedByChefId($_POST["chef_id"]);
-    
+    $chef_id = strip_tags($_POST["chef_id"]);
+
+    $recipe = getRecipesLikedByChefId($chef_id);
+
     $recipes = array();
     foreach ($recipe as $index => $recipe) {
         $id = $recipe["id"];

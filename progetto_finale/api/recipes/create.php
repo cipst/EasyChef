@@ -12,22 +12,30 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "USER")
 
 try {
     checkData($_POST);
+    
+    $chef_id = strip_tags($_POST["chef_id"]);
+    $title = strip_tags($_POST["title"]);
+    $procedure = strip_tags($_POST["procedure"]);
+    $category = strip_tags($_POST["category"]);
+    $cooking_method = strip_tags($_POST["cooking_method"]);
+    $portions = strip_tags($_POST["portions"]);
+    $cooking_time = strip_tags($_POST["cooking_time"]);
 
     $all = getAllRecipes();
 
     foreach($all as $recipe){
-        if (strtolower($recipe["title"]) == strtolower($_POST["title"]))
+        if (strtolower($recipe["title"]) == strtolower($title))
             return response(300, ["error" => "This recipe already exists!"]);
     }
 
     createRecipe(
-        $_POST["chef_id"],
-        $_POST["title"],
-        $_POST["procedure"],
-        $_POST["category"],
-        $_POST["cooking_method"],
-        $_POST["portions"],
-        $_POST["cooking_time"],
+        $chef_id,
+        $title,
+        $procedure,
+        $category,
+        $cooking_method,
+        $portions,
+        $cooking_time,
         $_POST["ingredients"]
     );
 

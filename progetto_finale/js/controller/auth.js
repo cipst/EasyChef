@@ -19,7 +19,7 @@ $(async () => {
             makeRequest({
                 type: "POST",
                 url: "./api/auth/user.php",
-                data: { email: email, password: passwordHash },
+                data: { email: email, password: password },
                 onSuccess: (response) => {
                     const user = JSON.parse(response.user);
                     console.log(user);

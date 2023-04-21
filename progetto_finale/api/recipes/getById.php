@@ -9,7 +9,7 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] != "GET")
 try {
     checkData($_GET);
 
-    $id = $_GET["id"];
+    $id = strip_tags($_GET["id"]);
     $response = getRecipeById($id);
 
     $likes = createArray(getChefsLikeByRecipe($id), "chef");

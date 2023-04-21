@@ -14,9 +14,12 @@ if (!isset($_SESSION["role"]))
 try {
     checkData($_POST);
 
+    $recipe_id = strip_tags($_POST["recipe_id"]);
+    $chef_id = strip_tags($_POST["chef_id"]);
+
     $recipe_response = setLike(
-        $_POST["recipe_id"],
-        $_POST["chef_id"],
+        $recipe_id,
+        $chef_id,
     );
 
     return response(200, ["ok" => "Like $recipe_response"]);

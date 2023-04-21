@@ -13,7 +13,10 @@ if (!isset($_SESSION["role"]))
 try {
     checkData($_POST);
 
-    if (updateCookingMethod($_POST["oldCookingMethod"], $_POST["newCookingMethod"]))
+    $oldCookingMethod = strip_tags($_POST["oldCookingMethod"]);
+    $newCookingMethod = strip_tags($_POST["newCookingMethod"]);
+
+    if (updateCookingMethod($oldCookingMethod, $newCookingMethod))
         return response(200, ["ok" => "Cooking Method updated!"]);
     else
         return response(300, ["error" => "Cooking Method not updated!"]);
