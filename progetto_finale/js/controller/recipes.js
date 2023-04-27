@@ -313,10 +313,11 @@ const newRecipe = (event, user) => {
 
 const appendRecipesList = (recipes, chef_id) => {
     if (recipes.length === 0) {
-        $(".recipes-list").append(`<h3 class="text-center">No recipes found!</h4>`);
+        $(".recipes-list").html(`<h3 class="text-center">No recipes found!</h4>`);
         return;
     }
 
+    $(".recipes-list").html("");
     for (const [index, recipe] of recipes.entries()) {
         $(".recipes-list").append(createRecipeCard(recipe, chef_id));
 

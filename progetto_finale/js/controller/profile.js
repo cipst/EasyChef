@@ -18,17 +18,23 @@ class ProfileRequests {
             },
             onSuccess: (response) => {
                 const recipes = JSON.parse(response.recipes);
-                console.log("RECIPES: ", recipes);
 
                 const className = "recipes-list";
 
                 appendRecipesList(recipes, chef_id, className);
 
-                $("#index-search").on("click", (e) => {
-                    $(".content").animate({ scrollTop: $(`.${className}`).offset().top - 200 }, 1000);
-                });
+                if ($(".recipes-list").offset() !== undefined) {
+                    $("#index-search").on("click", (e) => {
+                        $(".content").animate({ scrollTop: $(".recipes-list").offset().top - 200 }, 1000);
+                    });
+                    handleSearch(recipes, chef_id, "recipes-list");
+                } else {
+                    $("#index-search").on("click", (e) => {
+                        $(".content").animate({ scrollTop: $(".liked-recipes-list").offset().top - 200 }, 1000);
+                    });
+                    handleSearch(recipes, chef_id, "liked-recipes-list");
+                }
 
-                handleSearch(recipes, chef_id, className);
             },
             onError: (response) => {
                 console.log(response);
@@ -94,8 +100,6 @@ class ProfileRequests {
                     newClass = "fas";
                     newText = "Unlike recipe";
 
-                    console.log("NUMBER: ", $(`.liked-recipes-list div#recipe_${recipe.id}`).length);
-
                     $(`.liked-recipes-list`).append(createRecipeCard(recipe, chef_id));
 
                 } else {
@@ -144,9 +148,6 @@ $(async () => {
     ProfileRequests.getRecipesByChefId(user?.id);
 
     ProfileRequests.getRecipesLikedByChefId(user?.id);
-
-    // TODO: add event listener to DELETE buttons
-
 });
 
 const handleSearch = (recipes, chef_id, className) => {
@@ -176,10 +177,11 @@ const filterRecipes = (recipes, value, chef_id, className) => {
 
 const appendRecipesList = (recipes, chef_id, className) => {
     if (recipes.length === 0) {
-        $(`.${className}`).append(`<h3 class="text-center">No recipes found!</h4>`);
+        $(`.${className}`).html(`<h3 class="text-center">No recipes found!</h4>`);
         return;
     }
 
+    $(`.${className}`).html("");
     for (const [index, recipe] of recipes.entries()) {
         $(`.${className}`).append(createRecipeCard(recipe, chef_id, true));
 

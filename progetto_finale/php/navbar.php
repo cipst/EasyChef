@@ -57,7 +57,7 @@ function isActive(string $page)
             }
             ?>
             <?php
-            if (!strpos($_SERVER['REQUEST_URI'], "control_panel.php")) {
+            if (!strpos($_SERVER['REQUEST_URI'], ".php") || strpos($_SERVER['REQUEST_URI'], "index.php") || strpos($_SERVER['REQUEST_URI'], "profile.php")) {
                 ?>
                 <li id="search">
                     <form id="nav-search">
