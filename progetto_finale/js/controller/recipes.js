@@ -151,7 +151,6 @@ class RecipeRequests {
             onError: (response) => {
                 $(".featured-recipes h3").append(capitalize(ingredient));
                 $(".recipes-list").append(`<h4>${response.responseJSON.error}</h4>`);
-                // Alert.init(ALERT_TYPE.ERROR, "An error occurred", response.responseJSON.error);
             }
         });
     };
