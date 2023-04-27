@@ -1,10 +1,6 @@
 import { Alert } from "./alert.js";
-import { ALERT_TYPE } from "./constants.js";
-import { makeRequest, userLogged } from "./common.js";
 
 $(async () => {
-    const user = await userLogged();
-
     $("footer #year").text(new Date().getFullYear());
 
     $("#mask").on("click", (e) => {

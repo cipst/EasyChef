@@ -10,9 +10,6 @@ if (!isset($_SESSION["id"]))
 <script type="module" src="js/controller/cooking_methods.js"></script>
 <?php include_once("php/navbar.php"); ?>
 
-<button id="tmp-login-topolino" class="btn btn-outline">Login topolino</button>
-<button id="tmp-login-minnie" class="btn">Login minnie</button>
-
 <header class="hero">
     <div class="hero-container">
         <div class="hero-text">
