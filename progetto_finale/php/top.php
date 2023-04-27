@@ -23,7 +23,7 @@ require_once("common.php");
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Font Awesome local -->
-    <link href="assets/css/all.css" rel="stylesheet">
+    <link href="assets/css/fontawesome.css" rel="stylesheet">
 
     <!-- Chart CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">

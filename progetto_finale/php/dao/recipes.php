@@ -79,7 +79,7 @@ function getRecipesByIngredient($ingredient)
 {
     $db = DBconnection();
     $stmt = $db->prepare('SELECT * FROM recipe WHERE id IN (SELECT recipe FROM ingredients_list WHERE ingredient = ?)');
-    $stmt->bindParam(1, $ingredient, PDO::PARAM_INT);
+    $stmt->bindParam(1, $ingredient, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll();
 }

@@ -63,7 +63,7 @@ function getNumberRecipesByIngredient($id)
 {
     $db = DBconnection();
     $stmt = $db->prepare('SELECT COUNT(*) as `count` FROM ingredients_list WHERE ingredient = ?');
-    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+    $stmt->bindParam(1, $id, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch();
 }
