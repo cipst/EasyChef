@@ -39,12 +39,16 @@ function setLike($recipe, $chef)
     if (count($result) > 0) {
         // if the chef has already liked the recipe, remove the like
         $stmt = $db->prepare('DELETE FROM likes WHERE recipe = ? AND chef = ?');
+        $stmt->bindParam(1, $recipe, PDO::PARAM_INT);
+        $stmt->bindParam(2, $chef, PDO::PARAM_INT);
 
         $stmt->execute();
         return "removed";
     }
     // if the chef has not liked the recipe, add the like
     $stmt = $db->prepare('INSERT INTO likes (recipe, chef) VALUES (?, ?)');
+    $stmt->bindParam(1, $recipe, PDO::PARAM_INT);
+    $stmt->bindParam(2, $chef, PDO::PARAM_INT);
     $stmt->execute();
     return "added";
 }
