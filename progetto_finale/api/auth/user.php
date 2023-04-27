@@ -17,10 +17,12 @@ try {
 
     if (!$response)
         return response(300, ["error" => "Email not found!"]);
-        
+
     $password = hash("sha256", $password);
     if ($response["password"] != $password)
         return response(300, ["error" => "Password not correct!"]);
+
+    session_regenerate_id(TRUE);
 
     $_SESSION["id"] = $response["id"];
     $_SESSION["name"] = $response["name"];
