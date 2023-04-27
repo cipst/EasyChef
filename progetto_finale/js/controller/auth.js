@@ -1,5 +1,5 @@
 import { Alert } from "../alert.js";
-import { ALERT_TYPE } from "../constants.js";
+import { ALERT_TYPE, REGEX } from "../constants.js";
 import { makeRequest, sha256 } from "../common.js";
 
 $(async () => {
@@ -53,6 +53,22 @@ $(async () => {
         const name = f.get("name").trim().toLowerCase();
         const email = f.get("email").trim().toLowerCase();
         const password = f.get("password");
+
+        if (REGEX.email.test(email)) {
+            $("#signup-email").css({ "border": "1px solid var(--success-color)" })
+        } else {
+            $("#signup-email").css({ "border": "1px solid var(--error-color)" })
+            Alert.init(ALERT_TYPE.WARNING, "Please enter a valid email address");
+            return;
+        }
+
+        if (REGEX.username.test(name)) {
+            $("#signup-name").css({ "border": "1px solid var(--success-color)" })
+        } else {
+            $("#signup-name").css({ "border": "1px solid var(--error-color)" })
+            Alert.init(ALERT_TYPE.WARNING, "Please enter a valid name");
+            return;
+        }
 
         makeRequest({
             type: "POST",
